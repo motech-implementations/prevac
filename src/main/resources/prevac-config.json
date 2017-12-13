@@ -1,0 +1,15 @@
+{
+  "clinicMainFields": ["Site Id", "Location", "Max Capacity By Day", "Max Screening Visits", "Max Prime Visits", "Max Booster Visits"],
+  "clinicExtendedFields": ["Amount of Rooms", "Max Prime First Follow Up Visits", "Max Prime Second Follow Up Visits",
+    "Max Booster First Follow Up Visits", "Max Booster Second Follow Up Visits", "Max Booster Third Follow Up Visits",
+    "Max First Long Term Follow Up Visits", "Max Second Long Term Follow Up Visits", "Max Third Long Term Follow Up Visits",
+    "Max Fourth Long Term Follow Up Visits", "Max Fifth Long Term Follow Up Visits", "Max Sixth Long Term Follow Up Visits",
+    "Max Seventh Long Term Follow Up Visits", "Max Third Vaccination Visits", "Max First Post Third Vaccination Visits",
+    "Max Second Post Third Vaccination Visits", "Max Third Post Third Vaccination Visits",
+    "Max Fourth Post Third Vaccination Visits", "Max Fifth Post Third Vaccination Visits"],
+  "boosterRelatedMessages": ["Boost Vaccination First Follow-up visit - stage 2", "Boost Vaccination Second Follow-up visit - stage 2",
+    "Boost Vaccination Third Follow-up visit - stage 2", "First Long-term Follow-up visit - stage 2"],
+  "thirdVaccinationRelatedMessages": ["First Post Third Vaccination visit", "Second Post Third Vaccination visit",
+    "Third Post Third Vaccination visit", "Fourth Post Third Vaccination visit", "Fifth Post Third Vaccination visit"],
+  "activeStageId": 1
+}

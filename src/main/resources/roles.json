@@ -1,0 +1,23 @@
+[
+  {
+    "roleName": "PREVAC Send Subject via API",
+    "permissionNames": [
+      "participantRegistration"
+    ]
+  },
+  {
+    "roleName": "PREVAC Administrator",
+    "permissionNames": [
+      "managePrevac",
+      "prevacCapacityInfoTab",
+      "prevacScreeningBookingTab",
+      "prevacPrimeVaccinationBookingTab",
+      "prevacClinicVisitBookingTab",
+      "prevacVisitRescheduleBookingTab",
+      "prevacAdvancedSettings",
+      "prevacReportsTab",
+      "viewUI"
+    ]
+  }
+]
+

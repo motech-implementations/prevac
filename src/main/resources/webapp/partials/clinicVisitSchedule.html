@@ -1,0 +1,47 @@
+<div class="row">
+
+    <table class="table table-bundles table-bordered table-striped table-lightblue table-condensed table-centered margin-before2">
+        <thead>
+        <tr>
+            <th>{{msg('prevac.schedule.subjectId')}}</th>
+            <th>{{msg('prevac.schedule.subjectName')}}</th>
+            <th>{{msg('prevac.schedule.primeVac')}}</th>
+            <th>{{msg('prevac.schedule.primeVacFirstFollowup')}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="col-md-2">
+                <select class="form-control" ui-select2 id="subjectId" ng-model="selectedSubject" ng-change="subjectChanged()" ng-options="visit.subject as visit.subject.subjectId for visit in screeningVisits">
+                    <option value=""></option>
+                </select>
+            </td>
+            <td class="col-md-2">
+                {{selectedSubject.name}}
+            </td>
+            <td id="primeVacDate" ng-if="selectedSubject.primerVaccinationDate" class="col-md-2">
+                {{primeVac.date}}
+            </td>
+            <td ng-if="!selectedSubject.primerVaccinationDate" class="col-md-2">
+                <input type="text" id="primeVacDateInput" class="form-control datepicker" readonly='true' prevac-date-picker min="dateRange.min" max="dateRange.max" ng-model="primeVac.date">
+            </td>
+            <td id="primeVacFirstFollowUp" class="col-md-2">
+                {{visitPlannedDates.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button id="saveBtn" ng-if="!selectedSubject.primerVaccinationDate" type="button" class="btn btn-success" ng-disabled="!checkSubjectAndPrimeVacDate()" ng-click="save()">
+        <i class="fa fa-fw fa-save"></i> {{msg('prevac.schedule.save')}}
+    </button>
+
+    <button id="printBtn" type="button" class="btn btn-primary" ng-disabled="!checkSubjectAndPrimeVacDate()" ng-click="print()">
+        <i class="fa fa-fw fa-print"></i> {{msg('prevac.schedule.print')}}
+    </button>
+
+    <button id="cancelBtn" type="button" class="btn btn-default" ng-if="!selectedSubject.primerVaccinationDate" ng-click="cancel()">
+        {{msg('prevac.schedule.cancel')}}
+    </button>
+
+</div>

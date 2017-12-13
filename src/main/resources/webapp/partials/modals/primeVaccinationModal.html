@@ -1,0 +1,81 @@
+<div class="modal fade" id="primeVaccinationScheduleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 ng-if="form.type == 'add'" class="modal-title">{{msg('prevac.primeVaccination.add')}}</h4>
+                <h4 ng-if="form.type == 'edit'" class="modal-title">{{msg('prevac.primeVaccination.update')}}</h4>
+            </div>
+            <div ng-if="form.dto !== undefined">
+                <div class="modal-body prime-vaccination-schedule-modal-body">
+                    <div class="prevac input-group" ng-if="form.type == 'add'">
+                        <span class="left input-group-addon">{{msg('prevac.primeVaccination.participantId')}}</span>
+                        <select class="form-control" ui-select2 id="subjectIdSelect" ng-model="form.dto" ng-disabled="participantsLoading" ng-change="subjectChanged()" ng-options="primeVacDto as primeVacDto.participantId for primeVacDto in primeVacDtos">
+                            <option value=""></option>
+                        </select>
+                        <span class="input-group-addon validator" ng-class="{'alert-danger': !form.dto.participantId, 'alert-success': form.dto.participantId}"><i class="fa fa-fw fa-check"></i></span>
+                    </div>
+                    <div class="prevac input-group">
+                        <span class="left left input-group-addon">{{msg('prevac.primeVaccination.participantName')}}</span>
+                        <div class="form-control">{{form.dto.participantName}}</div>
+                    </div>
+                    <div class="prevac input-group">
+                        <span class="left input-group-addon">{{msg('prevac.screeningDate')}}</span>
+                        <input id="screeningDateInput" type="text" class="form-control datepicker" readonly='true' mds-date-picker placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.bookingScreeningActualDate" ng-disabled="form.dto.actualScreeningDate !== undefined && form.dto.actualScreeningDate !== '' && form.dto.actualScreeningDate !== null">
+                        <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.bookingScreeningActualDate === '', 'alert-success': form.dto.bookingScreeningActualDate}"><i class="fa fa-fw fa-check"></i></span>
+                    </div>
+                    <div class="prevac input-group" ng-show="form.dto.bookingScreeningActualDate">
+                        <span class="left input-group-addon">{{msg('prevac.primeVaccination.femaleChildBearingAge')}}</span>
+                        <div class="prime-vaccination-schedule-modal input-group" ng-if="form.dto.participantGender !== 'Male' && form.dto.participantGender !== 'Unknown' && form.dto.participantGender !== 'Unidentified'">
+                            <select class="form-control" ui-select2 id="femaleChildBearingAgeSelect" ng-model="form.dto.femaleChildBearingAge">
+                                <option ng-hide="form.dto.femaleChildBearingAge != undefined" value="">{{'- ' + msg('prevac.choose') + ' -'}}</option>
+                                <option value="Yes">{{msg('prevac.primeVaccination.yes')}}</option>
+                                <option value="No">{{msg('prevac.primeVaccination.no')}}</option>
+                            </select>
+                            <span class="input-group-addon validator" ng-class="{'alert-success': form.dto.femaleChildBearingAge != undefined && form.dto.femaleChildBearingAge != '' }"><i class="fa fa-fw fa-check"></i></span>
+                        </div>
+                        <div class="form-control" ng-if="form.dto.participantGender === 'Male' || form.dto.participantGender === 'Unknown' || form.dto.participantGender === 'Unidentified'">{{form.dto.femaleChildBearingAge}}</div>
+                    </div>
+                    <div class="prevac input-group" ng-show="form.dto.bookingScreeningActualDate">
+                        <span class="left input-group-addon">{{msg('prevac.primeVaccination.primeVacDate')}}</span>
+                        <input id="primeVacDateInput" type="text" class="form-control datepicker" readonly='true' prevac-date-picker min="form.range.min" max="form.range.max" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.date">
+                        <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.date === '', 'alert-success': form.dto.date}"><i class="fa fa-fw fa-check"></i></span>
+                    </div>
+                    <div class="prevac input-group prime-vaccination-schedule-modal">
+                        <span class="left input-group-addon">{{msg('prevac.primeVaccination.time')}}</span>
+                        <input id="primeVacTimeInput" type="text" class="form-control" mds-time-picker placeholder="{{msg('prevac.startTimePlaceholder')}}" ng-model="form.dto.startTime">
+                        <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.startTime === '', 'alert-success': form.dto.startTime}"><i class="fa fa-fw fa-check"></i></span>
+                    </div>
+                    <div class="prevac input-group visit-reschedule-modal-body">
+                        <span class="left input-group-addon">{{msg('prevac.ignoreDateLimitation')}}</span>
+                        <input id="ignoreDateLimitationInput" type="checkbox" class="col-md-2" ng-model="form.dto.ignoreDateLimitation">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button id="saveBtn" type="button" class="btn btn-primary ng-binding" ng-disabled="!formIsFilled()" ng-click="savePrimeVaccinationSchedule(false)">
+                            <i class="fa fa-fw fa-save"></i> {{msg('prevac.save')}}
+                        </button>
+                        <button id="cancelBtn" type="button" class="btn btn-default" data-dismiss="modal">{{msg('prevac.cancel')}}</button>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="form.dto === undefined">
+                <div ng-if="form.type == 'add'" class="modal-body">
+                    {{msg('prevac.primeVaccination.addSuccessful')}}
+                </div>
+                <div ng-if="form.type == 'edit'" class="modal-body">
+                    {{msg('prevac.primeVaccination.updateSuccessful')}}
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group" role="group">
+                        <button id="printBtn" type="button" class="btn btn-primary ng-binding" ng-click="printCardFrom('updated')">
+                            <i class="fa fa-fw fa-print"></i> {{msg('prevac.printCard')}}
+                        </button>
+                        <button id="closeBtn" type="button" class="btn btn-default" data-dismiss="modal">{{msg('prevac.close')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

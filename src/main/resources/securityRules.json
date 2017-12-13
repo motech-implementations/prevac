@@ -1,0 +1,66 @@
+[
+  {
+    "active": true,
+    "pattern": "https://**/prevac/registration/**",
+    "supportedSchemes": [
+      "BASIC",
+      "USERNAME_PASSWORD"
+    ],
+    "protocol": "HTTPS",
+    "priority": 4,
+    "rest": true,
+    "origin": "SYSTEM_MODULE_PREVAC",
+    "version": "0.26",
+    "methodsRequired": [
+      "POST"
+    ]
+  },
+  {
+    "active": true,
+    "pattern": "/**/prevac/registration/**",
+    "supportedSchemes": [
+      "BASIC",
+      "USERNAME_PASSWORD"
+    ],
+    "protocol": "HTTP",
+    "priority": 3,
+    "rest": true,
+    "origin": "SYSTEM_MODULE_PREVAC",
+    "version": "0.26",
+    "methodsRequired": [
+      "POST"
+    ]
+  },
+  {
+    "active": true,
+    "pattern": "https://**/prevac/prevac-config/**",
+    "supportedSchemes": [
+      "BASIC",
+      "USERNAME_PASSWORD"
+    ],
+    "protocol": "HTTPS",
+    "priority": 4,
+    "rest": true,
+    "origin": "SYSTEM_MODULE_PREVAC",
+    "version": "0.26",
+    "methodsRequired": [
+      "POST"
+    ]
+  },
+  {
+    "active": true,
+    "pattern": "/**/prevac/prevac-config/**",
+    "supportedSchemes": [
+      "BASIC",
+      "USERNAME_PASSWORD"
+    ],
+    "protocol": "HTTP",
+    "priority": 3,
+    "rest": true,
+    "origin": "SYSTEM_MODULE_PREVAC",
+    "version": "0.26",
+    "methodsRequired": [
+      "POST"
+    ]
+  }
+]

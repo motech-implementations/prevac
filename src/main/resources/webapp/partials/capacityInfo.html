@@ -1,0 +1,27 @@
+<div class="prevac">
+    <div class="row inside form-inline">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">{{selectedFilter.name}}</button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" range-setter>
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li ng-repeat="filter in filters"><a ng-click="selectFilter($index)">{{filter.name}}</a></li>
+            </ul>
+        </div>
+        <div class="form-group" ng-if="selectedFilter === filters[5]">
+            <div class="input-group">
+                <span class="left input-group-addon">{{msg('prevac.screening.from')}}</span>
+                <input type="text" class="form-control" mds-date-picker grid-reload-trigger placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="selectedFilter.startDate">
+                <span class="middle input-group-addon">{{msg('prevac.screening.to')}}</span>
+                <input type="text" class="form-control" mds-date-picker grid-reload-trigger placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="selectedFilter.endDate">
+            </div>
+        </div>
+    </div>
+
+    <div id="capacityInfoTable" class="row inside prevac overrideJqgridTable">
+        <table id="capacityInfo" class="prevac-grid" capacity-info-grid><tr><td></td></tr></table>
+        <div id="pager"></div>
+    </div>
+</div>

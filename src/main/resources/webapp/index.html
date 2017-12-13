@@ -1,0 +1,32 @@
+<div ng-controller="PrevacBaseCtrl" id="inner-center" class="inner-center ui-layout-center ui-layout-pane ui-layout-pane-center">
+    <div class="header-footer-breadcrumb">
+        <ul class="breadcrumb" role="navigation">
+            <li><a role="menu" href=".">{{msg('server.home')}}</a></li>
+            <li><a role="menu" href="#/prevac/">{{msg('prevac')}}</a></li>
+            <li ng-show="active('#/prevac/capacityInfo')" ng-class="active('#/prevac/capacityInfo')">{{msg('prevac.capacityInfo')}}</li>
+            <li ng-show="active('#/prevac/screening')" ng-class="active('#/prevac/screening')">{{msg('prevac.screening')}}</li>
+            <li ng-show="active('#/prevac/primeVaccination')" ng-class="active('#/prevac/primeVaccination')">{{msg('prevac.primeVaccination')}}</li>
+            <li ng-show="active('#/prevac/clinicVisitSchedule')" ng-class="active('#/prevac/clinicVisitSchedule')">{{msg('prevac.clinicVisitSchedule')}}</li>
+            <li ng-show="active('#/prevac/reschedule')" ng-class="active('#/prevac/reschedule')">{{msg('prevac.reschedule')}}</li>
+            <li ng-show="active('#/prevac/unscheduledVisit')" ng-class="active('#/prevac/unscheduledVisit')">{{msg('prevac.unscheduledVisit')}}</li>
+            <li ng-show="active('#/mds/dataBrowser')" ng-class="active('#/mds/dataBrowser')">{{msg('prevac.visitLimitation')}}</li>
+            <li ng-show="active('#/prevac/reports')" ng-class="active('#/prevac/reports')">{{msg('prevac.reports')}}</li>
+            <li ng-show="active('#/prevac/settings')" ng-class="active('#/prevac/settings')">{{msg('prevac.settings.title')}}</li>
+        </ul>
+    </div>
+    <div class="header-footer" style="overflow:auto;">
+        <ul id="content-tabs" class="nav nav-tabs">
+            <li ng-hide="active('#/prevac/settings')" ng-class="active('#/prevac/' + tab) || active(tab === 'visitLimitation' ? '#/mds/dataBrowser' : ('#/prevac/' + tab))" ng-repeat="tab in PREVAC_AVAILABLE_TABS">
+                <a id="{{tab + '-tab'}}" href="#/prevac/{{tab}}">{{msg('prevac.' + tab)}}</a>
+            </li>
+            <li ng-show="active('#/prevac/settings')" ng-class="active('#/prevac/settings')"><a href="#/prevac/settings">{{msg('prevac.settings.title')}}</a></li>
+        </ul>
+    </div>
+    <div class="ui-layout-content">
+        <div class="tab-content" id="tab-content">
+            <div id="main-content" class="active">
+                <div ng-view></div>
+            </div>
+        </div>
+    </div>
+</div>
