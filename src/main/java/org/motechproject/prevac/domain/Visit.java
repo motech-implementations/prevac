@@ -66,7 +66,6 @@ public class Visit {
 
     @JsonSerialize(using = CustomVisitTypeSerializer.class)
     @JsonDeserialize(using = CustomVisitTypeDeserializer.class)
-    @NonEditable
     @Field(displayName = "Visit Type", required = true)
     @EnumDisplayName(enumField = "displayValue")
     @Getter
