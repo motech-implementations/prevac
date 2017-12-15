@@ -8,15 +8,12 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.motechproject.mds.annotations.Access;
 import org.motechproject.mds.annotations.Cascade;
 import org.motechproject.mds.annotations.Entity;
 import org.motechproject.mds.annotations.Field;
 import org.motechproject.mds.annotations.Ignore;
 import org.motechproject.mds.annotations.NonEditable;
-import org.motechproject.mds.annotations.ReadAccess;
 import org.motechproject.mds.annotations.UIDisplayable;
-import org.motechproject.mds.util.SecurityMode;
 import org.motechproject.prevac.domain.enums.Gender;
 import org.motechproject.prevac.domain.enums.Language;
 import org.motechproject.prevac.util.CustomDateDeserializer;
@@ -34,8 +31,6 @@ import java.util.List;
 /**
  * Models data for registration of Subject in PREVAC
  */
-@ReadAccess(value = SecurityMode.PERMISSIONS, members = { "managePrevac" })
-@Access(value = SecurityMode.PERMISSIONS, members = { "manageSubjects" })
 @Entity(recordHistory = true, name = "Participant")
 @NoArgsConstructor
 public class Subject {
