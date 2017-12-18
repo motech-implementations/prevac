@@ -19,6 +19,7 @@ public class ValidationError {
             Language.getListOfCodes();
     public static final String SUBJECT_ID_NULL = "PID property can't be null";
     public static final String SUBJECT_ID_NOT_VERIFIED = "PID property format verification failed";
+    public static final String PHONE_NUMBER_HAS_NON_DIGITS = "Phone number can contain only digits";
 
     private String message;
 

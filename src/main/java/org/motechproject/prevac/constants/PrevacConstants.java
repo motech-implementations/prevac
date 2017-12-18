@@ -3,9 +3,12 @@ package org.motechproject.prevac.constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public final class PrevacConstants {
 
@@ -135,6 +138,15 @@ public final class PrevacConstants {
 
     public static final List<String> AVAILABLE_LOOKUPS_FOR_CAPACITY_REPORT = new ArrayList<>(Collections.singletonList(
             "Find By Location"));
+
+    public static final Map<String, Set<String>> SITES_IN_COUNTRIES = new HashMap<String, Set<String>>() {
+        {
+            put("1", new HashSet<>(Arrays.asList("01", "02")));
+            put("2", new HashSet<>(Collections.singletonList("03")));
+            put("3", new HashSet<>(Collections.singletonList("04")));
+            put("5", new HashSet<>(Arrays.asList("05", "06")));
+        }
+    };
 
     private PrevacConstants() {
     }

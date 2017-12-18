@@ -1,6 +1,7 @@
 package org.motechproject.prevac.web;
 
 import org.motechproject.prevac.service.SubjectService;
+import org.motechproject.prevac.validation.SubjectValidator;
 import org.motechproject.prevac.validation.ValidationError;
 import org.motechproject.prevac.web.domain.SubmitSubjectRequest;
 import org.slf4j.Logger;
@@ -37,9 +38,7 @@ public class ZetesController {
     @ResponseBody
     public ResponseEntity<String> submitSubjectRequest(@RequestBody SubmitSubjectRequest submitSubjectRequest) {
 
-        List<ValidationError> errorList;
-
-        errorList = submitSubjectRequest.validate();
+        List<ValidationError> errorList = new SubjectValidator().validate(submitSubjectRequest);
 
         if (!errorList.isEmpty()) {
             List<String> validationMessages = extract(errorList, on(ValidationError.class).getMessage());
