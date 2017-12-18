@@ -31,14 +31,7 @@ public final class PrevacConstants {
         }
     };
 
-    public static final List<String> AVAILABLE_CAMPAIGNS = new ArrayList<>(Arrays.asList(VisitType.SCREENING.getDisplayValue(),
-            VisitType.PRIME_VACCINATION_DAY.getDisplayValue(), VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT.getDisplayValue(),
-            VisitType.PRIME_VACCINATION_SECOND_FOLLOW_UP_VISIT.getDisplayValue(), VisitType.PRIME_VACCINATION_THIRD_FOLLOW_UP_VISIT.getDisplayValue(),
-            VisitType.BOOST_VACCINATION_DAY.getDisplayValue(), VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT.getDisplayValue(),
-            VisitType.THREE_MONTHS_POST_PRIME_VISIT.getDisplayValue(), VisitType.SIX_MONTHS_POST_PRIME_VISIT.getDisplayValue(),
-            VisitType.TWELVE_MONTHS_POST_PRIME_VISIT.getDisplayValue(), VisitType.TWENTY_FOUR_MONTHS_POST_PRIME_VISIT.getDisplayValue(),
-            VisitType.THIRTY_SIX_MONTHS_POST_PRIME_VISIT.getDisplayValue(), VisitType.FORTY_EIGHT_MONTHS_POST_PRIME_VISIT.getDisplayValue(),
-            VisitType.SIX_MONTHS_POST_PRIME_VISIT.getDisplayValue()));
+    public static final List<String> AVAILABLE_CAMPAIGNS = VisitType.getDisplayValues();
 
     public static final String SCREENING_TAB_PERMISSION = "prevacScreeningBookingTab";
     public static final String PRIME_VAC_TAB_PERMISSION = "prevacPrimeVaccinationBookingTab";

@@ -57,73 +57,73 @@ public class Clinic {
     private Integer maxPrimeVisits;
 
     @UIDisplayable(position = 7)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxPrimeFirstFollowUpVisits;
 
     @UIDisplayable(position = 8)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxPrimeSecondFollowUpVisits;
 
     @UIDisplayable(position = 9)
-    @Field(required = true, defaultValue = "5")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxPrimeThirdFollowUpVisits;
 
     @UIDisplayable(position = 5)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxBoosterVisits;
 
     @UIDisplayable(position = 10)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxBoosterFirstFollowUpVisits;
 
     @UIDisplayable(position = 11)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxThreeMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 12)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxSixMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 13)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxTwelveMonthsPostPrimeVisit;
 
     @UIDisplayable(position = 14)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxTwentyFourMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 15)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxThirtySixMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 16)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxFortyEightMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 17)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxSixtyMonthsPostPrimeVisits;
@@ -133,32 +133,6 @@ public class Clinic {
     @Getter
     @Setter
     private String owner;
-
-    public Clinic(String siteId, String location, Integer numberOfRooms, Integer maxCapacityByDay, Integer maxScreeningVisits, //NO CHECKSTYLE ParameterNumber
-                  Integer maxPrimeVisits, Integer maxPrimeFirstFollowUpVisits, Integer maxPrimeSecondFollowUpVisits,
-                  Integer maxPrimeThirdFollowUpVisits, Integer maxBoosterVisits, Integer maxBoosterFirstFollowUpVisits,
-                  Integer maxThreeMonthsPostPrimeVisits, Integer maxSixMonthsPostPrimeVisits, Integer maxTwelveMonthsPostPrimeVisit,
-                  Integer maxTwentyFourMonthsPostPrimeVisits, Integer maxThirtySixMonthsPostPrimeVisits, Integer maxFortyEightMonthsPostPrimeVisits,
-                  Integer maxSixtyMonthsPostPrimeVisits) {
-        this.siteId = siteId;
-        this.location = location;
-        this.numberOfRooms = numberOfRooms;
-        this.maxCapacityByDay = maxCapacityByDay;
-        this.maxScreeningVisits = maxScreeningVisits;
-        this.maxPrimeVisits = maxPrimeVisits;
-        this.maxPrimeFirstFollowUpVisits = maxPrimeFirstFollowUpVisits;
-        this.maxPrimeSecondFollowUpVisits = maxPrimeSecondFollowUpVisits;
-        this.maxPrimeThirdFollowUpVisits = maxPrimeThirdFollowUpVisits;
-        this.maxBoosterVisits = maxBoosterVisits;
-        this.maxBoosterFirstFollowUpVisits = maxBoosterFirstFollowUpVisits;
-        this.maxThreeMonthsPostPrimeVisits = maxThreeMonthsPostPrimeVisits;
-        this.maxSixMonthsPostPrimeVisits = maxSixMonthsPostPrimeVisits;
-        this.maxTwelveMonthsPostPrimeVisit = maxTwelveMonthsPostPrimeVisit;
-        this.maxTwentyFourMonthsPostPrimeVisits = maxTwentyFourMonthsPostPrimeVisits;
-        this.maxThirtySixMonthsPostPrimeVisits = maxThirtySixMonthsPostPrimeVisits;
-        this.maxFortyEightMonthsPostPrimeVisits = maxFortyEightMonthsPostPrimeVisits;
-        this.maxSixtyMonthsPostPrimeVisits = maxSixtyMonthsPostPrimeVisits;
-    }
 
     @Override
     public String toString() {

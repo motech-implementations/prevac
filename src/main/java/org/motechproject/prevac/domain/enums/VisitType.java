@@ -2,6 +2,9 @@ package org.motechproject.prevac.domain.enums;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum VisitType {
     SCREENING("Screening"),
     PRIME_VACCINATION_DAY("Prime Vaccination Day"),
@@ -32,5 +35,13 @@ public enum VisitType {
             }
         }
         return null;
+    }
+
+    public static List<String> getDisplayValues() {
+        List<String> displayValues = new ArrayList<>();
+        for (VisitType visitType : VisitType.values()) {
+            displayValues.add(visitType.getDisplayValue());
+        }
+        return displayValues;
     }
 }
