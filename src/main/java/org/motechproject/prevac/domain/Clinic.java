@@ -68,107 +68,65 @@ public class Clinic {
     @Setter
     private Integer maxPrimeSecondFollowUpVisits;
 
-    @UIDisplayable(position = 5)
+    @UIDisplayable(position = 9)
     @Field(required = true, defaultValue = "5")
     @Getter
     @Setter
-    private Integer maxBoosterVisits;
+    private Integer maxPrimeThirdFollowUpVisits;
 
-    @UIDisplayable(position = 9)
+    @UIDisplayable(position = 5)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxBoosterFirstFollowUpVisits;
+    private Integer maxBoosterVisits;
 
     @UIDisplayable(position = 10)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxBoosterSecondFollowUpVisits;
+    private Integer maxBoosterFirstFollowUpVisits;
 
     @UIDisplayable(position = 11)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxBoosterThirdFollowUpVisits;
+    private Integer maxThreeMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 12)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxFirstLongTermFollowUpVisits;
+    private Integer maxSixMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 13)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxSecondLongTermFollowUpVisits;
+    private Integer maxTwelveMonthsPostPrimeVisit;
 
     @UIDisplayable(position = 14)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxThirdLongTermFollowUpVisits;
+    private Integer maxTwentyFourMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 15)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxFourthLongTermFollowUpVisits;
+    private Integer maxThirtySixMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 16)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxFifthLongTermFollowUpVisits;
+    private Integer maxFortyEightMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 17)
     @Field(required = true, defaultValue = "10")
     @Getter
     @Setter
-    private Integer maxSixthLongTermFollowUpVisits;
-
-    @UIDisplayable(position = 18)
-    @Field(required = true, defaultValue = "10")
-    @Getter
-    @Setter
-    private Integer maxSeventhLongTermFollowUpVisits;
-
-    @UIDisplayable(position = 19)
-    @Field(required = true, defaultValue = "5")
-    @Getter
-    @Setter
-    private Integer maxThirdVaccinationVisits;
-
-    @UIDisplayable(position = 20)
-    @Field(required = true, defaultValue = "10")
-    @Getter
-    @Setter
-    private Integer maxFirstPostThirdVaccinationVisits;
-
-    @UIDisplayable(position = 21)
-    @Field(required = true, defaultValue = "10")
-    @Getter
-    @Setter
-    private Integer maxSecondPostThirdVaccinationVisits;
-
-    @UIDisplayable(position = 22)
-    @Field(required = true, defaultValue = "10")
-    @Getter
-    @Setter
-    private Integer maxThirdPostThirdVaccinationVisits;
-
-    @UIDisplayable(position = 23)
-    @Field(required = true, defaultValue = "10")
-    @Getter
-    @Setter
-    private Integer maxFourthPostThirdVaccinationVisits;
-
-    @UIDisplayable(position = 24)
-    @Field(required = true, defaultValue = "10")
-    @Getter
-    @Setter
-    private Integer maxFifthPostThirdVaccinationVisits;
+    private Integer maxSixtyMonthsPostPrimeVisits;
 
     @NonEditable(display = false)
     @Field
@@ -177,13 +135,11 @@ public class Clinic {
     private String owner;
 
     public Clinic(String siteId, String location, Integer numberOfRooms, Integer maxCapacityByDay, Integer maxScreeningVisits, //NO CHECKSTYLE ParameterNumber
-                  Integer maxPrimeVisits, Integer maxPrimeFirstFollowUpVisits, Integer maxPrimeSecondFollowUpVisits, Integer maxBoosterVisits,
-                  Integer maxBoosterFirstFollowUpVisits, Integer maxBoosterSecondFollowUpVisits, Integer maxBoosterThirdFollowUpVisits,
-                  Integer maxFirstLongTermFollowUpVisits, Integer maxSecondLongTermFollowUpVisits, Integer maxThirdLongTermFollowUpVisits,
-                  Integer maxFourthLongTermFollowUpVisits, Integer maxFifthLongTermFollowUpVisits, Integer maxSixthLongTermFollowUpVisits,
-                  Integer maxSeventhLongTermFollowUpVisits, Integer maxThirdVaccinationVisits, Integer maxFirstPostThirdVaccinationVisits,
-                  Integer maxSecondPostThirdVaccinationVisits, Integer maxThirdPostThirdVaccinationVisits,
-                  Integer maxFourthPostThirdVaccinationVisits, Integer maxFifthPostThirdVaccinationVisits) {
+                  Integer maxPrimeVisits, Integer maxPrimeFirstFollowUpVisits, Integer maxPrimeSecondFollowUpVisits,
+                  Integer maxPrimeThirdFollowUpVisits, Integer maxBoosterVisits, Integer maxBoosterFirstFollowUpVisits,
+                  Integer maxThreeMonthsPostPrimeVisits, Integer maxSixMonthsPostPrimeVisits, Integer maxTwelveMonthsPostPrimeVisit,
+                  Integer maxTwentyFourMonthsPostPrimeVisits, Integer maxThirtySixMonthsPostPrimeVisits, Integer maxFortyEightMonthsPostPrimeVisits,
+                  Integer maxSixtyMonthsPostPrimeVisits) {
         this.siteId = siteId;
         this.location = location;
         this.numberOfRooms = numberOfRooms;
@@ -192,23 +148,16 @@ public class Clinic {
         this.maxPrimeVisits = maxPrimeVisits;
         this.maxPrimeFirstFollowUpVisits = maxPrimeFirstFollowUpVisits;
         this.maxPrimeSecondFollowUpVisits = maxPrimeSecondFollowUpVisits;
+        this.maxPrimeThirdFollowUpVisits = maxPrimeThirdFollowUpVisits;
         this.maxBoosterVisits = maxBoosterVisits;
         this.maxBoosterFirstFollowUpVisits = maxBoosterFirstFollowUpVisits;
-        this.maxBoosterSecondFollowUpVisits = maxBoosterSecondFollowUpVisits;
-        this.maxBoosterThirdFollowUpVisits = maxBoosterThirdFollowUpVisits;
-        this.maxFirstLongTermFollowUpVisits = maxFirstLongTermFollowUpVisits;
-        this.maxSecondLongTermFollowUpVisits = maxSecondLongTermFollowUpVisits;
-        this.maxThirdLongTermFollowUpVisits = maxThirdLongTermFollowUpVisits;
-        this.maxFourthLongTermFollowUpVisits = maxFourthLongTermFollowUpVisits;
-        this.maxFifthLongTermFollowUpVisits = maxFifthLongTermFollowUpVisits;
-        this.maxSixthLongTermFollowUpVisits = maxSixthLongTermFollowUpVisits;
-        this.maxSeventhLongTermFollowUpVisits = maxSeventhLongTermFollowUpVisits;
-        this.maxThirdVaccinationVisits = maxThirdVaccinationVisits;
-        this.maxFirstPostThirdVaccinationVisits = maxFirstPostThirdVaccinationVisits;
-        this.maxSecondPostThirdVaccinationVisits = maxSecondPostThirdVaccinationVisits;
-        this.maxThirdPostThirdVaccinationVisits = maxThirdPostThirdVaccinationVisits;
-        this.maxFourthPostThirdVaccinationVisits = maxFourthPostThirdVaccinationVisits;
-        this.maxFifthPostThirdVaccinationVisits = maxFifthPostThirdVaccinationVisits;
+        this.maxThreeMonthsPostPrimeVisits = maxThreeMonthsPostPrimeVisits;
+        this.maxSixMonthsPostPrimeVisits = maxSixMonthsPostPrimeVisits;
+        this.maxTwelveMonthsPostPrimeVisit = maxTwelveMonthsPostPrimeVisit;
+        this.maxTwentyFourMonthsPostPrimeVisits = maxTwentyFourMonthsPostPrimeVisits;
+        this.maxThirtySixMonthsPostPrimeVisits = maxThirtySixMonthsPostPrimeVisits;
+        this.maxFortyEightMonthsPostPrimeVisits = maxFortyEightMonthsPostPrimeVisits;
+        this.maxSixtyMonthsPostPrimeVisits = maxSixtyMonthsPostPrimeVisits;
     }
 
     @Override
