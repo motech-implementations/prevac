@@ -1,5 +1,7 @@
 package org.motechproject.prevac.constants;
 
+import org.motechproject.prevac.domain.enums.VisitType;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,18 +30,15 @@ public final class PrevacConstants {
             put("SMS", 32f);
         }
     };
-    public static final List<String> AVAILABLE_CAMPAIGNS = new ArrayList<>(Arrays.asList("Screening", "Prime Vaccination Day",
-            "Booster related messages", "Prime Vaccination First Follow-up visit", "Boost Vaccination Day", "Boost Vaccination First Follow-up visit",
-            "Boost Vaccination Second Follow-up visit", "Boost Vaccination Third Follow-up visit", "First Long-term Follow-up visit",
-            "Second Long-term Follow-up visit", "Third Long-term Follow-up visit", "Fourth Long-term Follow-up visit",
-            "Fifth Long-term Follow-up visit", "Sixth Long-term Follow-up visit", "Seventh Long-term Follow-up visit",
-            "Third Vaccination Day", "First Post Third Vaccination visit", "Second Post Third Vaccination visit",
-            "Third Post Third Vaccination visit", "Fourth Post Third Vaccination visit", "Fifth Post Third Vaccination visit",
-            "Prime Vaccination Day - stage 2", "Booster related messages - stage 2", "Prime Vaccination First Follow-up visit - stage 2",
-            "Prime Vaccination Second Follow-up visit - stage 2", "Boost Vaccination Day - stage 2", "Boost Vaccination First Follow-up visit - stage 2",
-            "Boost Vaccination Second Follow-up visit - stage 2", "Boost Vaccination Third Follow-up visit - stage 2",
-            "First Long-term Follow-up visit - stage 2", "Second Long-term Follow-up visit - stage 2",
-            "Third Long-term Follow-up visit - stage 2", "Fourth Long-term Follow-up visit - stage 2"));
+
+    public static final List<String> AVAILABLE_CAMPAIGNS = new ArrayList<>(Arrays.asList(VisitType.SCREENING.getDisplayValue(),
+            VisitType.PRIME_VACCINATION_DAY.getDisplayValue(), VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT.getDisplayValue(),
+            VisitType.PRIME_VACCINATION_SECOND_FOLLOW_UP_VISIT.getDisplayValue(), VisitType.PRIME_VACCINATION_THIRD_FOLLOW_UP_VISIT.getDisplayValue(),
+            VisitType.BOOST_VACCINATION_DAY.getDisplayValue(), VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT.getDisplayValue(),
+            VisitType.THREE_MONTHS_POST_PRIME_VISIT.getDisplayValue(), VisitType.SIX_MONTHS_POST_PRIME_VISIT.getDisplayValue(),
+            VisitType.TWELVE_MONTHS_POST_PRIME_VISIT.getDisplayValue(), VisitType.TWENTY_FOUR_MONTHS_POST_PRIME_VISIT.getDisplayValue(),
+            VisitType.THIRTY_SIX_MONTHS_POST_PRIME_VISIT.getDisplayValue(), VisitType.FORTY_EIGHT_MONTHS_POST_PRIME_VISIT.getDisplayValue(),
+            VisitType.SIX_MONTHS_POST_PRIME_VISIT.getDisplayValue()));
 
     public static final String SCREENING_TAB_PERMISSION = "prevacScreeningBookingTab";
     public static final String PRIME_VAC_TAB_PERMISSION = "prevacPrimeVaccinationBookingTab";
