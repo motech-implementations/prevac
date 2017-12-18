@@ -42,7 +42,8 @@ public class ZetesController {
 
         if (!errorList.isEmpty()) {
             List<String> validationMessages = extract(errorList, on(ValidationError.class).getMessage());
-            LOGGER.warn("Subject : {} - {}", submitSubjectRequest.getSubjectId(), validationMessages.toString());
+            LOGGER.error("Subject : {} - {}", submitSubjectRequest.getSubjectId(), validationMessages.toString());
+            return new ResponseEntity<>(validationMessages.toString(), HttpStatus.BAD_REQUEST);
         }
 
         try {
