@@ -55,40 +55,26 @@ public class VisitLimitationHelper {
                 return clinic.getMaxPrimeFirstFollowUpVisits();
             case PRIME_VACCINATION_SECOND_FOLLOW_UP_VISIT:
                 return clinic.getMaxPrimeSecondFollowUpVisits();
+            case PRIME_VACCINATION_THIRD_FOLLOW_UP_VISIT:
+                return clinic.getMaxPrimeThirdFollowUpVisits();
             case BOOST_VACCINATION_DAY:
                 return clinic.getMaxBoosterVisits();
             case BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT:
                 return clinic.getMaxBoosterFirstFollowUpVisits();
-            case BOOST_VACCINATION_SECOND_FOLLOW_UP_VISIT:
-                return clinic.getMaxBoosterSecondFollowUpVisits();
-            case BOOST_VACCINATION_THIRD_FOLLOW_UP_VISIT:
-                return clinic.getMaxBoosterThirdFollowUpVisits();
-            case FIRST_LONG_TERM_FOLLOW_UP_VISIT:
-                return clinic.getMaxFirstLongTermFollowUpVisits();
-            case SECOND_LONG_TERM_FOLLOW_UP_VISIT:
-                return clinic.getMaxSecondLongTermFollowUpVisits();
-            case THIRD_LONG_TERM_FOLLOW_UP_VISIT:
-                return clinic.getMaxThirdLongTermFollowUpVisits();
-            case FOURTH_LONG_TERM_FOLLOW_UP_VISIT:
-                return clinic.getMaxFourthLongTermFollowUpVisits();
-            case FIFTH_LONG_TERM_FOLLOW_UP_VISIT:
-                return clinic.getMaxFifthLongTermFollowUpVisits();
-            case SIXTH_LONG_TERM_FOLLOW_UP_VISIT:
-                return clinic.getMaxSixthLongTermFollowUpVisits();
-            case SEVENTH_LONG_TERM_FOLLOW_UP_VISIT:
-                return clinic.getMaxSeventhLongTermFollowUpVisits();
-            case THIRD_VACCINATION_DAY:
-                return clinic.getMaxThirdVaccinationVisits();
-            case FIRST_POST_THIRD_VACCINATION_VISIT:
-                return clinic.getMaxFirstPostThirdVaccinationVisits();
-            case SECOND_POST_THIRD_VACCINATION_VISIT:
-                return clinic.getMaxSecondPostThirdVaccinationVisits();
-            case THIRD_POST_THIRD_VACCINATION_VISIT:
-                return clinic.getMaxThirdPostThirdVaccinationVisits();
-            case FOURTH_POST_THIRD_VACCINATION_VISIT:
-                return clinic.getMaxFourthPostThirdVaccinationVisits();
-            case FIFTH_POST_THIRD_VACCINATION_VISIT:
-                return clinic.getMaxFifthPostThirdVaccinationVisits();
+            case THREE_MONTHS_POST_PRIME_VISIT:
+                return clinic.getMaxThreeMonthsPostPrimeVisits();
+            case SIX_MONTHS_POST_PRIME_VISIT:
+                return clinic.getMaxSixMonthsPostPrimeVisits();
+            case TWELVE_MONTHS_POST_PRIME_VISIT:
+                return clinic.getMaxTwelveMonthsPostPrimeVisit();
+            case TWENTY_FOUR_MONTHS_POST_PRIME_VISIT:
+                return clinic.getMaxTwentyFourMonthsPostPrimeVisits();
+            case THIRTY_SIX_MONTHS_POST_PRIME_VISIT:
+                return clinic.getMaxThirtySixMonthsPostPrimeVisits();
+            case FORTY_EIGHT_MONTHS_POST_PRIME_VISIT:
+                return clinic.getMaxFortyEightMonthsPostPrimeVisits();
+            case SIXTY_MONTHS_POST_PRIME_VISIT:
+                return clinic.getMaxSixtyMonthsPostPrimeVisits();
             default:
                 throw new IllegalArgumentException(String.format("Cannot find max visits number in Clinic for Visit Type: %s",
                         visitType.getDisplayValue()));

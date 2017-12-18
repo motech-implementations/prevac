@@ -97,7 +97,7 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
             }
         } else {
             for (Visit visit : subject.getVisits()) {
-                if (visit.getDateProjected() != null && !visit.getType().equals(VisitType.THIRD_LONG_TERM_FOLLOW_UP_VISIT)) {
+                if (visit.getDateProjected() != null) {
                     plannedDates.put(visit.getType().toString(), visit.getDateProjected().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
                 }
             }
