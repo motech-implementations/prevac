@@ -5,14 +5,14 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.motechproject.prevac.domain.Subject;
-import org.motechproject.prevac.web.domain.SubmitSubjectRequest;
+import org.motechproject.prevac.web.domain.SubjectZetesDto;
 
 @Mapper(uses = { EnumsMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SubjectMapper {
 
     SubjectMapper INSTANCE = Mappers.getMapper(SubjectMapper.class);
 
-    Subject fromDto(SubmitSubjectRequest subjectRequest);
+    Subject fromDto(SubjectZetesDto subjectZetesDto);
 
-    void updateFromDto(SubmitSubjectRequest subjectRequest, @MappingTarget Subject subject);
+    void updateFromDto(SubjectZetesDto subjectZetesDto, @MappingTarget Subject subject);
 }

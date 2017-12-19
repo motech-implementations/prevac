@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
-public class SubmitSubjectRequest {
+public class SubjectZetesDto {
 
     @JsonProperty("PID")
     @Getter

@@ -3,7 +3,7 @@ package org.motechproject.prevac.validation;
 import org.apache.commons.lang.StringUtils;
 import org.motechproject.prevac.domain.enums.Gender;
 import org.motechproject.prevac.domain.enums.Language;
-import org.motechproject.prevac.web.domain.SubmitSubjectRequest;
+import org.motechproject.prevac.web.domain.SubjectZetesDto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,15 +29,15 @@ public final class SubjectValidator {
     private SubjectValidator() {
     }
 
-    public static List<ValidationError> validate(SubmitSubjectRequest subjectRequestToValidate) {
-        validateSubjectID(subjectRequestToValidate.getSubjectId());
-        validateName(subjectRequestToValidate.getName());
-        validateAge(subjectRequestToValidate.getAge());
-        validateGender(subjectRequestToValidate.getGender());
-        validateLanguage(subjectRequestToValidate.getLanguage());
-        validateSiteName(subjectRequestToValidate.getSiteName());
-        validateCommunity(subjectRequestToValidate.getCommunity());
-        validatePhoneNumber(subjectRequestToValidate.getPhoneNumber());
+    public static List<ValidationError> validate(SubjectZetesDto subjectToValidate) {
+        validateSubjectID(subjectToValidate.getSubjectId());
+        validateName(subjectToValidate.getName());
+        validateAge(subjectToValidate.getAge());
+        validateGender(subjectToValidate.getGender());
+        validateLanguage(subjectToValidate.getLanguage());
+        validateSiteName(subjectToValidate.getSiteName());
+        validateCommunity(subjectToValidate.getCommunity());
+        validatePhoneNumber(subjectToValidate.getPhoneNumber());
 
         return VALIDATION_ERRORS;
     }
