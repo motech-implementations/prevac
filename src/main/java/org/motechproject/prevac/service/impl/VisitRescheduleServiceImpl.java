@@ -258,24 +258,9 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
     private LocalDate getVaccinationDate(Visit visit, Boolean boosterRelated, Boolean thirdVaccinationRelated) {
         if (boosterRelated) {
             return visit.getSubject().getBoosterVaccinationDate();
-        } else if (thirdVaccinationRelated) {
-            return getThirdVaccinationDate(visit);
         } else {
             return visit.getSubject().getPrimerVaccinationDate();
         }
-    }
-
-    private LocalDate getThirdVaccinationDate(Visit visit) {
-        List<Visit> visits = visit.getSubject().getVisits();
-        LocalDate vaccinationDate = null;
-
-        for (Visit v : visits) {
-            if (VisitType.THIRD_VACCINATION_DAY.equals(v.getType())) {
-                vaccinationDate = v.getDate();
-            }
-        }
-
-        return vaccinationDate;
     }
 
     private Boolean isBoosterRelated(VisitType visitType, List<String> boosterRelatedMessages, Long stageId) {
