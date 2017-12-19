@@ -38,7 +38,7 @@ public class ZetesController {
     @ResponseBody
     public ResponseEntity<String> submitSubjectRequest(@RequestBody SubmitSubjectRequest submitSubjectRequest) {
 
-        List<ValidationError> errorList = new SubjectValidator().validate(submitSubjectRequest);
+        List<ValidationError> errorList =  SubjectValidator.validate(submitSubjectRequest);
 
         if (!errorList.isEmpty()) {
             List<String> validationMessages = extract(errorList, on(ValidationError.class).getMessage());
