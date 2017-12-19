@@ -1,4 +1,4 @@
-package org.motechproject.prevac.util;
+package org.motechproject.prevac.validation;
 
 import org.apache.commons.lang.Validate;
 import org.motechproject.prevac.dto.ScreeningDto;
