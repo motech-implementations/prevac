@@ -39,19 +39,19 @@ public class Clinic {
     private Integer numberOfRooms;
 
     @UIDisplayable(position = 2)
-    @Field(required = true, defaultValue = "10")
+    @Field(required = true, defaultValue = "80")
     @Getter
     @Setter
     private Integer maxCapacityByDay;
 
     @UIDisplayable(position = 3)
-    @Field(required = true, defaultValue = "5")
+    @Field(required = true, defaultValue = "30")
     @Getter
     @Setter
     private Integer maxScreeningVisits;
 
     @UIDisplayable(position = 4)
-    @Field(required = true, defaultValue = "5")
+    @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
     private Integer maxPrimeVisits;
