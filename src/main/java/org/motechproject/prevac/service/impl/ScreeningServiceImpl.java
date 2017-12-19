@@ -22,7 +22,7 @@ import org.motechproject.prevac.repository.VolunteerDataService;
 import org.motechproject.prevac.service.LookupService;
 import org.motechproject.prevac.service.ScreeningService;
 import org.motechproject.prevac.util.QueryParamsBuilder;
-import org.motechproject.prevac.util.ScreeningValidator;
+import org.motechproject.prevac.validation.ScreeningValidator;
 import org.motechproject.prevac.web.domain.GridSettings;
 import org.motechproject.prevac.web.domain.Records;
 import org.springframework.beans.factory.annotation.Autowired;

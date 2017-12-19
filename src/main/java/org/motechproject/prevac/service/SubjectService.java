@@ -2,7 +2,7 @@ package org.motechproject.prevac.service;
 
 import org.joda.time.LocalDate;
 import org.motechproject.prevac.domain.Subject;
-import org.motechproject.prevac.web.domain.SubmitSubjectRequest;
+import org.motechproject.prevac.web.domain.SubjectZetesDto;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface SubjectService {
 
-    Subject createOrUpdateForZetes(SubmitSubjectRequest newSubject);
+    Subject createOrUpdateForZetes(SubjectZetesDto newSubject);
 
     List<Subject> findSubjectByName(String name);
 

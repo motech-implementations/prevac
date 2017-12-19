@@ -1,8 +1,9 @@
 package org.motechproject.prevac.web;
 
 import org.motechproject.prevac.service.SubjectService;
+import org.motechproject.prevac.validation.SubjectValidator;
 import org.motechproject.prevac.validation.ValidationError;
-import org.motechproject.prevac.web.domain.SubmitSubjectRequest;
+import org.motechproject.prevac.web.domain.SubjectZetesDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +36,18 @@ public class ZetesController {
     @PreAuthorize("hasAnyRole('mdsDataAccess', 'participantRegistration')")
     @RequestMapping(value = "/submit", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<String> submitSubjectRequest(@RequestBody SubmitSubjectRequest submitSubjectRequest) {
+    public ResponseEntity<String> submitSubjectRequest(@RequestBody SubjectZetesDto subjectZetesDto) {
 
-        List<ValidationError> errorList;
-
-        errorList = submitSubjectRequest.validate();
+        List<ValidationError> errorList =  SubjectValidator.validate(subjectZetesDto);
 
         if (!errorList.isEmpty()) {
             List<String> validationMessages = extract(errorList, on(ValidationError.class).getMessage());
-            LOGGER.warn("Subject : {} - {}", submitSubjectRequest.getSubjectId(), validationMessages.toString());
+            LOGGER.error("Subject : {} - {}", subjectZetesDto.getSubjectId(), validationMessages.toString());
+            return new ResponseEntity<>(validationMessages.toString(), HttpStatus.BAD_REQUEST);
         }
 
         try {
-            subjectService.createOrUpdateForZetes(submitSubjectRequest);
+            subjectService.createOrUpdateForZetes(subjectZetesDto);
         } catch (JDOException ex) {
             LOGGER.warn("Error raised during creating subject: " + ex.getMessage(), ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);

@@ -14,7 +14,7 @@ import org.motechproject.prevac.repository.SubjectDataService;
 import org.motechproject.prevac.repository.UnscheduledVisitDataService;
 import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
 import org.motechproject.prevac.service.SubjectService;
-import org.motechproject.prevac.web.domain.SubmitSubjectRequest;
+import org.motechproject.prevac.web.domain.SubjectZetesDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class SubjectServiceImpl implements SubjectService {
     private ClinicDataService clinicDataService;
 
     @Override
-    public Subject createOrUpdateForZetes(SubmitSubjectRequest newSubject) {
+    public Subject createOrUpdateForZetes(SubjectZetesDto newSubject) {
 
         Subject subjectInDb = findSubjectBySubjectId(newSubject.getSubjectId());
 
