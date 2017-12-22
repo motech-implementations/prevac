@@ -55,47 +55,78 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
 
     @Override
     public PrimeVaccinationScheduleDto createOrUpdateWithDto(PrimeVaccinationScheduleDto dto, Boolean ignoreLimitation) {
-        Visit primeDetails = visitBookingDetailsDataService.findById(dto.getVisitBookingDetailsId());
-        Visit screeningDetails = getScreeningDetails(primeDetails);
+        validateDate(dto);
 
-        if (primeDetails == null || screeningDetails == null) {
-            throw new IllegalArgumentException("Cannot save, because details for Visit not found");
+        Visit primeVisit = visitBookingDetailsDataService.findById(dto.getVisitBookingDetailsId());
+        // We have an update
+        if (primeVisit != null) {
+            Visit screeningVisit = getScreeningDetails(primeVisit);
+            if (screeningVisit == null) {
+                throw new IllegalArgumentException("Cannot save, because details for Visit not found");
+            }
+            return new PrimeVaccinationScheduleDto(updateVisitWithDto(primeVisit, screeningVisit, dto));
         }
 
-        Clinic clinic = primeDetails.getClinic();
+        Subject subject = subjectDataService.findBySubjectId(dto.getParticipantId());
 
-        validateDate(dto);
+        List<Visit> visits = subject.getVisits();
+        visits.add(visitBookingDetailsDataService.create(createScreeningVisitFromDto(dto, subject)));
+        primeVisit = visitBookingDetailsDataService.create(createPrimeVacVisitFromDto(dto, subject));
+        visits.add(primeVisit);
+
+        Clinic clinic = primeVisit.getClinic();
 
         if (clinic != null && !ignoreLimitation) {
             checkNumberOfPatients(dto, clinic);
         }
 
-        return new PrimeVaccinationScheduleDto(updateVisitWithDto(primeDetails, screeningDetails, dto));
+        return new PrimeVaccinationScheduleDto(primeVisit);
     }
 
     @Override
     public List<PrimeVaccinationScheduleDto> getPrimeVaccinationScheduleRecords() {
         List<PrimeVaccinationScheduleDto> primeVacDtos = new ArrayList<>();
-        createEmptyVisitsForSubjectWithoutPrimeVacDate();
-        List<Visit> detailsList = visitBookingDetailsDataService
-                .findByParticipantNamePrimeVaccinationDateAndVisitTypeAndBookingPlannedDateEq(".", null, VisitType.PRIME_VACCINATION_DAY, null);
+        // Get all subjects
+        List<Subject> subjects = subjectDataService.findByPrimerVaccinationDate(null);
 
-        for (Visit details : detailsList) {
-            primeVacDtos.add(new PrimeVaccinationScheduleDto(details));
+        for (Subject subject : subjects) {
+            if (subject.getVisits().isEmpty()) {
+                primeVacDtos.add(new PrimeVaccinationScheduleDto(subject));
+            }
         }
 
         return primeVacDtos;
+    }
+
+    private Visit createScreeningVisitFromDto(PrimeVaccinationScheduleDto dto, Subject subject) {
+        Visit screeningVisit = new Visit();
+        screeningVisit.setType(VisitType.SCREENING);
+        screeningVisit.setSubject(subject);
+        screeningVisit.setDate(dto.getBookingScreeningActualDate());
+        return screeningVisit;
+    }
+
+    private Visit createPrimeVacVisitFromDto(PrimeVaccinationScheduleDto dto, Subject subject) {
+        Visit primeVisit = new Visit();
+        primeVisit.setSubject(subject);
+        primeVisit.setType(VisitType.PRIME_VACCINATION_DAY);
+        primeVisit.setStartTime(dto.getStartTime());
+        primeVisit.setEndTime(calculateEndTime(dto.getStartTime()));
+        primeVisit.setDateProjected(dto.getDate());
+        primeVisit.getSubject().setFemaleChildBearingAge(dto.getFemaleChildBearingAge());
+        primeVisit.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
+        return primeVisit;
     }
 
     private Visit updateVisitWithDto(Visit primeDetails, Visit screeningDetails,
                                      PrimeVaccinationScheduleDto dto) {
         primeDetails.setStartTime(dto.getStartTime());
         primeDetails.setEndTime(calculateEndTime(dto.getStartTime()));
-        primeDetails.setBookingPlannedDate(dto.getDate());
+        primeDetails.setDateProjected(dto.getDate());
         primeDetails.getSubject().setFemaleChildBearingAge(dto.getFemaleChildBearingAge());
         primeDetails.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
 
-        screeningDetails.setBookingActualDate(dto.getBookingScreeningActualDate());
+        screeningDetails.setDate(dto.getBookingScreeningActualDate());
 
         visitBookingDetailsDataService.update(screeningDetails);
         return visitBookingDetailsDataService.update(primeDetails);
@@ -185,38 +216,6 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
             }
         }
         return null;
-    }
-
-    private synchronized void createEmptyVisitsForSubjectWithoutPrimeVacDate() {
-        List<Subject> subjects = subjectDataService.findByPrimerVaccinationDate(null);
-        for (Subject subject : subjects) {
-            Visit screeningVisit = visitBookingDetailsDataService.findByParticipantIdAndVisitType(subject.getSubjectId(), VisitType.SCREENING);
-            Visit primeVisit = visitBookingDetailsDataService.findByParticipantIdAndVisitType(subject.getSubjectId(), VisitType.PRIME_VACCINATION_DAY);
-            Visit followUpVisit = visitBookingDetailsDataService.findByParticipantIdAndVisitType(subject.getSubjectId(), VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT);
-
-            List<Visit> visits = subject.getVisits();
-            if (screeningVisit == null) {
-                screeningVisit = new Visit();
-                screeningVisit.setType(VisitType.SCREENING);
-                screeningVisit.setSubject(subject);
-                visits.add(screeningVisit);
-                visitBookingDetailsDataService.create(screeningVisit);
-            }
-            if (primeVisit == null) {
-                primeVisit = new Visit();
-                primeVisit.setSubject(subject);
-                primeVisit.setType(VisitType.PRIME_VACCINATION_DAY);
-                visits.add(primeVisit);
-                visitBookingDetailsDataService.create(primeVisit);
-            }
-            if (followUpVisit == null) {
-                followUpVisit = new Visit();
-                followUpVisit.setSubject(subject);
-                followUpVisit.setType(VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT);
-                visits.add(followUpVisit);
-                visitBookingDetailsDataService.create(followUpVisit);
-            }
-        }
     }
 
     private Time calculateEndTime(Time startTime) {

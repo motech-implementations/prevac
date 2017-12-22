@@ -95,5 +95,5 @@ public class Visit {
     @Field
     @Getter
     @Setter
-    private Boolean ignoreDateLimitation;
+    private Boolean ignoreDateLimitation = false;
 }

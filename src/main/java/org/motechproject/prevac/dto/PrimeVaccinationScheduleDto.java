@@ -7,6 +7,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.date.model.Time;
+import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.enums.Gender;
 import org.motechproject.prevac.domain.enums.VisitType;
@@ -94,7 +95,7 @@ public class PrimeVaccinationScheduleDto {
         setStartTime(details.getStartTime());
         setParticipantId(details.getSubject().getSubjectId());
         setParticipantName(details.getSubject().getName());
-        setDate(details.getBookingPlannedDate());
+        setDate(details.getDateProjected());
         if (details.getSubject().getGender() == null || details.getSubject().getGender().equals(Gender.Female)) {
             setFemaleChildBearingAge(details.getSubject().getFemaleChildBearingAge());
         } else {
@@ -110,5 +111,17 @@ public class PrimeVaccinationScheduleDto {
         if (details.getClinic() != null) {
             setLocation(details.getSubject().getSiteName());
         }
+    }
+    
+    public PrimeVaccinationScheduleDto(Subject subject) {
+        setParticipantId(subject.getSubjectId());
+        setParticipantName(subject.getName());
+        if (subject.getGender() == null || subject.getGender().equals(Gender.Female)) {
+            setFemaleChildBearingAge(subject.getFemaleChildBearingAge());
+        } else {
+            setFemaleChildBearingAge(false);
+        }
+        setParticipantGender(subject.getGender());
+        setIgnoreDateLimitation(false);
     }
 }
