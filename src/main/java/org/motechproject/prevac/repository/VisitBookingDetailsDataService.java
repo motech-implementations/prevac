@@ -53,7 +53,7 @@ public interface VisitBookingDetailsDataService extends MotechDataService<Visit>
             @LookupField(name = "subject.primerVaccinationDate",
                     customOperator = Constants.Operators.EQ) LocalDate primerVaccinationDate,
             @LookupField(name = "type") VisitType visitType,
-            @LookupField(name = "bookingPlannedDate",
+            @LookupField(name = "dateProjected",
                     customOperator = Constants.Operators.EQ) LocalDate bookingPlannedDate);
 
     @Lookup
@@ -182,7 +182,7 @@ public interface VisitBookingDetailsDataService extends MotechDataService<Visit>
             @LookupField(name = "subject.primerVaccinationDate",
                     customOperator = Constants.Operators.EQ) LocalDate primerVaccinationDate,
             @LookupField(name = "type") VisitType visitType,
-            @LookupField(name = "bookingPlannedDate") Range<LocalDate> bookingPlannedDate);
+            @LookupField(name = "dateProjected") Range<LocalDate> bookingPlannedDate);
 
     @Lookup
     List<Visit> findByParticipantIdVisitTypeAndParticipantPrimeVaccinationDateAndNameAndBookingPlannedDateRange(

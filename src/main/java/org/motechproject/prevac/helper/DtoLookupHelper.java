@@ -84,9 +84,9 @@ public final class DtoLookupHelper {
 
         if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
             settings.setLookup(settings.getLookup() + " Range");
-            fieldsMap.put(Visit.BOOKING_PLANNED_DATE_PROPERTY_NAME, rangeMap);
+            fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
         } else {
-            fieldsMap.put(Visit.BOOKING_PLANNED_DATE_PROPERTY_NAME, null);
+            fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, null);
         }
 
         fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, VisitType.PRIME_VACCINATION_DAY.toString());

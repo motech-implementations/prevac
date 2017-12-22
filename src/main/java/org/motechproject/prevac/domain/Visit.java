@@ -26,7 +26,6 @@ public class Visit {
     public static final String VISIT_PLANNED_DATE_PROPERTY_NAME = "dateProjected";
     public static final String SUBJECT_PRIME_VACCINATION_DATE_PROPERTY_NAME = "subject.primerVaccinationDate";
     public static final String SUBJECT_NAME_PROPERTY_NAME = "subject.name";
-    public static final String BOOKING_PLANNED_DATE_PROPERTY_NAME = "bookingPlannedDate";
 
     @Field
     @Getter
