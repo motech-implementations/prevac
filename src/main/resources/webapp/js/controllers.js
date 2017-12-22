@@ -890,12 +890,21 @@
             if (ignoreLimitation) {
                 sendRequest();
             } else {
-                motechConfirm("prevac.primeVaccination.confirm.shouldUpdatePrimeVaccination",
-                              "prevac.confirm", function(confirmed) {
-                    if (confirmed) {
-                        sendRequest();
-                    }
-                })
+                if ($scope.form.type == "add") {
+                    motechConfirm("prevac.primeVaccination.confirm.shouldCreatePrimeVaccination",
+                        "prevac.confirm", function(confirmed) {
+                            if (confirmed) {
+                                sendRequest();
+                            }
+                        })
+                } else if ($scope.form.type == "edit") {
+                    motechConfirm("prevac.primeVaccination.confirm.shouldUpdatePrimeVaccination",
+                        "prevac.confirm", function(confirmed) {
+                            if (confirmed) {
+                                sendRequest();
+                            }
+                        })
+                }
             }
         };
 

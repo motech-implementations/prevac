@@ -417,7 +417,7 @@
                         },
                         {
                             name: "date",
-                            index: 'bookingPlannedDate'
+                            index: 'dateProjected'
                         },
                         {
                             name: "startTime"
