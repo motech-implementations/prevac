@@ -57,12 +57,12 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
     public PrimeVaccinationScheduleDto createOrUpdateWithDto(PrimeVaccinationScheduleDto dto, Boolean ignoreLimitation) {
         validateDate(dto);
 
-        Visit primeVisit = visitBookingDetailsDataService.findById(dto.getVisitBookingDetailsId());
+        Visit primeVisit = visitBookingDetailsDataService.findById(dto.getVisitId());
         // We have an update
         if (primeVisit != null) {
-            Visit screeningVisit = getScreeningDetails(primeVisit);
+            Visit screeningVisit = getScreeningVisit(primeVisit);
             if (screeningVisit == null) {
-                throw new IllegalArgumentException("Cannot save, because details for Visit not found");
+                throw new IllegalArgumentException("Cannot save, because Screening for Visit not found");
             }
             return new PrimeVaccinationScheduleDto(updateVisitWithDto(primeVisit, screeningVisit, dto));
         }
@@ -102,7 +102,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         Visit screeningVisit = new Visit();
         screeningVisit.setType(VisitType.SCREENING);
         screeningVisit.setSubject(subject);
-        screeningVisit.setDate(dto.getBookingScreeningActualDate());
+        screeningVisit.setDate(dto.getActualScreeningDate());
         return screeningVisit;
     }
 
@@ -126,7 +126,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         primeDetails.getSubject().setFemaleChildBearingAge(dto.getFemaleChildBearingAge());
         primeDetails.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
 
-        screeningDetails.setDate(dto.getBookingScreeningActualDate());
+        screeningDetails.setDate(dto.getActualScreeningDate());
 
         visitBookingDetailsDataService.update(screeningDetails);
         return visitBookingDetailsDataService.update(primeDetails);
@@ -143,17 +143,17 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
 
     private void checkNumberOfPatients(PrimeVaccinationScheduleDto dto, Clinic clinic) {
 
-        List<Visit> visits = visitBookingDetailsDataService.findByBookingPlannedDateClinicIdAndVisitType(dto.getDate(),
+        List<Visit> visits = visitBookingDetailsDataService.findByPlannedDateClinicIdAndVisitType(dto.getDate(),
                 clinic.getId(), VisitType.PRIME_VACCINATION_DAY);
 
-        visitLimitationHelper.checkCapacityForVisitBookingDetails(dto.getDate(), clinic, dto.getVisitBookingDetailsId());
+        visitLimitationHelper.checkCapacityForVisitBookingDetails(dto.getDate(), clinic, dto.getVisitId());
         if (visits != null) {
             int numberOfRooms = clinic.getNumberOfRooms();
             int maxVisits = clinic.getMaxPrimeVisits();
             int patients = 0;
 
             for (Visit visit : visits) {
-                if (visit.getId().equals(dto.getVisitBookingDetailsId())) {
+                if (visit.getId().equals(dto.getVisitId())) {
                     maxVisits++;
                 } else {
                     Time startTime = dto.getStartTime();
@@ -181,7 +181,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
     }
 
     private void validateDate(PrimeVaccinationScheduleDto dto) {
-        if (dto.getBookingScreeningActualDate() == null) {
+        if (dto.getActualScreeningDate() == null) {
             throw new IllegalArgumentException("Screening Date cannot be empty");
         }
         if (dto.getDate() == null) {
@@ -193,7 +193,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
 
         if (!dto.getIgnoreDateLimitation()) {
 
-            LocalDate actualScreeningDate = dto.getBookingScreeningActualDate();
+            LocalDate actualScreeningDate = dto.getActualScreeningDate();
 
             LocalDate earliestDate = dto.getFemaleChildBearingAge() != null && dto.getFemaleChildBearingAge()
                     ? actualScreeningDate.plusDays(PrevacConstants.EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE)
@@ -207,11 +207,11 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         }
     }
 
-    private Visit getScreeningDetails(Visit visit) {
+    private Visit getScreeningVisit(Visit visit) {
         if (visit != null) {
-            for (Visit details : visit.getSubject().getVisits()) {
-                if (VisitType.SCREENING.equals(details.getType())) {
-                    return details;
+            for (Visit v : visit.getSubject().getVisits()) {
+                if (VisitType.SCREENING.equals(v.getType())) {
+                    return v;
                 }
             }
         }

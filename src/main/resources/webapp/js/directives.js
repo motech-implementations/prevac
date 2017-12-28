@@ -363,10 +363,9 @@
         function extendGrid(cellValue, options, rowObject) {
             var rowExtraData = {};
 
-            rowExtraData.visitBookingDetailsId = rowObject.visitBookingDetailsId;
+            rowExtraData.visitId = rowObject.visitId;
             rowExtraData.siteId = rowObject.siteId;
             rowExtraData.participantGender = rowObject.participantGender;
-            rowExtraData.actualScreeningDate = rowObject.actualScreeningDate;
             rowExtraData.ignoreDateLimitation = rowObject.ignoreDateLimitation;
 
             gridDataExtension[options.rowId] = rowExtraData;
@@ -412,7 +411,7 @@
                             index: 'subject.femaleChildBearingAge'
                         },
                         {
-                            name: "bookingScreeningActualDate",
+                            name: "actualScreeningDate",
                             sortable: false
                         },
                         {
@@ -465,17 +464,16 @@
                             var rowData = elem.getRowData(rowId),
                                 extraRowData = gridDataExtension[rowId];
                             scope.newForm("edit");
-                            scope.form.dto.visitBookingDetailsId = extraRowData.visitBookingDetailsId;
+                            scope.form.dto.visitId = extraRowData.visitId;
                             scope.form.dto.participantId = rowData.participantId;
                             scope.form.dto.participantName = rowData.participantName;
                             scope.form.dto.femaleChildBearingAge = rowData.femaleChildBearingAge;
-                            scope.form.dto.actualScreeningDate = extraRowData.actualScreeningDate;
-                            scope.form.dto.bookingScreeningActualDate = rowData.bookingScreeningActualDate;
+                            scope.form.dto.actualScreeningDate = rowData.actualScreeningDate;
                             scope.form.dto.date = rowData.date;
                             scope.form.dto.startTime = rowData.startTime;
                             scope.form.dto.participantGender = extraRowData.participantGender;
                             scope.form.dto.ignoreDateLimitation = extraRowData.ignoreDateLimitation;
-                            scope.form.range = scope.calculateRange(scope.form.dto.bookingScreeningActualDate,
+                            scope.form.range = scope.calculateRange(scope.form.dto.actualScreeningDate,
                                 scope.form.dto.femaleChildBearingAge, scope.form.dto.ignoreDateLimitation);
                             scope.reloadSelects();
                             $('#primeVaccinationScheduleModal').modal('show');
@@ -505,7 +503,7 @@
                 });
 
                 function rowColorFormatter(cellValue, options, rowObject) {
-                    var range = scope.calculateRangeForGrid(rowObject.bookingScreeningActualDate,
+                    var range = scope.calculateRangeForGrid(rowObject.actualScreeningDate,
                         rowObject.femaleChildBearingAge, false);
                     range.min.setHours(0,0,0,0);
                     range.max.setHours(23,59,59,0);
@@ -551,7 +549,7 @@
             var rowExtraData = {};
 
             rowExtraData.siteId = rowObject.siteId;
-            rowExtraData.visitBookingDetailsId = rowObject.visitBookingDetailsId;
+            rowExtraData.visitId = rowObject.visitId;
             rowExtraData.earliestDate = rowObject.earliestDate;
             rowExtraData.latestDate = rowObject.latestDate;
             rowExtraData.ignoreDateLimitation = rowObject.ignoreDateLimitation;
@@ -689,7 +687,7 @@
                                 scope.form.dto.visitType = rowData.visitType;
                                 scope.form.dto.plannedDate = rowData.plannedDate;
                                 scope.form.dto.startTime = rowData.startTime;
-                                scope.form.dto.visitBookingDetailsId = extraRowData.visitBookingDetailsId;
+                                scope.form.dto.visitId = extraRowData.visitId;
                                 scope.form.dto.ignoreDateLimitation = extraRowData.ignoreDateLimitation;
                                 scope.earliestDateToReturn = scope.parseDate(extraRowData.earliestDate);
                                 scope.latestDateToReturn = scope.parseDate(extraRowData.latestDate);
