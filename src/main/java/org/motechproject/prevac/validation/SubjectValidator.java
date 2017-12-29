@@ -16,7 +16,7 @@ import java.util.Set;
 
 public final class SubjectValidator {
 
-    private static final List<ValidationError> VALIDATION_ERRORS = new ArrayList<>();
+    private static List<ValidationError> validationErrors = new ArrayList<>();
     private static final Map<String, Set<String>> SITES_IN_COUNTRIES = new HashMap<String, Set<String>>() {
         {
             put("1", new HashSet<>(Arrays.asList("01", "02")));
@@ -30,6 +30,7 @@ public final class SubjectValidator {
     }
 
     public static List<ValidationError> validate(SubjectZetesDto subjectToValidate) {
+        validationErrors = new ArrayList<>();
         validateSubjectID(subjectToValidate.getSubjectId());
         validateName(subjectToValidate.getName());
         validateAge(subjectToValidate.getAge());
@@ -39,7 +40,7 @@ public final class SubjectValidator {
         validateCommunity(subjectToValidate.getCommunity());
         validatePhoneNumber(subjectToValidate.getPhoneNumber());
 
-        return VALIDATION_ERRORS;
+        return validationErrors;
     }
 
     //region validation methods
@@ -139,6 +140,6 @@ public final class SubjectValidator {
     }
 
     private static void addValidationError(String message) {
-        VALIDATION_ERRORS.add(new ValidationError(message));
+        validationErrors.add(new ValidationError(message));
     }
 }
