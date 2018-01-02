@@ -18,11 +18,7 @@ public class Config {
 
     @Getter
     @Setter
-    private List<String> boosterRelatedMessages = new ArrayList<>();
-
-    @Getter
-    @Setter
-    private List<String> thirdVaccinationRelatedMessages = new ArrayList<>();
+    private List<String> boosterRelatedVisits = new ArrayList<>();
 
     @Getter
     @Setter

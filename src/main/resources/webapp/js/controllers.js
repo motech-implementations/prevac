@@ -500,27 +500,15 @@
             });
         };
 
-        $scope.boostRelCampaignsChanged = function(change) {
+        $scope.boostRelVisitsChanged = function(change) {
             var value;
 
             if (change.added) {
                 value = change.added.text;
-                $scope.config.boosterRelatedMessages.push(value);
+                $scope.config.boosterRelatedVisits.push(value);
             } else if (change.removed) {
                 value = change.removed.text;
-                $scope.config.boosterRelatedMessages.removeObject(value);
-            }
-        };
-
-        $scope.thirdVacRelCampaignsChanged = function(change) {
-            var value;
-
-            if (change.added) {
-                value = change.added.text;
-                $scope.config.thirdVaccinationRelatedMessages.push(value);
-            } else if (change.removed) {
-                value = change.removed.text;
-                $scope.config.thirdVaccinationRelatedMessages.removeObject(value);
+                $scope.config.boosterRelatedVisits.removeObject(value);
             }
         };
 
@@ -549,8 +537,7 @@
                     .success(function(response){
                         $scope.availableCampaigns = response;
                         $timeout(function() {
-                            $('#boostRelCampaigns').select2('val', $scope.config.boosterRelatedMessages);
-                            $('#thirdVacRelCampaigns').select2('val', $scope.config.thirdVaccinationRelatedMessages);
+                            $('#boostRelVisits').select2('val', $scope.config.boosterRelatedVisits);
                         }, 50);
 
                     })
@@ -570,8 +557,7 @@
                 $('#clinicExtendedFields').select2('val', $scope.config.clinicExtendedFields);
             }, 50);
 
-            $('#boostRelCampaigns').select2('val', $scope.config.boosterRelatedMessages);
-            $('#thirdVacRelCampaigns').select2('val', $scope.config.thirdVaccinationRelatedMessages);
+            $('#boostRelVisits').select2('val', $scope.config.boosterRelatedVisits);
         };
 
         function hideMsgLater(index) {

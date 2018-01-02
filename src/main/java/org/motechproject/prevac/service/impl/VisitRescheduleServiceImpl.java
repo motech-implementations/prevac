@@ -57,8 +57,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         Records<Visit> detailsRecords = lookupService.getEntities(Visit.class, settings.getLookup(), settings.getFields(), queryParams);
 
         Map<Long, Map<VisitType, VisitScheduleOffset>> offsetMap = visitScheduleOffsetService.getAllAsMap();
-        List<String> boosterRelatedMessages = configService.getConfig().getBoosterRelatedMessages();
-        List<String> thirdVaccinationRelatedMessages = configService.getConfig().getThirdVaccinationRelatedMessages();
+        List<String> boosterRelatedVisits = configService.getConfig().getBoosterRelatedVisits();
         Long activeStageId = configService.getConfig().getActiveStageId();
 
         List<VisitRescheduleDto> dtos = new ArrayList<>();
@@ -70,9 +69,8 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
                 stageId = activeStageId;
             }
 
-            Boolean boosterRelated = isBoosterRelated(details.getType(), boosterRelatedMessages, stageId);
-            Boolean thirdVaccinationRelated = isThirdVaccinationRelated(details.getType(), thirdVaccinationRelatedMessages, stageId);
-            LocalDate vaccinationDate = getVaccinationDate(details, boosterRelated, thirdVaccinationRelated);
+            Boolean boosterRelated = isBoosterRelated(details.getType(), boosterRelatedVisits, stageId);
+            LocalDate vaccinationDate = getVaccinationDate(details, boosterRelated);
             Boolean notVaccinated = true;
             Range<LocalDate> dateRange = null;
 
@@ -81,7 +79,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
                 notVaccinated = false;
             }
 
-            dtos.add(new VisitRescheduleDto(details, dateRange, boosterRelated, thirdVaccinationRelated, notVaccinated));
+            dtos.add(new VisitRescheduleDto(details, dateRange, boosterRelated, notVaccinated));
         }
 
         return new Records<>(detailsRecords.getPage(), detailsRecords.getTotal(), detailsRecords.getRecords(), dtos);
@@ -163,12 +161,10 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
         if (!dto.getIgnoreDateLimitation()) {
             Map<Long, Map<VisitType, VisitScheduleOffset>> offsetMap = visitScheduleOffsetService.getAllAsMap();
-            List<String> boosterRelatedMessages = configService.getConfig().getBoosterRelatedMessages();
-            List<String> thirdVaccinationRelatedMessages = configService.getConfig().getThirdVaccinationRelatedMessages();
+            List<String> boosterRelatedVisits = configService.getConfig().getBoosterRelatedVisits();
             Long activeStageId = configService.getConfig().getActiveStageId();
 
-            Range<LocalDate> dateRange = calculateEarliestAndLatestDate(visit, offsetMap, boosterRelatedMessages,
-                    thirdVaccinationRelatedMessages, activeStageId);
+            Range<LocalDate> dateRange = calculateEarliestAndLatestDate(visit, offsetMap, boosterRelatedVisits, activeStageId);
 
             if (dateRange == null) {
                 throw new IllegalArgumentException("Cannot calculate Earliest and Latest Date");
@@ -212,17 +208,15 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
     }
 
     private Range<LocalDate> calculateEarliestAndLatestDate(Visit visit, Map<Long, Map<VisitType, VisitScheduleOffset>> offsetMap,
-                                                            List<String> boosterRelatedMessages, List<String> thirdVaccinationRelatedMessages,
-                                                            Long activeStageId) {
+                                                            List<String> boosterRelatedVisits, Long activeStageId) {
         Long stageId = visit.getSubject().getStageId();
 
         if (stageId == null) {
             stageId = activeStageId;
         }
 
-        Boolean boosterRelated = isBoosterRelated(visit.getType(), boosterRelatedMessages, stageId);
-        Boolean thirdVaccinationRelated = isThirdVaccinationRelated(visit.getType(), thirdVaccinationRelatedMessages, stageId);
-        LocalDate vaccinationDate = getVaccinationDate(visit, boosterRelated, thirdVaccinationRelated);
+        Boolean boosterRelated = isBoosterRelated(visit.getType(), boosterRelatedVisits, stageId);
+        LocalDate vaccinationDate = getVaccinationDate(visit, boosterRelated);
 
         if (vaccinationDate == null) {
             return null;
@@ -255,7 +249,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         return new Range<>(minDate, maxDate);
     }
 
-    private LocalDate getVaccinationDate(Visit visit, Boolean boosterRelated, Boolean thirdVaccinationRelated) {
+    private LocalDate getVaccinationDate(Visit visit, Boolean boosterRelated) {
         if (boosterRelated) {
             return visit.getSubject().getBoosterVaccinationDate();
         } else {
@@ -263,14 +257,9 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         }
     }
 
-    private Boolean isBoosterRelated(VisitType visitType, List<String> boosterRelatedMessages, Long stageId) {
+    private Boolean isBoosterRelated(VisitType visitType, List<String> boosterRelatedVisits, Long stageId) {
         String campaignName = getCampaignNameWithStage(visitType, stageId);
-        return boosterRelatedMessages.contains(campaignName);
-    }
-
-    private Boolean isThirdVaccinationRelated(VisitType visitType, List<String> thirdVaccinationRelatedMessages, Long stageId) {
-        String campaignName = getCampaignNameWithStage(visitType, stageId);
-        return thirdVaccinationRelatedMessages.contains(campaignName);
+        return boosterRelatedVisits.contains(campaignName);
     }
 
     private String getCampaignNameWithStage(VisitType visitType, Long stageId) {
