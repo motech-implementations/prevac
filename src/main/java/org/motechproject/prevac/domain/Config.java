@@ -19,8 +19,4 @@ public class Config {
     @Getter
     @Setter
     private List<String> boosterRelatedVisits = new ArrayList<>();
-
-    @Getter
-    @Setter
-    private Long activeStageId;
 }

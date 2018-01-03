@@ -14,7 +14,6 @@ public class CustomVisitSubjectSerializer extends JsonSerializer<Subject> {
         if (subject != null) {
             jsonGenerator.writeStartObject();
             jsonGenerator.writeStringField("subjectId", subject.getSubjectId());
-            jsonGenerator.writeStringField("stageId", subject.getStageId() != null ? subject.getStageId().toString() : "");
             jsonGenerator.writeEndObject();
         }
     }

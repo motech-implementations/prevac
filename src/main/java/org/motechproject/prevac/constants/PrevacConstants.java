@@ -79,7 +79,6 @@ public final class PrevacConstants {
             put("Clinic Location", "location");
             put("Participant Id", "participantId");
             put("Participant Name", "participantName");
-            put("Stage Id", "stageId");
             put("Visit Type", "visitType");
             put("Actual Date", "actualDate");
             put("Planned Date", "plannedDate");

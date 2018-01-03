@@ -146,12 +146,6 @@ public class Subject {
     @Setter
     private List<Visit> visits = new ArrayList<>();
 
-    @NonEditable
-    @Field
-    @Getter
-    @Setter
-    private Long stageId;
-
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeserializer.class)
     @NonEditable

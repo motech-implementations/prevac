@@ -19,8 +19,6 @@ public interface SubjectService {
 
     Subject findSubjectById(Long id);
 
-    List<Subject> findByStageId(Long stageId);
-
     List<Subject> findModifiedSubjects();
 
     List<Subject> getAll();

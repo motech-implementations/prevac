@@ -10,18 +10,13 @@ import org.motechproject.prevac.domain.enums.VisitType;
 import javax.jdo.annotations.Unique;
 
 @Entity
-@Unique(name = "visitTypeAndStageId", members = { "visitType", "stageId" })
+@Unique(name = "visitType", members = { "visitType"})
 public class VisitScheduleOffset {
 
     @Field(required = true)
     @Getter
     @Setter
     private VisitType visitType;
-
-    @Field(required = true)
-    @Getter
-    @Setter
-    private Long stageId;
 
     @Field(required = true)
     @Getter
