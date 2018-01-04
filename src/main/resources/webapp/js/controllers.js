@@ -454,7 +454,7 @@
         $scope.availableMainFields = [];
         $scope.availableExtendedFields = [];
 
-        $scope.availableCampaigns = [];
+        $scope.availableVisits = [];
 
         $scope.mainFieldsChanged = function(change) {
             var value;
@@ -533,9 +533,9 @@
                         $scope.errors.push($scope.msg('prevac.settings.advancedSettings.clinicFields.error', response));
                     });
 
-                $http.get('../prevac/availableCampaigns')
+                $http.get('../prevac/availableVisits')
                     .success(function(response){
-                        $scope.availableCampaigns = response;
+                        $scope.availableVisits = response;
                         $timeout(function() {
                             $('#boostRelVisits').select2('val', $scope.config.boosterRelatedVisits);
                         }, 50);

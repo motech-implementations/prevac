@@ -39,7 +39,7 @@
                 <label class="col-md-2 control-label">{{msg('prevac.settings.visitSchedule.boosterRelatedVisits.label')}}</label>
                 <div class="col-md-4" data-toggle="tooltip" data-placement="top" data-trigger="hover" bs-popover="{{msg('prevac.settings.visitSchedule.boosterRelatedVisits.tooltip')}}">
                     <select id="boostRelVisits" class="form-control" ui-select2 multiple select2-ng-change="boostRelVisitsChanged">
-                        <option ng-repeat="campaign in availableCampaigns" value="{{campaign}}">{{campaign}}</option>
+                        <option ng-repeat="visit in availableVisits" value="{{visit}}">{{visit}}</option>
                     </select>
                 </div>
             </div>
