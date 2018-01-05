@@ -111,7 +111,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         List<Visit> visits = visitBookingDetailsDataService
                 .findByClinicIdVisitPlannedDateAndType(clinic.getId(), dto.getPlannedDate(), dto.getVisitType());
 
-        visitLimitationHelper.checkCapacityForVisitBookingDetails(dto.getPlannedDate(), clinic, dto.getVisitBookingDetailsId());
+        visitLimitationHelper.checkCapacityForVisit(dto.getPlannedDate(), clinic, dto.getVisitBookingDetailsId());
 
         if (visits != null && !visits.isEmpty()) {
             int numberOfRooms = clinic.getNumberOfRooms();

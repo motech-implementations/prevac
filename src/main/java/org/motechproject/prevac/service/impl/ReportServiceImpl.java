@@ -7,7 +7,6 @@ import org.motechproject.commons.api.Range;
 import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Clinic;
 import org.motechproject.prevac.domain.DateFilter;
-import org.motechproject.prevac.domain.enums.ScreeningStatus;
 import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.dto.CapacityReportDto;
 import org.motechproject.prevac.repository.ClinicDataService;
@@ -52,13 +51,13 @@ public class ReportServiceImpl implements ReportService {
         if (dateRange != null) {
             for (LocalDate date = dateRange.getMin(); !date.isAfter(dateRange.getMax()); date = date.plusDays(1)) {
                 for (Clinic clinic : clinics) {
-                    int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndBookingPlannedDate(clinic.getId(), date);
-                    int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndBookingPlannedDate(clinic.getId(),
-                            VisitType.PRIME_VACCINATION_DAY, date);
-                    int screeningCount = (int) screeningDataService.countFindByClinicIdAndDateAndStatus(clinic.getId(), date, ScreeningStatus.ACTIVE);
-                    int unscheduledCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDate(clinic.getId(), date);
+                    int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndPlannedVisitDateRange(clinic.getId(), dateRange);
+                    int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndPlannedVisitDateRange(clinic.getId(),
+                            VisitType.PRIME_VACCINATION_DAY, dateRange);
+                    int screeningCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndActualVisitDateRange(clinic.getId(),
+                            VisitType.SCREENING, dateRange);
 
-                    int allVisitsCount = visitCount + screeningCount + unscheduledCount;
+                    int allVisitsCount = visitCount + screeningCount;
                     int maxCapacity = clinic.getMaxCapacityByDay();
                     int availableCapacity = maxCapacity - allVisitsCount;
                     int screeningSlotRemaining = clinic.getMaxScreeningVisits() - screeningCount;

@@ -146,7 +146,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         List<Visit> visits = visitBookingDetailsDataService.findByPlannedDateClinicIdAndVisitType(dto.getDate(),
                 clinic.getId(), VisitType.PRIME_VACCINATION_DAY);
 
-        visitLimitationHelper.checkCapacityForVisitBookingDetails(dto.getDate(), clinic, dto.getVisitId());
+        visitLimitationHelper.checkCapacityForVisit(dto.getDate(), clinic, dto.getVisitId());
         if (visits != null) {
             int numberOfRooms = clinic.getNumberOfRooms();
             int maxVisits = clinic.getMaxPrimeVisits();
