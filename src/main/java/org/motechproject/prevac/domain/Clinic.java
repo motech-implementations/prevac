@@ -102,7 +102,7 @@ public class Clinic {
     @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
-    private Integer maxTwelveMonthsPostPrimeVisit;
+    private Integer maxTwelveMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 14)
     @Field(required = true, defaultValue = "20")

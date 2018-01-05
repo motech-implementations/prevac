@@ -66,7 +66,7 @@ public class VisitLimitationHelper {
             case SIX_MONTHS_POST_PRIME_VISIT:
                 return clinic.getMaxSixMonthsPostPrimeVisits();
             case TWELVE_MONTHS_POST_PRIME_VISIT:
-                return clinic.getMaxTwelveMonthsPostPrimeVisit();
+                return clinic.getMaxTwelveMonthsPostPrimeVisits();
             case TWENTY_FOUR_MONTHS_POST_PRIME_VISIT:
                 return clinic.getMaxTwentyFourMonthsPostPrimeVisits();
             case THIRTY_SIX_MONTHS_POST_PRIME_VISIT:
