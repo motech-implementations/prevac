@@ -17,12 +17,10 @@ public class ClinicController {
 
     private static final List<String> CLINIC_FIELDS = new ArrayList<>(Arrays.asList("Site Id", "Location", "Max Capacity By Day",
             "Max Screening Visits", "Max Prime Visits", "Max Booster Visits", "Amount of Rooms", "Max Prime First Follow Up Visits",
-            "Max Prime Second Follow Up Visits", "Max Booster First Follow Up Visits", "Max Booster Second Follow Up Visits",
-            "Max Booster Third Follow Up Visits", "Max First Long Term Follow Up Visits", "Max Second Long Term Follow Up Visits",
-            "Max Third Long Term Follow Up Visits", "Max Fourth Long Term Follow Up Visits", "Max Fifth Long Term Follow Up Visits",
-            "Max Sixth Long Term Follow Up Visits", "Max Seventh Long Term Follow Up Visits", "Max Third Vaccination Visits",
-            "Max First Post Third Vaccination Visits", "Max Second Post Third Vaccination Visits", "Max Third Post Third Vaccination Visits",
-            "Max Fourth Post Third Vaccination Visits", "Max Fifth Post Third Vaccination Visits"));
+            "Max Prime Second Follow Up Visits", "Max Prime Third Follow Up Visits", "Max Booster First Follow Up Visits",
+            "Max Three Months Post Prime Visits", "Max Six Months Post Prime Visits", "Max Twelve Months Post Prime Visits",
+            "Max Twenty Four Months Post Prime Visits", "Max Thirty Six Months Post Prime Visits",
+            "Max Forty Eight Months Post Prime Visits", "Max Sixty Months Post Prime Visits"));
 
     @Autowired
     private ClinicService clinicService;
