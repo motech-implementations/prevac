@@ -7,6 +7,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.date.model.Time;
+import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.enums.Gender;
 import org.motechproject.prevac.domain.enums.VisitType;
@@ -21,7 +22,7 @@ public class PrimeVaccinationScheduleDto {
 
     @Getter
     @Setter
-    private Long visitBookingDetailsId;
+    private Long visitId;
 
     @Getter
     @Setter
@@ -55,12 +56,6 @@ public class PrimeVaccinationScheduleDto {
     @JsonDeserialize(using = CustomDateDeserializer.class)
     @Getter
     @Setter
-    private LocalDate bookingScreeningActualDate;
-
-    @JsonSerialize(using = CustomDateSerializer.class)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @Getter
-    @Setter
     private LocalDate date;
 
     @JsonSerialize(using = CustomTimeSerializer.class)
@@ -72,43 +67,45 @@ public class PrimeVaccinationScheduleDto {
     @Setter
     private Boolean ignoreDateLimitation;
 
-    public PrimeVaccinationScheduleDto(Visit details) {
+    public PrimeVaccinationScheduleDto(Visit visit) {
 
-        for (Visit visit : details.getSubject().getVisits()) {
-            if (VisitType.SCREENING.equals(visit.getType())) {
-                setActualScreeningDate(visit.getDate());
+        for (Visit v : visit.getSubject().getVisits()) {
+            if (VisitType.SCREENING.equals(v.getType())) {
+                setActualScreeningDate(v.getDate());
                 break;
             }
         }
-        if (actualScreeningDate != null) {
-            setBookingScreeningActualDate(actualScreeningDate);
-        } else {
-            for (Visit bookingDetails : details.getSubject().getVisits()) {
-                if (VisitType.SCREENING.equals(bookingDetails.getType())) {
-                    setBookingScreeningActualDate(bookingDetails.getBookingActualDate());
-                    break;
-                }
-            }
-        }
 
-        setStartTime(details.getStartTime());
-        setParticipantId(details.getSubject().getSubjectId());
-        setParticipantName(details.getSubject().getName());
-        setDate(details.getBookingPlannedDate());
-        if (details.getSubject().getGender() == null || details.getSubject().getGender().equals(Gender.Female)) {
-            setFemaleChildBearingAge(details.getSubject().getFemaleChildBearingAge());
+        setStartTime(visit.getStartTime());
+        setParticipantId(visit.getSubject().getSubjectId());
+        setParticipantName(visit.getSubject().getName());
+        setDate(visit.getDateProjected());
+        if (visit.getSubject().getGender() == null || visit.getSubject().getGender().equals(Gender.Female)) {
+            setFemaleChildBearingAge(visit.getSubject().getFemaleChildBearingAge());
         } else {
             setFemaleChildBearingAge(false);
         }
-        setVisitBookingDetailsId(details.getId());
-        setParticipantGender(details.getSubject().getGender());
-        if (details.getIgnoreDateLimitation() != null) {
-            setIgnoreDateLimitation(details.getIgnoreDateLimitation());
+        setVisitId(visit.getId());
+        setParticipantGender(visit.getSubject().getGender());
+        if (visit.getIgnoreDateLimitation() != null) {
+            setIgnoreDateLimitation(visit.getIgnoreDateLimitation());
         } else {
             setIgnoreDateLimitation(false);
         }
-        if (details.getClinic() != null) {
-            setLocation(details.getSubject().getSiteName());
+        if (visit.getClinic() != null) {
+            setLocation(visit.getSubject().getSiteName());
         }
+    }
+    
+    public PrimeVaccinationScheduleDto(Subject subject) {
+        setParticipantId(subject.getSubjectId());
+        setParticipantName(subject.getName());
+        if (subject.getGender() == null || subject.getGender().equals(Gender.Female)) {
+            setFemaleChildBearingAge(subject.getFemaleChildBearingAge());
+        } else {
+            setFemaleChildBearingAge(false);
+        }
+        setParticipantGender(subject.getGender());
+        setIgnoreDateLimitation(false);
     }
 }

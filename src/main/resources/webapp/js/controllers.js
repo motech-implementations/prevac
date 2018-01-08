@@ -855,7 +855,7 @@
         $scope.subjectChanged = function() {
             $scope.reloadSelects();
             if ($scope.form.dto) {
-                $scope.form.range = $scope.calculateRange($scope.form.dto.bookingScreeningActualDate, $scope.form.dto.femaleChildBearingAge, $scope.form.dto.ignoreDateLimitation);
+                $scope.form.range = $scope.calculateRange($scope.form.dto.actualScreeningDate, $scope.form.dto.femaleChildBearingAge, $scope.form.dto.ignoreDateLimitation);
             }
         }
 
@@ -890,12 +890,17 @@
             if (ignoreLimitation) {
                 sendRequest();
             } else {
-                motechConfirm("prevac.primeVaccination.confirm.shouldUpdatePrimeVaccination",
-                              "prevac.confirm", function(confirmed) {
-                    if (confirmed) {
-                        sendRequest();
-                    }
-                })
+                var confirmMsg;
+                if ($scope.form.type == "add") {
+                    confirmMsg  = "prevac.primeVaccination.confirm.shouldCreatePrimeVaccination";                   
+                } else if ($scope.form.type == "edit") {
+                    confirmMsg  = "prevac.primeVaccination.confirm.shouldUpdatePrimeVaccination";
+                }
+                motechConfirm(confirmMsg, "prevac.confirm", function(confirmed) {
+                        if (confirmed) {
+                            sendRequest();
+                        }
+                    })
             }
         };
 
@@ -937,11 +942,11 @@
 
         $scope.$watch('form.dto.femaleChildBearingAge', function (value) {
             if ($scope.form.dto) {
-                $scope.form.range = $scope.calculateRange($scope.form.dto.bookingScreeningActualDate, value, $scope.form.dto.ignoreDateLimitation);
+                $scope.form.range = $scope.calculateRange($scope.form.dto.actualScreeningDate, value, $scope.form.dto.ignoreDateLimitation);
             }
         });
 
-        $scope.$watch('form.dto.bookingScreeningActualDate', function (value) {
+        $scope.$watch('form.dto.actualScreeningDate', function (value) {
             if ($scope.form.dto) {
                 $scope.form.range = $scope.calculateRange(value, $scope.form.dto.femaleChildBearingAge, $scope.form.dto.ignoreDateLimitation);
             }
@@ -949,7 +954,7 @@
 
         $scope.$watch('form.dto.ignoreDateLimitation', function (value) {
             if ($scope.form.dto) {
-                $scope.form.range = $scope.calculateRange($scope.form.dto.bookingScreeningActualDate, $scope.form.dto.femaleChildBearingAge, value);
+                $scope.form.range = $scope.calculateRange($scope.form.dto.actualScreeningDate, $scope.form.dto.femaleChildBearingAge, value);
             }
         });
 
@@ -960,7 +965,7 @@
                 && $scope.form.dto.date
                 && $scope.form.dto.startTime
                 && $scope.form.dto.femaleChildBearingAge
-                && $scope.form.dto.bookingScreeningActualDate;
+                && $scope.form.dto.actualScreeningDate;
         };
 
         $scope.exportInstance = function() {

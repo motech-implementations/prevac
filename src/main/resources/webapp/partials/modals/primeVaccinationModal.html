@@ -21,10 +21,10 @@
                     </div>
                     <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.screeningDate')}}</span>
-                        <input id="screeningDateInput" type="text" class="form-control datepicker" readonly='true' mds-date-picker placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.bookingScreeningActualDate" ng-disabled="form.dto.actualScreeningDate !== undefined && form.dto.actualScreeningDate !== '' && form.dto.actualScreeningDate !== null">
-                        <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.bookingScreeningActualDate === '', 'alert-success': form.dto.bookingScreeningActualDate}"><i class="fa fa-fw fa-check"></i></span>
+                        <input id="screeningDateInput" type="text" class="form-control datepicker" readonly='true' mds-date-picker placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.actualScreeningDate">
+                        <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.actualScreeningDate === '', 'alert-success': form.dto.actualScreeningDate}"><i class="fa fa-fw fa-check"></i></span>
                     </div>
-                    <div class="prevac input-group" ng-show="form.dto.bookingScreeningActualDate">
+                    <div class="prevac input-group" ng-show="form.dto.actualScreeningDate">
                         <span class="left input-group-addon">{{msg('prevac.primeVaccination.femaleChildBearingAge')}}</span>
                         <div class="prime-vaccination-schedule-modal input-group" ng-if="form.dto.participantGender !== 'Male' && form.dto.participantGender !== 'Unknown' && form.dto.participantGender !== 'Unidentified'">
                             <select class="form-control" ui-select2 id="femaleChildBearingAgeSelect" ng-model="form.dto.femaleChildBearingAge">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="form-control" ng-if="form.dto.participantGender === 'Male' || form.dto.participantGender === 'Unknown' || form.dto.participantGender === 'Unidentified'">{{form.dto.femaleChildBearingAge}}</div>
                     </div>
-                    <div class="prevac input-group" ng-show="form.dto.bookingScreeningActualDate">
+                    <div class="prevac input-group" ng-show="form.dto.actualScreeningDate">
                         <span class="left input-group-addon">{{msg('prevac.primeVaccination.primeVacDate')}}</span>
                         <input id="primeVacDateInput" type="text" class="form-control datepicker" readonly='true' prevac-date-picker min="form.range.min" max="form.range.max" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.date">
                         <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.date === '', 'alert-success': form.dto.date}"><i class="fa fa-fw fa-check"></i></span>
