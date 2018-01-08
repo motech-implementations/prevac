@@ -18,7 +18,7 @@ import org.motechproject.prevac.util.CustomSubjectSerializer;
 import org.motechproject.prevac.util.CustomVisitTypeDeserializer;
 import org.motechproject.prevac.util.CustomVisitTypeSerializer;
 
-@Entity(recordHistory = true)
+@Entity(recordHistory = true, maxFetchDepth = 2)
 @NoArgsConstructor
 public class Visit {
 

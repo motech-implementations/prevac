@@ -13,6 +13,7 @@ import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.dto.PrimeVaccinationScheduleDto;
 import org.motechproject.prevac.exception.LimitationExceededException;
 import org.motechproject.prevac.helper.VisitLimitationHelper;
+import org.motechproject.prevac.repository.ClinicDataService;
 import org.motechproject.prevac.repository.SubjectDataService;
 import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
 import org.motechproject.prevac.service.LookupService;
@@ -39,6 +40,9 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
     private VisitLimitationHelper visitLimitationHelper;
 
     @Autowired
+    private ClinicDataService clinicDataService;
+
+    @Autowired
     private SubjectDataService subjectDataService;
 
     @Autowired
@@ -54,7 +58,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
     }
 
     @Override
-    public PrimeVaccinationScheduleDto createOrUpdateWithDto(PrimeVaccinationScheduleDto dto, Boolean ignoreLimitation) {
+    public PrimeVaccinationScheduleDto createOrUpdateWithDto(PrimeVaccinationScheduleDto dto, Boolean ignoreLimitation, String siteId) {
         validateDate(dto);
 
         Visit primeVisit = visitBookingDetailsDataService.findById(dto.getVisitId());
@@ -67,18 +71,18 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
             return new PrimeVaccinationScheduleDto(updateVisitWithDto(primeVisit, screeningVisit, dto));
         }
 
+        Clinic clinic = clinicDataService.findByExactSiteId(siteId);
+
+        if (!ignoreLimitation && clinic != null) {
+            checkNumberOfPatients(dto, clinic);
+        }
+
         Subject subject = subjectDataService.findBySubjectId(dto.getParticipantId());
 
         List<Visit> visits = subject.getVisits();
-        visits.add(visitBookingDetailsDataService.create(createScreeningVisitFromDto(dto, subject)));
-        primeVisit = visitBookingDetailsDataService.create(createPrimeVacVisitFromDto(dto, subject));
+        visits.add(visitBookingDetailsDataService.create(createScreeningVisitFromDto(dto, subject, clinic)));
+        primeVisit = visitBookingDetailsDataService.create(createPrimeVacVisitFromDto(dto, subject, clinic));
         visits.add(primeVisit);
-
-        Clinic clinic = primeVisit.getClinic();
-
-        if (clinic != null && !ignoreLimitation) {
-            checkNumberOfPatients(dto, clinic);
-        }
 
         return new PrimeVaccinationScheduleDto(primeVisit);
     }
@@ -98,15 +102,16 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         return primeVacDtos;
     }
 
-    private Visit createScreeningVisitFromDto(PrimeVaccinationScheduleDto dto, Subject subject) {
+    private Visit createScreeningVisitFromDto(PrimeVaccinationScheduleDto dto, Subject subject, Clinic clinic) {
         Visit screeningVisit = new Visit();
         screeningVisit.setType(VisitType.SCREENING);
         screeningVisit.setSubject(subject);
         screeningVisit.setDate(dto.getActualScreeningDate());
+        screeningVisit.setClinic(clinic);
         return screeningVisit;
     }
 
-    private Visit createPrimeVacVisitFromDto(PrimeVaccinationScheduleDto dto, Subject subject) {
+    private Visit createPrimeVacVisitFromDto(PrimeVaccinationScheduleDto dto, Subject subject, Clinic clinic) {
         Visit primeVisit = new Visit();
         primeVisit.setSubject(subject);
         primeVisit.setType(VisitType.PRIME_VACCINATION_DAY);
@@ -115,6 +120,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         primeVisit.setDateProjected(dto.getDate());
         primeVisit.getSubject().setFemaleChildBearingAge(dto.getFemaleChildBearingAge());
         primeVisit.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
+        primeVisit.setClinic(clinic);
         return primeVisit;
     }
 
@@ -141,14 +147,13 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         }
     }
 
-    private void checkNumberOfPatients(PrimeVaccinationScheduleDto dto, Clinic clinic) {
-
+    private void checkNumberOfPatients(PrimeVaccinationScheduleDto dto, Clinic clinic) { //NO CHECKSTYLE CyclomaticComplexity
         List<Visit> visits = visitBookingDetailsDataService.findByPlannedDateClinicIdAndVisitType(dto.getDate(),
                 clinic.getId(), VisitType.PRIME_VACCINATION_DAY);
 
         visitLimitationHelper.checkCapacityForVisit(dto.getDate(), clinic, dto.getVisitId());
-        if (visits != null) {
-            int numberOfRooms = clinic.getNumberOfRooms();
+        if (visits != null && !visits.isEmpty()) {
+            int numberOfRooms = clinic.getNumberOfRooms() == null ? 0 : clinic.getNumberOfRooms();
             int maxVisits = clinic.getMaxPrimeVisits();
             int patients = 0;
 

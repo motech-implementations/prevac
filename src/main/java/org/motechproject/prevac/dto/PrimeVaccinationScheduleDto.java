@@ -93,7 +93,7 @@ public class PrimeVaccinationScheduleDto {
             setIgnoreDateLimitation(false);
         }
         if (visit.getClinic() != null) {
-            setLocation(visit.getSubject().getSiteName());
+            setLocation(visit.getClinic().getLocation());
         }
     }
     
