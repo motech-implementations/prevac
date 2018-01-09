@@ -69,7 +69,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
                 stageId = activeStageId;
             }
 
-            Boolean boosterRelated = isBoosterRelated(details.getType(), boosterRelatedVisits, stageId);
+            Boolean boosterRelated = isBoosterRelated(details.getType(), boosterRelatedVisits);
             LocalDate vaccinationDate = getVaccinationDate(details, boosterRelated);
             Boolean notVaccinated = true;
             Range<LocalDate> dateRange = null;
@@ -215,7 +215,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             stageId = activeStageId;
         }
 
-        Boolean boosterRelated = isBoosterRelated(visit.getType(), boosterRelatedVisits, stageId);
+        Boolean boosterRelated = isBoosterRelated(visit.getType(), boosterRelatedVisits);
         LocalDate vaccinationDate = getVaccinationDate(visit, boosterRelated);
 
         if (vaccinationDate == null) {
@@ -257,20 +257,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         }
     }
 
-    private Boolean isBoosterRelated(VisitType visitType, List<String> boosterRelatedVisits, Long stageId) {
-        String campaignName = getCampaignNameWithStage(visitType, stageId);
-        return boosterRelatedVisits.contains(campaignName);
-    }
-
-    private String getCampaignNameWithStage(VisitType visitType, Long stageId) {
-        if (stageId == null) {
-            return null;
-        }
-
-        if (stageId > 1) {
-            return visitType.getDisplayValue() + PrevacConstants.STAGE + stageId;
-        }
-
-        return visitType.getDisplayValue();
+    private Boolean isBoosterRelated(VisitType visitType, List<String> boosterRelatedVisits) {
+        return boosterRelatedVisits.contains(visitType.getDisplayValue());
     }
 }
