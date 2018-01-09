@@ -7,9 +7,6 @@
     "Max Seventh Long Term Follow Up Visits", "Max Third Vaccination Visits", "Max First Post Third Vaccination Visits",
     "Max Second Post Third Vaccination Visits", "Max Third Post Third Vaccination Visits",
     "Max Fourth Post Third Vaccination Visits", "Max Fifth Post Third Vaccination Visits"],
-  "boosterRelatedMessages": ["Boost Vaccination First Follow-up visit - stage 2", "Boost Vaccination Second Follow-up visit - stage 2",
-    "Boost Vaccination Third Follow-up visit - stage 2", "First Long-term Follow-up visit - stage 2"],
-  "thirdVaccinationRelatedMessages": ["First Post Third Vaccination visit", "Second Post Third Vaccination visit",
-    "Third Post Third Vaccination visit", "Fourth Post Third Vaccination visit", "Fifth Post Third Vaccination visit"],
+  "boosterRelatedVisits" :["Boost Vaccination First Follow-up Visit"],
   "activeStageId": 1
 }

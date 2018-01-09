@@ -1,7 +1,7 @@
 package org.motechproject.prevac.web;
 
-import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Config;
+import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.service.ConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,10 +43,10 @@ public class ConfigController {
     }
 
     @PreAuthorize("hasRole('managePrevac')")
-    @RequestMapping(value = "/availableCampaigns", method = RequestMethod.GET)
+    @RequestMapping(value = "/availableVisits", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> getAvailableCampaigns() {
-        return PrevacConstants.AVAILABLE_CAMPAIGNS;
+    public List<String> getAvailableVisits() {
+        return VisitType.getDisplayValues();
     }
 
     @ExceptionHandler

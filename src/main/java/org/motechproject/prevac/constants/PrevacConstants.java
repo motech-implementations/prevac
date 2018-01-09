@@ -1,7 +1,5 @@
 package org.motechproject.prevac.constants;
 
-import org.motechproject.prevac.domain.enums.VisitType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,8 +28,6 @@ public final class PrevacConstants {
             put("SMS", 32f);
         }
     };
-
-    public static final List<String> AVAILABLE_CAMPAIGNS = VisitType.getDisplayValues();
 
     public static final String SCREENING_TAB_PERMISSION = "prevacScreeningBookingTab";
     public static final String PRIME_VAC_TAB_PERMISSION = "prevacPrimeVaccinationBookingTab";

@@ -36,19 +36,10 @@
             <h5 class="margin-before2">{{msg('prevac.settings.visitSchedule')}}</h5>
 
             <div class="form-group">
-                <label class="col-md-2 control-label">{{msg('prevac.settings.visitSchedule.boosterRelatedMessages.label')}}</label>
-                <div class="col-md-4" data-toggle="tooltip" data-placement="top" data-trigger="hover" bs-popover="{{msg('prevac.settings.visitSchedule.boosterRelatedMessages.tooltip')}}">
-                    <select id="boostRelCampaigns" class="form-control" ui-select2 multiple select2-ng-change="boostRelCampaignsChanged">
-                        <option ng-repeat="campaign in availableCampaigns" value="{{campaign}}">{{campaign}}</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-md-2 control-label">{{msg('prevac.settings.visitSchedule.thirdVacRelatedMessages.label')}}</label>
-                <div class="col-md-4" data-toggle="tooltip" data-placement="top" data-trigger="hover" bs-popover="{{msg('prevac.settings.visitSchedule.thirdVacRelatedMessages.tooltip')}}">
-                    <select id="thirdVacRelCampaigns" class="form-control" ui-select2 multiple select2-ng-change="thirdVacRelCampaignsChanged">
-                        <option ng-repeat="campaign in availableCampaigns" value="{{campaign}}">{{campaign}}</option>
+                <label class="col-md-2 control-label">{{msg('prevac.settings.visitSchedule.boosterRelatedVisits.label')}}</label>
+                <div class="col-md-4" data-toggle="tooltip" data-placement="top" data-trigger="hover" bs-popover="{{msg('prevac.settings.visitSchedule.boosterRelatedVisits.tooltip')}}">
+                    <select id="boostRelVisits" class="form-control" ui-select2 multiple select2-ng-change="boostRelVisitsChanged">
+                        <option ng-repeat="visit in availableVisits" value="{{visit}}">{{visit}}</option>
                     </select>
                 </div>
             </div>
