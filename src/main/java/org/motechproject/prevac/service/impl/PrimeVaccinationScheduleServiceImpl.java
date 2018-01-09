@@ -58,8 +58,15 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
     }
 
     @Override
-    public PrimeVaccinationScheduleDto createOrUpdateWithDto(PrimeVaccinationScheduleDto dto, Boolean ignoreLimitation, String siteId) {
+    public PrimeVaccinationScheduleDto createOrUpdateWithDto(PrimeVaccinationScheduleDto dto, Boolean ignoreLimitation) {
         validateDate(dto);
+
+        Subject subject = subjectDataService.findBySubjectId(dto.getParticipantId());
+
+        Clinic clinic = clinicDataService.findByExactSiteId(subject.getSiteId());
+        if (!ignoreLimitation && clinic != null) {
+            checkNumberOfPatients(dto, clinic);
+        }
 
         Visit primeVisit = visitBookingDetailsDataService.findById(dto.getVisitId());
         // We have an update
@@ -69,22 +76,13 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
                 throw new IllegalArgumentException("Cannot save, because Screening for Visit not found");
             }
             return new PrimeVaccinationScheduleDto(updateVisitWithDto(primeVisit, screeningVisit, dto));
+        } else {
+            List<Visit> visits = subject.getVisits();
+            visits.add(visitBookingDetailsDataService.create(createScreeningVisitFromDto(dto, subject, clinic)));
+            primeVisit = visitBookingDetailsDataService.create(createPrimeVacVisitFromDto(dto, subject, clinic));
+            visits.add(primeVisit);
+            return new PrimeVaccinationScheduleDto(primeVisit);
         }
-
-        Clinic clinic = clinicDataService.findByExactSiteId(siteId);
-
-        if (!ignoreLimitation && clinic != null) {
-            checkNumberOfPatients(dto, clinic);
-        }
-
-        Subject subject = subjectDataService.findBySubjectId(dto.getParticipantId());
-
-        List<Visit> visits = subject.getVisits();
-        visits.add(visitBookingDetailsDataService.create(createScreeningVisitFromDto(dto, subject, clinic)));
-        primeVisit = visitBookingDetailsDataService.create(createPrimeVacVisitFromDto(dto, subject, clinic));
-        visits.add(primeVisit);
-
-        return new PrimeVaccinationScheduleDto(primeVisit);
     }
 
     @Override
@@ -152,8 +150,8 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
                 clinic.getId(), VisitType.PRIME_VACCINATION_DAY);
 
         visitLimitationHelper.checkCapacityForVisit(dto.getDate(), clinic, dto.getVisitId());
-        if (visits != null && !visits.isEmpty()) {
-            int numberOfRooms = clinic.getNumberOfRooms() == null ? 0 : clinic.getNumberOfRooms();
+        if (visits != null) {
+            Integer numberOfRooms = clinic.getNumberOfRooms();
             int maxVisits = clinic.getMaxPrimeVisits();
             int patients = 0;
 
@@ -179,7 +177,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
             if (visits.size() >= maxVisits) {
                 throw new LimitationExceededException("The booking limit for this type of visit has been reached");
             }
-            if (patients >= numberOfRooms) {
+            if (numberOfRooms != null && patients >= numberOfRooms) {
                 throw new LimitationExceededException("Too many visits at the same time");
             }
         }

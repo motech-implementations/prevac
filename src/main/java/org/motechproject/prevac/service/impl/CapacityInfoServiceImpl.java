@@ -9,6 +9,7 @@ import org.motechproject.mds.query.QueryParams;
 import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Clinic;
 import org.motechproject.prevac.domain.DateFilter;
+import org.motechproject.prevac.domain.enums.ScreeningStatus;
 import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.dto.CapacityInfoDto;
 import org.motechproject.prevac.repository.ClinicDataService;
@@ -57,10 +58,10 @@ public class CapacityInfoServiceImpl implements CapacityInfoService {
                 int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndPlannedVisitDateRange(clinic.getId(), dateRange);
                 int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndPlannedVisitDateRange(clinic.getId(),
                         VisitType.PRIME_VACCINATION_DAY, dateRange);
-                int screeningCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndActualVisitDateRange(clinic.getId(),
-                        VisitType.SCREENING, dateRange);
+                int screeningCount = (int) screeningDataService.countFindByClinicIdAndDateRangeAndStatus(clinic.getId(), dateRange, ScreeningStatus.ACTIVE);
+                int unscheduledCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDateRange(clinic.getId(), dateRange);
 
-                int allVisitsCount = visitCount + screeningCount;
+                int allVisitsCount = visitCount + screeningCount + unscheduledCount;
                 int maxCapacity = clinic.getMaxCapacityByDay() * numberOfDays;
                 int availableCapacity = maxCapacity - allVisitsCount;
                 int screeningSlotRemaining = clinic.getMaxScreeningVisits() * numberOfDays - screeningCount;
