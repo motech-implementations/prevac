@@ -1097,8 +1097,23 @@
             $('#versionDate', document).html($filter('date')(new Date(), $scope.cardDateTimeFormat));
             $('#subjectId', document).html($scope.selectedSubject.subjectId);
             $('#subjectName', document).html($scope.selectedSubject.name);
-            $('#primeVacFirstFollowup', document).html($filter('date')($scope.parseDate($scope.visitPlannedDates.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT), $scope.cardDateFormat));
-            $('#location', document).html($scope.selectedSubject.location);
+            $('#primeVacFirstFollowup', document).html($filter('date')($scope.findNextVisitDate(), $scope.cardDateFormat));
+            $('#location', document).html($scope.selectedSubject.siteName);
+        };
+
+
+        $scope.findNextVisitDate = function () {
+            var currentDate = new Date();
+            var nextVisitDate = null;
+            for (var key in $scope.visitPlannedDates) {
+                var visitDate = $scope.parseDate($scope.visitPlannedDates[key]);
+                if ($scope.visitPlannedDates.hasOwnProperty(key)) {
+                    if (currentDate <= visitDate && (nextVisitDate == null || visitDate < nextVisitDate)) {
+                        nextVisitDate = visitDate;
+                    }
+                }
+            }
+            return nextVisitDate;
         };
 
         $scope.getKeyForMapValue = function (map, value) {
