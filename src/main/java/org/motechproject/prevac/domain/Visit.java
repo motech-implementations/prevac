@@ -35,16 +35,6 @@ public class Visit {
     @Field
     @Getter
     @Setter
-    private LocalDate bookingPlannedDate;
-
-    @Field
-    @Getter
-    @Setter
-    private LocalDate bookingActualDate;
-
-    @Field
-    @Getter
-    @Setter
     private Time startTime;
 
     @Field
