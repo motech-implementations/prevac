@@ -11,9 +11,9 @@ import org.motechproject.prevac.domain.enums.VisitType;
 import javax.jdo.annotations.Unique;
 
 @Entity
-@Unique(name = "visitType", members = { "visitType"})
 public class VisitScheduleOffset {
 
+    @Unique
     @UIDisplayable(position = 0)
     @Field(required = true)
     @Getter

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface VisitScheduleOffsetService {
 
-    VisitScheduleOffset findByVisitType(VisitType visitTypeF);
+    VisitScheduleOffset findByVisitType(VisitType visitType);
 
     List<VisitScheduleOffset> getAll();
 

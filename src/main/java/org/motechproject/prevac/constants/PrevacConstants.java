@@ -18,11 +18,9 @@ public final class PrevacConstants {
     public static final int EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE = 14;
     public static final int LATEST_DATE = 28;
 
-    public static final String STAGE = " - stage ";
     public static final Map<String, Float> REPORT_COLUMN_WIDTHS = new LinkedHashMap<String, Float>() {
         {
             put("Participant Id", 64f); //NO CHECKSTYLE MagicNumber
-            put("Stage ID", 32f);
             put("Gender", 48f); //NO CHECKSTYLE MagicNumber
             put("Age", 24f);
             put("SMS", 32f);
@@ -114,7 +112,7 @@ public final class PrevacConstants {
             "Find By Clinic Location", "Find By Volunteer Name", "Find By Booking Id"));
 
     public static final List<String> AVAILABLE_LOOKUPS_FOR_VISIT_RESCHEDULE = new ArrayList<>(Arrays.asList("Find By Participant Id",
-            "Find By Participant Name", "Find By Stage Id", "Find By Visit Type", "Find By Clinic Location", "Find By Visit Actual Date",
+            "Find By Participant Name", "Find By Visit Type", "Find By Clinic Location", "Find By Visit Actual Date",
             "Find By Visit Actual Date Range"));
 
     public static final List<String> AVAILABLE_LOOKUPS_FOR_UNSCHEDULED = new ArrayList<>(Arrays.asList(
