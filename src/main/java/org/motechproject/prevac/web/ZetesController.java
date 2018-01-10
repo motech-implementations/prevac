@@ -1,6 +1,9 @@
 package org.motechproject.prevac.web;
 
+import org.motechproject.prevac.domain.Config;
+import org.motechproject.prevac.service.ConfigService;
 import org.motechproject.prevac.service.SubjectService;
+import org.motechproject.prevac.service.ZetesService;
 import org.motechproject.prevac.validation.SubjectValidator;
 import org.motechproject.prevac.validation.ValidationError;
 import org.motechproject.prevac.web.domain.SubjectZetesDto;
@@ -25,7 +28,6 @@ import static ch.lambdaj.Lambda.on;
 /**
  * Web API for Subject Registration
  */
-@RequestMapping("/registration")
 @Controller
 public class ZetesController {
 
@@ -33,8 +35,12 @@ public class ZetesController {
 
     private SubjectService subjectService;
 
+    private ConfigService configService;
+
+    private ZetesService zetesService;
+
     @PreAuthorize("hasAnyRole('mdsDataAccess', 'participantRegistration')")
-    @RequestMapping(value = "/submit", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/registration/submit", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public ResponseEntity<String> submitSubjectRequest(@RequestBody SubjectZetesDto subjectZetesDto) {
 
@@ -58,12 +64,31 @@ public class ZetesController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public SubjectService getSubjectService() {
-        return subjectService;
+    @RequestMapping(value = "/runJob", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> runZetesJob() {
+        Config config = configService.getConfig();
+
+        try {
+            zetesService.sendUpdatedSubjects(config.getZetesUrl(), config.getZetesUsername(), config.getZetesPassword());
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Autowired
     public void setSubjectService(SubjectService subjectService) {
         this.subjectService = subjectService;
+    }
+
+    @Autowired
+    public void setConfigService(ConfigService configService) {
+        this.configService = configService;
+    }
+
+    @Autowired
+    public void setZetesService(ZetesService zetesService) {
+        this.zetesService = zetesService;
     }
 }

@@ -8,5 +8,10 @@
     "Max Second Post Third Vaccination Visits", "Max Third Post Third Vaccination Visits",
     "Max Fourth Post Third Vaccination Visits", "Max Fifth Post Third Vaccination Visits"],
   "boosterRelatedVisits" :["Boost Vaccination First Follow-up Visit"],
-  "showWarnings":true
+  "showWarnings":true,
+  "zetesUrl": "",
+  "zetesUsername": "",
+  "zetesPassword": "",
+  "startTime": "",
+  "enableZetesJob":false
 }

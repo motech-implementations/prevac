@@ -175,22 +175,6 @@ public class Subject {
     @Setter
     private LocalDate boosterVaccinationDate;
 
-    @JsonSerialize(using = CustomDateSerializer.class)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @NonEditable
-    @Field(displayName = "Date of Discontinuation Vac.")
-    @Getter
-    @Setter
-    private LocalDate dateOfDisconVac;
-
-    @JsonSerialize(using = CustomDateSerializer.class)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @NonEditable
-    @Field(displayName = "Withdrawal Date")
-    @Getter
-    @Setter
-    private LocalDate dateOfDisconStd;
-
     /**
      * Motech internal fields
      */

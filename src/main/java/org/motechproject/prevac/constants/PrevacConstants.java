@@ -29,6 +29,12 @@ public final class PrevacConstants {
         }
     };
 
+    public static final String ZETES_UPDATE_EVENT = "zetes_update";
+
+    public static final String ZETES_URL = "zetes_url";
+    public static final String ZETES_USERNAME = "zetes_username";
+    public static final String ZETES_PASSWORD = "zetes_password";
+
     public static final String SCREENING_TAB_PERMISSION = "prevacScreeningBookingTab";
     public static final String PRIME_VAC_TAB_PERMISSION = "prevacPrimeVaccinationBookingTab";
     public static final String CLINIC_VISIT_SCHEDULE_TAB_PERMISSION = "prevacClinicVisitBookingTab";
