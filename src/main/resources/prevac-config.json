@@ -7,6 +7,5 @@
     "Max Seventh Long Term Follow Up Visits", "Max Third Vaccination Visits", "Max First Post Third Vaccination Visits",
     "Max Second Post Third Vaccination Visits", "Max Third Post Third Vaccination Visits",
     "Max Fourth Post Third Vaccination Visits", "Max Fifth Post Third Vaccination Visits"],
-  "boosterRelatedVisits" :["Boost Vaccination First Follow-up Visit"],
-  "activeStageId": 1
+  "boosterRelatedVisits" :["Boost Vaccination First Follow-up Visit"]
 }

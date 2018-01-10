@@ -79,11 +79,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<Subject> findByStageId(Long stageId) {
-        return subjectDataService.findByStageId(stageId);
-    }
-
-    @Override
     public List<Subject> findModifiedSubjects() {
         return subjectDataService.findByModified(true);
     }

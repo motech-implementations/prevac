@@ -56,26 +56,21 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         QueryParams queryParams = QueryParamsBuilder.buildQueryParams(settings, getFields(settings.getFields()));
         Records<Visit> detailsRecords = lookupService.getEntities(Visit.class, settings.getLookup(), settings.getFields(), queryParams);
 
-        Map<Long, Map<VisitType, VisitScheduleOffset>> offsetMap = visitScheduleOffsetService.getAllAsMap();
+        Map<VisitType, VisitScheduleOffset> offsetMap = visitScheduleOffsetService.getAllAsMap();
         List<String> boosterRelatedVisits = configService.getConfig().getBoosterRelatedVisits();
-        Long activeStageId = configService.getConfig().getActiveStageId();
 
         List<VisitRescheduleDto> dtos = new ArrayList<>();
 
         for (Visit details : detailsRecords.getRows()) {
-            Long stageId = details.getSubject().getStageId();
-
-            if (stageId == null) {
-                stageId = activeStageId;
-            }
 
             Boolean boosterRelated = isBoosterRelated(details.getType(), boosterRelatedVisits);
             LocalDate vaccinationDate = getVaccinationDate(details, boosterRelated);
+
             Boolean notVaccinated = true;
             Range<LocalDate> dateRange = null;
 
             if (vaccinationDate != null) {
-                dateRange = calculateEarliestAndLatestDate(details.getType(), offsetMap, vaccinationDate, stageId);
+                dateRange = calculateEarliestAndLatestDate(details.getType(), offsetMap, vaccinationDate);
                 notVaccinated = false;
             }
 
@@ -160,11 +155,10 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         }
 
         if (!dto.getIgnoreDateLimitation()) {
-            Map<Long, Map<VisitType, VisitScheduleOffset>> offsetMap = visitScheduleOffsetService.getAllAsMap();
+            Map<VisitType, VisitScheduleOffset> visitTypeOffsetMap = visitScheduleOffsetService.getAllAsMap();
             List<String> boosterRelatedVisits = configService.getConfig().getBoosterRelatedVisits();
-            Long activeStageId = configService.getConfig().getActiveStageId();
 
-            Range<LocalDate> dateRange = calculateEarliestAndLatestDate(visit, offsetMap, boosterRelatedVisits, activeStageId);
+            Range<LocalDate> dateRange = calculateEarliestAndLatestDate(visit, visitTypeOffsetMap, boosterRelatedVisits);
 
             if (dateRange == null) {
                 throw new IllegalArgumentException("Cannot calculate Earliest and Latest Date");
@@ -207,14 +201,8 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         return new Time(endTimeHour, startTime.getMinute());
     }
 
-    private Range<LocalDate> calculateEarliestAndLatestDate(Visit visit, Map<Long, Map<VisitType, VisitScheduleOffset>> offsetMap,
-                                                            List<String> boosterRelatedVisits, Long activeStageId) {
-        Long stageId = visit.getSubject().getStageId();
-
-        if (stageId == null) {
-            stageId = activeStageId;
-        }
-
+    private Range<LocalDate> calculateEarliestAndLatestDate(Visit visit, Map<VisitType, VisitScheduleOffset> visitTypeOffset,
+                                                            List<String> boosterRelatedVisits) {
         Boolean boosterRelated = isBoosterRelated(visit.getType(), boosterRelatedVisits);
         LocalDate vaccinationDate = getVaccinationDate(visit, boosterRelated);
 
@@ -222,17 +210,11 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             return null;
         }
 
-        return calculateEarliestAndLatestDate(visit.getType(), offsetMap, vaccinationDate, stageId);
+        return calculateEarliestAndLatestDate(visit.getType(), visitTypeOffset, vaccinationDate);
     }
 
-    private Range<LocalDate> calculateEarliestAndLatestDate(VisitType visitType, Map<Long, Map<VisitType, VisitScheduleOffset>> offsetMap,
-                                                            LocalDate vaccinationDate, Long stageId) {
-        if (stageId == null) {
-            return null;
-        }
-
-        Map<VisitType, VisitScheduleOffset> visitTypeOffset = offsetMap.get(stageId);
-
+    private Range<LocalDate> calculateEarliestAndLatestDate(VisitType visitType, Map<VisitType, VisitScheduleOffset> visitTypeOffset,
+                                                            LocalDate vaccinationDate) {
         if (visitTypeOffset == null) {
             return null;
         }

@@ -106,9 +106,6 @@ public interface VisitBookingDetailsDataService extends MotechDataService<Visit>
             customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String name);
 
     @Lookup
-    List<Visit> findByStageId(@LookupField(name = "subject.stageId") Long stageId);
-
-    @Lookup
     List<Visit> findByVisitType(@LookupField(name = "type") VisitType type);
 
     @Lookup
@@ -227,19 +224,6 @@ public interface VisitBookingDetailsDataService extends MotechDataService<Visit>
     List<Visit> findByParticipantNameAndVisitTypeSetAndPlannedDateRange(
             @LookupField(name = "subject.name",
                     customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String name,
-            @LookupField(name = "type") Set<VisitType> typeSet,
-            @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
-
-    @Lookup
-    List<Visit> findByStageIdAndVisitTypeSetAndPlannedDate(
-            @LookupField(name = "subject.stageId") Long stageId,
-            @LookupField(name = "type") Set<VisitType> typeSet,
-            @LookupField(name = "dateProjected",
-                    customOperator = Constants.Operators.NEQ) LocalDate plannedDate);
-
-    @Lookup
-    List<Visit> findByStageIdAndVisitTypeSetAndPlannedDateRange(
-            @LookupField(name = "subject.stageId") Long stageId,
             @LookupField(name = "type") Set<VisitType> typeSet,
             @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
 

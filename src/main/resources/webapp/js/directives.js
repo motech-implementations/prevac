@@ -574,7 +574,6 @@
                         scope.msg("prevac.location"),
                         scope.msg("prevac.visitReschedule.participantId"),
                         scope.msg("prevac.visitReschedule.participantName"),
-                        scope.msg("prevac.visitReschedule.stageId"),
                         scope.msg("prevac.visitReschedule.visitType"),
                         scope.msg("prevac.visitReschedule.actualDate"),
                         scope.msg("prevac.visitReschedule.plannedDate"),
@@ -593,10 +592,6 @@
                         {
                             name: "participantName",
                             index: 'subject.name'
-                        },
-                        {
-                            name: "stageId",
-                            index: 'subject.stageId'
                         },
                         {
                             name: "visitType",
@@ -680,7 +675,6 @@
                                 scope.newForm();
                                 scope.form.dto.participantId = rowData.participantId;
                                 scope.form.dto.participantName = rowData.participantName;
-                                scope.form.dto.stageId = rowData.stageId;
                                 scope.form.dto.visitType = rowData.visitType;
                                 scope.form.dto.plannedDate = rowData.plannedDate;
                                 scope.form.dto.startTime = rowData.startTime;
