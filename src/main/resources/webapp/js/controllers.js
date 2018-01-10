@@ -1030,6 +1030,7 @@
         $scope.selectedSubject = {};
         $scope.primeVac = {};
         $scope.visitPlannedDates = {};
+        $scope.nextVisit = "";
 
         $http.get('../prevac/schedule/getScreeningVisits')
         .success(function(data) {
@@ -1059,6 +1060,8 @@
                 $http.get('../prevac/schedule/getPlannedDates/' + $scope.selectedSubject.subjectId + '/' + newVal)
                 .success(function(data) {
                     $scope.visitPlannedDates = data;
+                    var nextVisitDate = $scope.dateToString($scope.findNextVisitDate());
+                    $scope.nextVisit = $scope.getKeyForMapValue($scope.visitPlannedDates, nextVisitDate) + ": " + nextVisitDate;
                 })
                 .error(function(response) {
                     motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
@@ -1096,6 +1099,23 @@
             $('#subjectName', document).html($scope.selectedSubject.name);
             $('#primeVacFirstFollowup', document).html($filter('date')($scope.parseDate($scope.visitPlannedDates.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT), $scope.cardDateFormat));
             $('#location', document).html($scope.selectedSubject.location);
+        };
+
+        $scope.getKeyForMapValue = function (map, value) {
+            for (var key in map) {
+                if (map.hasOwnProperty(key) && map[key] === value) {
+                    return key;
+                }
+            }
+        };
+
+        $scope.dateToString = function (date) {
+            var mm = date.getMonth() + 1;
+            var dd = date.getDate();
+
+            return [date.getFullYear(),
+                (mm > 9 ? '' : '0') + mm,
+                (dd > 9 ? '' : '0') + dd].join('-');
         };
 
         $scope.print = function() {

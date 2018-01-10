@@ -90,15 +90,15 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
         if (subject.getPrimerVaccinationDate() == null) {
             for (Visit visit : calculatePlannedDates(visits, primeVaccinationDate)) {
                 if (VisitType.PRIME_VACCINATION_DAY.equals(visit.getType())) {
-                    plannedDates.put(visit.getType().toString(), visit.getDate().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
+                    plannedDates.put(visit.getType().getDisplayValue(), visit.getDate().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
                 } else {
-                    plannedDates.put(visit.getType().toString(), visit.getDateProjected().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
+                    plannedDates.put(visit.getType().getDisplayValue(), visit.getDateProjected().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
                 }
             }
         } else {
             for (Visit visit : subject.getVisits()) {
-                if (visit.getDateProjected() != null) {
-                    plannedDates.put(visit.getType().toString(), visit.getDateProjected().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
+                if (visit.getDateProjected() != null && !VisitType.PRIME_VACCINATION_DAY.equals(visit.getType())) {
+                    plannedDates.put(visit.getType().getDisplayValue(), visit.getDateProjected().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
                 }
             }
         }
