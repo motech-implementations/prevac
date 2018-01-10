@@ -1,0 +1,16 @@
+<table id="visitTable" class="table-bordered table-striped table-lightblue table-condensed">
+    <thead>
+        <tr>
+            <th>{{msg('prevac.visit.type')}}</th>
+            <th>{{msg('prevac.visit.date')}}</th>
+            <th>{{msg('prevac.visit.motechProjectedDate')}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="visit in [].concat(field.value)"  ng-click="editInstanceOfEntity(visit.id, getMetadata(field, 'related.class'))">
+            <td>{{visit.type}}</td>
+            <td>{{visit.date}}</td>
+            <td>{{visit.motechProjectedDate}}</td>
+        </tr>
+    </tbody>
+</table>

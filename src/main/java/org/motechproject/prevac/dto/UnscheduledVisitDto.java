@@ -8,9 +8,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.date.model.Time;
 import org.motechproject.prevac.domain.UnscheduledVisit;
-import org.motechproject.prevac.util.CustomDateDeserializer;
-import org.motechproject.prevac.util.CustomDateSerializer;
-import org.motechproject.prevac.util.CustomTimeSerializer;
+import org.motechproject.prevac.util.serializer.CustomDateDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateSerializer;
+import org.motechproject.prevac.util.serializer.CustomTimeSerializer;
 
 @NoArgsConstructor
 public class UnscheduledVisitDto {

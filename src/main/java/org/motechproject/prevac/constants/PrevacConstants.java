@@ -18,6 +18,8 @@ public final class PrevacConstants {
     public static final int EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE = 14;
     public static final int LATEST_DATE = 28;
 
+    public static final String CSV_EXPORT_FORMAT = "csv";
+
     public static final Map<String, Float> REPORT_COLUMN_WIDTHS = new LinkedHashMap<String, Float>() {
         {
             put("Participant Id", 64f); //NO CHECKSTYLE MagicNumber
@@ -35,6 +37,7 @@ public final class PrevacConstants {
     public static final String UNSCHEDULED_VISITS_TAB_PERMISSION = "unscheduledVisitsTab";
     public static final String CAPACITY_INFO_TAB_PERMISSION = "prevacCapacityInfoTab";
     public static final String REPORTS_TAB_PERMISSION = "prevacReportsTab";
+    public static final String SUBJECTS_TAB_PERMISSION = "prevacSubjectsTab";
 
     public static final String HAS_SCREENING_TAB_ROLE = "hasRole('" + SCREENING_TAB_PERMISSION + "')";
     public static final String HAS_PRIME_VAC_TAB_ROLE = "hasRole('" + PRIME_VAC_TAB_PERMISSION + "')";
@@ -44,6 +47,7 @@ public final class PrevacConstants {
     public static final String HAS_UNSCHEDULED_VISITS_TAB_ROLE = "hasRole('" + UNSCHEDULED_VISITS_TAB_PERMISSION + "')";
     public static final String HAS_CAPACITY_INFO_TAB_ROLE = "hasRole('" + CAPACITY_INFO_TAB_PERMISSION + "')";
     public static final String HAS_REPORTS_TAB_ROLE = "hasRole('" + REPORTS_TAB_PERMISSION + "')";
+    public static final String HAS_SUBJECTS_TAB_ROLE = "hasRole('" + SUBJECTS_TAB_PERMISSION + "')";
 
     public static final String SCREENING_NAME = "Screening";
     public static final String PRIME_VACCINATION_SCHEDULE_NAME = "PrimeVaccinationSchedule";

@@ -17,6 +17,7 @@ import static org.motechproject.prevac.constants.PrevacConstants.CLINIC_VISIT_SC
 import static org.motechproject.prevac.constants.PrevacConstants.PRIME_VAC_TAB_PERMISSION;
 import static org.motechproject.prevac.constants.PrevacConstants.REPORTS_TAB_PERMISSION;
 import static org.motechproject.prevac.constants.PrevacConstants.SCREENING_TAB_PERMISSION;
+import static org.motechproject.prevac.constants.PrevacConstants.SUBJECTS_TAB_PERMISSION;
 import static org.motechproject.prevac.constants.PrevacConstants.UNSCHEDULED_VISITS_TAB_PERMISSION;
 import static org.motechproject.prevac.constants.PrevacConstants.VISIT_RESCHEDULE_TAB_PERMISSION;
 
@@ -31,6 +32,10 @@ public class TabAccessController {
 
         if (auth.getAuthorities().contains(new SimpleGrantedAuthority(CAPACITY_INFO_TAB_PERMISSION))) {
             availableTabs.add("capacityInfo");
+        }
+
+        if (auth.getAuthorities().contains(new SimpleGrantedAuthority(SUBJECTS_TAB_PERMISSION))) {
+            availableTabs.add("subjects");
         }
 
         if (auth.getAuthorities().contains(new SimpleGrantedAuthority(SCREENING_TAB_PERMISSION))) {

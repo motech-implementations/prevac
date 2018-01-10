@@ -12,11 +12,11 @@ import org.motechproject.mds.annotations.EnumDisplayName;
 import org.motechproject.mds.annotations.Field;
 import org.motechproject.mds.annotations.NonEditable;
 import org.motechproject.prevac.domain.enums.VisitType;
-import org.motechproject.prevac.util.CustomDateDeserializer;
-import org.motechproject.prevac.util.CustomDateSerializer;
-import org.motechproject.prevac.util.CustomSubjectSerializer;
-import org.motechproject.prevac.util.CustomVisitTypeDeserializer;
-import org.motechproject.prevac.util.CustomVisitTypeSerializer;
+import org.motechproject.prevac.util.serializer.CustomDateDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateSerializer;
+import org.motechproject.prevac.util.serializer.CustomSubjectSerializer;
+import org.motechproject.prevac.util.serializer.CustomVisitTypeDeserializer;
+import org.motechproject.prevac.util.serializer.CustomVisitTypeSerializer;
 
 @Entity(recordHistory = true, maxFetchDepth = 2)
 @NoArgsConstructor
@@ -95,4 +95,11 @@ public class Visit {
     @Getter
     @Setter
     private Boolean ignoreDateLimitation = false;
+
+    @Override
+    public String toString() {
+        return type.getDisplayValue() +
+                (getDateProjected() != null ? " / Planned Date: " + getDateProjected().toString() : "") +
+                (getDate() != null ? " / Actual Date: " + getDate().toString() : "");
+    }
 }

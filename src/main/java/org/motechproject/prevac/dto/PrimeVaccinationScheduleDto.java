@@ -11,11 +11,11 @@ import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.enums.Gender;
 import org.motechproject.prevac.domain.enums.VisitType;
-import org.motechproject.prevac.util.CustomBooleanDeserializer;
-import org.motechproject.prevac.util.CustomBooleanSerializer;
-import org.motechproject.prevac.util.CustomDateDeserializer;
-import org.motechproject.prevac.util.CustomDateSerializer;
-import org.motechproject.prevac.util.CustomTimeSerializer;
+import org.motechproject.prevac.util.serializer.CustomBooleanDeserializer;
+import org.motechproject.prevac.util.serializer.CustomBooleanSerializer;
+import org.motechproject.prevac.util.serializer.CustomDateDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateSerializer;
+import org.motechproject.prevac.util.serializer.CustomTimeSerializer;
 
 @NoArgsConstructor
 public class PrimeVaccinationScheduleDto {

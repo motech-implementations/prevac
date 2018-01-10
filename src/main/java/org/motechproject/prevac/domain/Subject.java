@@ -16,15 +16,16 @@ import org.motechproject.mds.annotations.NonEditable;
 import org.motechproject.mds.annotations.UIDisplayable;
 import org.motechproject.prevac.domain.enums.Gender;
 import org.motechproject.prevac.domain.enums.Language;
-import org.motechproject.prevac.util.CustomDateDeserializer;
-import org.motechproject.prevac.util.CustomDateSerializer;
-import org.motechproject.prevac.util.CustomDateTimeDeserializer;
-import org.motechproject.prevac.util.CustomDateTimeSerializer;
-import org.motechproject.prevac.util.CustomVisitListDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateSerializer;
+import org.motechproject.prevac.util.serializer.CustomDateTimeDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateTimeSerializer;
+import org.motechproject.prevac.util.serializer.CustomVisitListDeserializer;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Unique;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import java.util.List;
 @Entity(recordHistory = true, name = "Participant")
 @NoArgsConstructor
 public class Subject {
+    public static final String SUBJECT_ID_FIELD_NAME = "subjectId";
 
     private static final String SUBJECT_ID_FIELD_DISPLAY_NAME = "Participant Id";
 
@@ -56,6 +58,8 @@ public class Subject {
     private String name;
 
     @UIDisplayable(position = 4)
+    @Column(length = 20)
+    @Pattern(regexp = "^[0-9\\s]*$")
     @Field
     @Getter
     @Setter
@@ -133,6 +137,7 @@ public class Subject {
      * Other fields
      */
 
+    @NonEditable(display = false)
     @Field
     @Getter
     @Setter

@@ -64,4 +64,6 @@
     <osgi:reference id="entityService" interface="org.motechproject.mds.service.EntityService"/>
 
     <osgi:reference id="mdsLookupServiceImpl" interface="org.motechproject.mds.service.MDSLookupService" />
+
+    <osgi:reference id="csvImportExportService" interface="org.motechproject.mds.service.CsvImportExportService" />
 </beans>
