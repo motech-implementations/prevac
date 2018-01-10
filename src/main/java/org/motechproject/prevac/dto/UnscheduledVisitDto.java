@@ -46,7 +46,7 @@ public class UnscheduledVisitDto {
         setId(unscheduledVisit.getId().toString());
         setParticipantId(unscheduledVisit.getSubject().getSubjectId());
         if (unscheduledVisit.getClinic() != null) {
-            setClinicName(unscheduledVisit.getSubject().getSiteName());
+            setClinicName(unscheduledVisit.getClinic().getLocation());
         }
         setDate(unscheduledVisit.getDate());
         setStartTime(unscheduledVisit.getStartTime());

@@ -109,7 +109,7 @@ public class VisitRescheduleDto {
             setIgnoreDateLimitation(false);
         }
         if (details.getClinic() != null) {
-            setLocation(details.getSubject().getSiteName());
+            setLocation(details.getClinic().getLocation());
         }
     }
 

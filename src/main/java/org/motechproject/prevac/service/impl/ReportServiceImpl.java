@@ -52,8 +52,8 @@ public class ReportServiceImpl implements ReportService {
         if (dateRange != null) {
             for (LocalDate date = dateRange.getMin(); !date.isAfter(dateRange.getMax()); date = date.plusDays(1)) {
                 for (Clinic clinic : clinics) {
-                    int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndBookingPlannedDate(clinic.getId(), date);
-                    int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndBookingPlannedDate(clinic.getId(),
+                    int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndPlannedVisitDate(clinic.getId(), date);
+                    int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndPlannedVisitDate(clinic.getId(),
                             VisitType.PRIME_VACCINATION_DAY, date);
                     int screeningCount = (int) screeningDataService.countFindByClinicIdAndDateAndStatus(clinic.getId(), date, ScreeningStatus.ACTIVE);
                     int unscheduledCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDate(clinic.getId(), date);

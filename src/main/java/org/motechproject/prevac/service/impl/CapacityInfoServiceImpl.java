@@ -55,8 +55,8 @@ public class CapacityInfoServiceImpl implements CapacityInfoService {
             numberOfDays = numberOfDays < 0 ? 0 : numberOfDays;
 
             for (Clinic clinic : clinics) {
-                int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndBookingPlannedDateRange(clinic.getId(), dateRange);
-                int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndBookingPlannedDateRange(clinic.getId(),
+                int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndPlannedVisitDateRange(clinic.getId(), dateRange);
+                int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndPlannedVisitDateRange(clinic.getId(),
                         VisitType.PRIME_VACCINATION_DAY, dateRange);
                 int screeningCount = (int) screeningDataService.countFindByClinicIdAndDateRangeAndStatus(clinic.getId(), dateRange, ScreeningStatus.ACTIVE);
                 int unscheduledCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDateRange(clinic.getId(), dateRange);

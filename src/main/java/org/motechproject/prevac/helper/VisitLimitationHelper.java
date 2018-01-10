@@ -31,17 +31,17 @@ public class VisitLimitationHelper {
         checkCapacity(date, clinic, id, null, null);
     }
 
-    public void checkCapacityForVisitBookingDetails(LocalDate date, Clinic clinic, Long id) {
+    public void checkCapacityForVisit(LocalDate date, Clinic clinic, Long id) {
         checkCapacity(date, clinic, null, null, id);
     }
 
-    private void checkCapacity(LocalDate date, Clinic clinic, Long screeningId, Long unscheduledVisitId, Long visitBookingDetailsId) {
+    private void checkCapacity(LocalDate date, Clinic clinic, Long screeningId, Long unscheduledVisitId, Long visitId) {
         if (clinic != null && date != null) {
             int screeningCount = (int) screeningDataService.countFindByClinicIdDateAndScreeningIdAndStatus(date, clinic.getId(), screeningId, ScreeningStatus.ACTIVE);
             int unscheduledVisitCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDateAndVisitId(date, clinic.getId(), unscheduledVisitId);
-            int visitBookingDetailsCount = (int) visitBookingDetailsDataService.countFindByBookingPlannedDateAndClinicIdAndVisitId(date, clinic.getId(), visitBookingDetailsId);
-            int visitCount = screeningCount + visitBookingDetailsCount + unscheduledVisitCount;
-            if (visitCount >= clinic.getMaxCapacityByDay()) {
+            int visitCount = (int) visitBookingDetailsDataService.countFindByVisitPlannedDateAndClinicIdAndVisitId(date, clinic.getId(), visitId);
+            int totalVisitCount = screeningCount + visitCount + unscheduledVisitCount;
+            if (totalVisitCount >= clinic.getMaxCapacityByDay()) {
                 throw new LimitationExceededException("The clinic capacity limit for this day has been reached");
             }
         }
@@ -66,7 +66,7 @@ public class VisitLimitationHelper {
             case SIX_MONTHS_POST_PRIME_VISIT:
                 return clinic.getMaxSixMonthsPostPrimeVisits();
             case TWELVE_MONTHS_POST_PRIME_VISIT:
-                return clinic.getMaxTwelveMonthsPostPrimeVisit();
+                return clinic.getMaxTwelveMonthsPostPrimeVisits();
             case TWENTY_FOUR_MONTHS_POST_PRIME_VISIT:
                 return clinic.getMaxTwentyFourMonthsPostPrimeVisits();
             case THIRTY_SIX_MONTHS_POST_PRIME_VISIT:

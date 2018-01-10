@@ -30,13 +30,13 @@ public interface VisitBookingDetailsDataService extends MotechDataService<Visit>
             @LookupField(name = "type") VisitType type);
 
     @Lookup
-    List<Visit> findByBookingPlannedDateAndClinicIdAndVisitId(
-            @LookupField(name = "bookingPlannedDate", customOperator = Constants.Operators.EQ) LocalDate bookingPlannedDate,
+    List<Visit> findByVisitPlannedDateAndClinicIdAndVisitId(
+            @LookupField(name = "dateProjected", customOperator = Constants.Operators.EQ) LocalDate plannedDate,
             @LookupField(name = "clinic.id") Long clinicId,
             @LookupField(name = "id", customOperator = Constants.Operators.NEQ) Long id);
 
-    long countFindByBookingPlannedDateAndClinicIdAndVisitId(
-            @LookupField(name = "bookingPlannedDate", customOperator = Constants.Operators.EQ) LocalDate bookingPlannedDate,
+    long countFindByVisitPlannedDateAndClinicIdAndVisitId(
+            @LookupField(name = "dateProjected", customOperator = Constants.Operators.EQ) LocalDate plannedDate,
             @LookupField(name = "clinic.id") Long clinicId,
             @LookupField(name = "id", customOperator = Constants.Operators.NEQ) Long id);
 
@@ -47,43 +47,43 @@ public interface VisitBookingDetailsDataService extends MotechDataService<Visit>
             @LookupField(name = "type") VisitType type);
 
     @Lookup
-    List<Visit> findByClinicIdAndBookingPlannedDateRange(
+    List<Visit> findByClinicIdAndPlannedVisitDateRange(
             @LookupField(name = "clinic.id") Long clinicId,
-            @LookupField(name = "bookingPlannedDate") Range<LocalDate> date);
+            @LookupField(name = "dateProjected") Range<LocalDate> date);
 
-    long countFindByClinicIdAndBookingPlannedDateRange(
+    long countFindByClinicIdAndPlannedVisitDateRange(
             @LookupField(name = "clinic.id") Long clinicId,
-            @LookupField(name = "bookingPlannedDate") Range<LocalDate> date);
+            @LookupField(name = "dateProjected") Range<LocalDate> date);
 
     @Lookup
-    List<Visit> findByClinicIdVisitTypeAndBookingPlannedDateRange(
+    List<Visit> findByClinicIdVisitTypeAndPlannedVisitDateRange(
             @LookupField(name = "clinic.id") Long clinicId,
             @LookupField(name = "type") VisitType type,
-            @LookupField(name = "bookingPlannedDate") Range<LocalDate> date);
+            @LookupField(name = "dateProjected") Range<LocalDate> date);
 
-    long countFindByClinicIdVisitTypeAndBookingPlannedDateRange(
+    long countFindByClinicIdVisitTypeAndPlannedVisitDateRange(
             @LookupField(name = "clinic.id") Long clinicId,
             @LookupField(name = "type") VisitType type,
             @LookupField(name = "dateProjected") Range<LocalDate> date);
 
     @Lookup
-    List<Visit> findByClinicIdAndBookingPlannedDate(
+    List<Visit> findByClinicIdAndPlannedVisitDate(
             @LookupField(name = "clinic.id") Long clinicId,
-            @LookupField(name = "bookingPlannedDate") LocalDate date);
+            @LookupField(name = "dateProjected") LocalDate date);
 
-    long countFindByClinicIdAndBookingPlannedDate(@LookupField(name = "clinic.id") Long clinicId,
-                                                  @LookupField(name = "bookingPlannedDate") LocalDate date);
+    long countFindByClinicIdAndPlannedVisitDate(@LookupField(name = "clinic.id") Long clinicId,
+                                                @LookupField(name = "dateProjected") LocalDate date);
 
     @Lookup
-    List<Visit> findByClinicIdVisitTypeAndBookingPlannedDate(
+    List<Visit> findByClinicIdVisitTypeAndPlannedVisitDate(
             @LookupField(name = "clinic.id") Long clinicId,
             @LookupField(name = "type") VisitType type,
-            @LookupField(name = "bookingPlannedDate") LocalDate date);
+            @LookupField(name = "dateProjected") LocalDate date);
 
-    long countFindByClinicIdVisitTypeAndBookingPlannedDate(
+    long countFindByClinicIdVisitTypeAndPlannedVisitDate(
             @LookupField(name = "clinic.id") Long clinicId,
             @LookupField(name = "type") VisitType type,
-            @LookupField(name = "bookingPlannedDate") LocalDate date);
+            @LookupField(name = "dateProjected") LocalDate date);
 
     @Lookup
     List<Visit> findByExactParticipantSiteId(

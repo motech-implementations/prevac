@@ -33,7 +33,7 @@ public class Clinic {
     private String location;
 
     @UIDisplayable(position = 6)
-    @Field(displayName = "Amount of Rooms", required = true, defaultValue = "1")
+    @Field(displayName = "Amount of Rooms")
     @Getter
     @Setter
     private Integer numberOfRooms;
@@ -102,7 +102,7 @@ public class Clinic {
     @Field(required = true, defaultValue = "20")
     @Getter
     @Setter
-    private Integer maxTwelveMonthsPostPrimeVisit;
+    private Integer maxTwelveMonthsPostPrimeVisits;
 
     @UIDisplayable(position = 14)
     @Field(required = true, defaultValue = "20")
