@@ -47,6 +47,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang.CharEncoding.UTF_8;
+import static org.motechproject.prevac.constants.PrevacConstants.APPLICATION_PDF_CONTENT;
+import static org.motechproject.prevac.constants.PrevacConstants.TEXT_CSV_CONTENT;
 
 @Controller
 public class InstanceController {
@@ -109,9 +111,9 @@ public class InstanceController {
         final String fileName = entityName + "_" + DateTime.now().toString(dateTimeFormatter);
 
         if (Constants.ExportFormat.PDF.equals(outputFormat)) {
-            response.setContentType("application/pdf");
+            response.setContentType(APPLICATION_PDF_CONTENT);
         } else {
-            response.setContentType("text/csv");
+            response.setContentType(TEXT_CSV_CONTENT);
         }
         response.setCharacterEncoding(UTF_8);
         response.setHeader(
@@ -122,12 +124,12 @@ public class InstanceController {
                 QueryParamsBuilder.buildOrderList(settings, getFields(settings)));
 
         if (Constants.ExportFormat.PDF.equals(outputFormat)) {
-            response.setContentType("application/pdf");
+            response.setContentType(APPLICATION_PDF_CONTENT);
 
             csvImportExportService.exportPdf(entityId, response.getOutputStream(), settings.getLookup(), queryParams,
                     settings.getSelectedFields(), getFields(settings));
         } else if (PrevacConstants.CSV_EXPORT_FORMAT.equals(outputFormat)) {
-            response.setContentType("text/csv");
+            response.setContentType(TEXT_CSV_CONTENT);
 
             csvImportExportService.exportCsv(entityId, response.getWriter(), settings.getLookup(), queryParams,
                     settings.getSelectedFields(), getFields(settings));

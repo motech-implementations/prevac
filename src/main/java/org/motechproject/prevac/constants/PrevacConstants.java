@@ -20,6 +20,9 @@ public final class PrevacConstants {
 
     public static final String CSV_EXPORT_FORMAT = "csv";
 
+    public static final String TEXT_CSV_CONTENT = "text/csv";
+    public static final String APPLICATION_PDF_CONTENT = "application/pdf";
+
     public static final Map<String, Float> REPORT_COLUMN_WIDTHS = new LinkedHashMap<String, Float>() {
         {
             put("Participant Id", 64f); //NO CHECKSTYLE MagicNumber
