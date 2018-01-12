@@ -1184,6 +1184,10 @@
             return $scope.checkSubject() && $scope.primeVac.date !== undefined && $scope.primeVac.date !== null && $scope.primeVac.date !== "";
         }
 
+        $scope.setPrimeVacDateToCurrentDate = function () {
+            $scope.primeVac.date = $scope.dateToString(new Date);
+        }
+
     });
 
     controllers.controller('PrevacRescheduleCtrl', function ($scope, $http, $timeout, $filter) {
