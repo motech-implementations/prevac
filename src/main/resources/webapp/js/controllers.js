@@ -1053,15 +1053,19 @@
                     motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
                 });
             }
-        }
+        };
 
         $scope.$watch('primeVac.date', function(newVal, oldVal) {
             if ($scope.checkSubject()) {
                 $http.get('../prevac/schedule/getPlannedDates/' + $scope.selectedSubject.subjectId + '/' + newVal)
                 .success(function(data) {
                     $scope.visitPlannedDates = data;
-                    var nextVisitDate = $scope.dateToString($scope.findNextVisitDate());
-                    $scope.nextVisit = $scope.getKeyForMapValue($scope.visitPlannedDates, nextVisitDate) + ": " + nextVisitDate;
+                    var nextVisit = $scope.findNextVisit();
+                    if (nextVisit === null) {
+                        $scope.nextVisit = '';
+                    } else {
+                         $scope.nextVisit = nextVisit + ": " + $scope.visitPlannedDates[nextVisit];
+                    }
                 })
                 .error(function(response) {
                     motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
@@ -1093,7 +1097,7 @@
                     }
                 }
             });
-        }
+        };
 
         $scope.saveVisits = function () {
             if ($scope.checkSubjectAndPrimeVacDate()) {
@@ -1105,47 +1109,34 @@
                         motechAlert('prevac.schedule.plannedDates.save.error', 'prevac.schedule.error', response);
                     });
             }
-        }
+        };
 
         $scope.setPrintData = function(document) {
 
             $('#versionDate', document).html($filter('date')(new Date(), $scope.cardDateTimeFormat));
             $('#subjectId', document).html($scope.selectedSubject.subjectId);
             $('#subjectName', document).html($scope.selectedSubject.name);
-            $('#nextVisit', document).html($filter('date')($scope.findNextVisitDate(), $scope.cardDateFormat));
+            $('#nextVisit', document).html($filter('date')($scope.parseDate($scope.visitPlannedDates[$scope.findNextVisit()]), $scope.cardDateFormat));
             $('#location', document).html($scope.selectedSubject.siteName);
         };
 
 
-        $scope.findNextVisitDate = function () {
+        $scope.findNextVisit = function () {
             var currentDate = new Date();
             var nextVisitDate = null;
+            var nextVisit = null;
+
             for (var key in $scope.visitPlannedDates) {
                 if ($scope.visitPlannedDates.hasOwnProperty(key)) {
                     var visitDate = $scope.parseDate($scope.visitPlannedDates[key]);
-                    if (currentDate <= visitDate && (nextVisitDate == null || visitDate < nextVisitDate)) {
+                    if (currentDate <= visitDate && (nextVisitDate === null || visitDate < nextVisitDate)) {
                         nextVisitDate = visitDate;
+                        nextVisit = key;
                     }
                 }
             }
-            return nextVisitDate;
-        };
 
-        $scope.getKeyForMapValue = function (map, value) {
-            for (var key in map) {
-                if (map.hasOwnProperty(key) && map[key] === value) {
-                    return key;
-                }
-            }
-        };
-
-        $scope.dateToString = function (date) {
-            var mm = date.getMonth() + 1;
-            var dd = date.getDate();
-
-            return [date.getFullYear(),
-                (mm > 9 ? '' : '0') + mm,
-                (dd > 9 ? '' : '0') + dd].join('-');
+            return nextVisit;
         };
 
         $scope.print = function() {
@@ -1174,20 +1165,19 @@
 
         $scope.cancel = function() {
             $scope.subjectChanged();
-        }
+        };
 
         $scope.checkSubject = function() {
             return $scope.selectedSubject !== undefined && $scope.selectedSubject !== null && $scope.selectedSubject.subjectId !== undefined;
-        }
+        };
 
         $scope.checkSubjectAndPrimeVacDate = function() {
             return $scope.checkSubject() && $scope.primeVac.date !== undefined && $scope.primeVac.date !== null && $scope.primeVac.date !== "";
-        }
+        };
 
         $scope.setPrimeVacDateToCurrentDate = function () {
-            $scope.primeVac.date = $scope.dateToString(new Date);
-        }
-
+            $scope.primeVac.date = $filter('date')(new Date(), "yyyy-MM-dd");
+        };
     });
 
     controllers.controller('PrevacRescheduleCtrl', function ($scope, $http, $timeout, $filter) {
