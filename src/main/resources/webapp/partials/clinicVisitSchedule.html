@@ -19,10 +19,7 @@
             <td class="col-md-2">
                 {{selectedSubject.name}}
             </td>
-            <td id="primeVacDate" ng-if="selectedSubject.primerVaccinationDate" class="col-md-2">
-                {{primeVac.date}}
-            </td>
-            <td ng-if="!selectedSubject.primerVaccinationDate" class="col-md-2">
+            <td class="col-md-2">
                 <input type="text" id="primeVacDateInput" class="form-control datepicker" readonly='true' prevac-date-picker min="dateRange.min" max="dateRange.max" ng-model="primeVac.date">
             </td>
             <td id="primeVacFirstFollowUp" class="col-md-2">
@@ -32,7 +29,7 @@
         </tbody>
     </table>
 
-    <button id="saveBtn" ng-if="!selectedSubject.primerVaccinationDate" type="button" class="btn btn-success" ng-disabled="!checkSubjectAndPrimeVacDate()" ng-click="save()">
+    <button id="saveBtn" type="button" class="btn btn-success" ng-disabled="!checkSubjectAndPrimeVacDate()" ng-click="save()">
         <i class="fa fa-fw fa-save"></i> {{msg('prevac.schedule.save')}}
     </button>
 
@@ -40,7 +37,7 @@
         <i class="fa fa-fw fa-print"></i> {{msg('prevac.schedule.print')}}
     </button>
 
-    <button id="cancelBtn" type="button" class="btn btn-default" ng-if="!selectedSubject.primerVaccinationDate" ng-click="cancel()">
+    <button id="cancelBtn" type="button" class="btn btn-default" ng-click="cancel()">
         {{msg('prevac.schedule.cancel')}}
     </button>
 

@@ -110,10 +110,6 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
     public void savePlannedVisitDates(String subjectId, LocalDate primeVaccinationDate) {
         Subject subject = subjectDataService.findBySubjectId(subjectId);
 
-        if (subject.getPrimerVaccinationDate() != null) {
-            throw new VisitScheduleException(String.format("Cannot save Planned Dates, because Participant with Id: %s has been vaccinated", subjectId));
-        }
-
         List<Visit> visits = subject.getVisits();
 
         if (visits == null || visits.isEmpty()) {
