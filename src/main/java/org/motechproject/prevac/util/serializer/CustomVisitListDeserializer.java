@@ -1,4 +1,4 @@
-package org.motechproject.prevac.util;
+package org.motechproject.prevac.util.serializer;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;

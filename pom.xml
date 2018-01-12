@@ -196,6 +196,12 @@
       <artifactId>motech-platform-server-config</artifactId>
       <version>${motech.version}</version>
     </dependency>
+    <!-- Scheduler -->
+    <dependency>
+      <groupId>org.motechproject</groupId>
+      <artifactId>motech-scheduler</artifactId>
+      <version>0.27.7</version>
+    </dependency>
     <!-- Others -->
     <dependency>
       <groupId>com.google.guava</groupId>

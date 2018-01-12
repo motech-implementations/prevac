@@ -96,7 +96,6 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     @Override
     public ScreeningDto getScreeningById(Long id) {
-//        return new ScreeningDto(screeningDataService.findById(id));
         return ScreeningMapper.INSTANCE.toDto(screeningDataService.findById(id));
     }
 

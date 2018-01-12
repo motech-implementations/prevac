@@ -11,11 +11,11 @@ import org.motechproject.commons.api.Range;
 import org.motechproject.commons.date.model.Time;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.enums.VisitType;
-import org.motechproject.prevac.util.CustomDateDeserializer;
-import org.motechproject.prevac.util.CustomDateSerializer;
-import org.motechproject.prevac.util.CustomTimeSerializer;
-import org.motechproject.prevac.util.CustomVisitTypeDeserializer;
-import org.motechproject.prevac.util.CustomVisitTypeSerializer;
+import org.motechproject.prevac.util.serializer.CustomDateDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateSerializer;
+import org.motechproject.prevac.util.serializer.CustomTimeSerializer;
+import org.motechproject.prevac.util.serializer.CustomVisitTypeDeserializer;
+import org.motechproject.prevac.util.serializer.CustomVisitTypeSerializer;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor

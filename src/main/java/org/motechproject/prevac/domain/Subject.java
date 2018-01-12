@@ -16,15 +16,16 @@ import org.motechproject.mds.annotations.NonEditable;
 import org.motechproject.mds.annotations.UIDisplayable;
 import org.motechproject.prevac.domain.enums.Gender;
 import org.motechproject.prevac.domain.enums.Language;
-import org.motechproject.prevac.util.CustomDateDeserializer;
-import org.motechproject.prevac.util.CustomDateSerializer;
-import org.motechproject.prevac.util.CustomDateTimeDeserializer;
-import org.motechproject.prevac.util.CustomDateTimeSerializer;
-import org.motechproject.prevac.util.CustomVisitListDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateSerializer;
+import org.motechproject.prevac.util.serializer.CustomDateTimeDeserializer;
+import org.motechproject.prevac.util.serializer.CustomDateTimeSerializer;
+import org.motechproject.prevac.util.serializer.CustomVisitListDeserializer;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Unique;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import java.util.List;
 @Entity(recordHistory = true, name = "Participant")
 @NoArgsConstructor
 public class Subject {
+    public static final String SUBJECT_ID_FIELD_NAME = "subjectId";
 
     private static final String SUBJECT_ID_FIELD_DISPLAY_NAME = "Participant Id";
 
@@ -55,19 +57,28 @@ public class Subject {
     @Setter
     private String name;
 
-    @UIDisplayable(position = 4)
+    @UIDisplayable(position = 2)
+    @Column(length = 20)
+    @Pattern(regexp = "^[0-9\\s]*$")
     @Field
     @Getter
     @Setter
     private String phoneNumber;
 
-    @UIDisplayable(position = 5)
+    @UIDisplayable(position = 3)
     @Field
     @Getter
     @Setter
     private String address;
 
-    @UIDisplayable(position = 7)
+    @NonEditable
+    @UIDisplayable(position = 4)
+    @Field(required = true)
+    @Getter
+    @Setter
+    private Gender gender;
+
+    @UIDisplayable(position = 5)
     @Column(length = 20)
     @Field(required = true)
     @Getter
@@ -75,20 +86,20 @@ public class Subject {
     private Language language;
 
     @NonEditable
-    @UIDisplayable(position = 8)
-    @Field
+    @UIDisplayable(position = 6)
+    @Field(required = true)
     @Getter
     @Setter
     private String siteId;
 
     @NonEditable
-    @UIDisplayable(position = 9)
+    @UIDisplayable(position = 7)
     @Field(required = true)
     @Getter
     @Setter
     private String siteName;
 
-    @UIDisplayable(position = 10)
+    @UIDisplayable(position = 8)
     @Field
     @Getter
     @Setter
@@ -112,18 +123,13 @@ public class Subject {
     @Setter
     private String district;
 
-    @NonEditable
-    @UIDisplayable(position = 6)
-    @Field(required = true)
-    @Getter
-    @Setter
-    private Gender gender;
-
+    @UIDisplayable(position = 9)
     @Field(required = true)
     @Getter
     @Setter
     private Integer age;
 
+    @UIDisplayable(position = 10)
     @Field
     @Getter
     @Setter
@@ -133,11 +139,7 @@ public class Subject {
      * Other fields
      */
 
-    @Field
-    @Getter
-    @Setter
-    private Boolean femaleChildBearingAge;
-
+    @UIDisplayable(position = 11)
     @JsonDeserialize(using = CustomVisitListDeserializer.class)
     @Field
     @Persistent(mappedBy = "subject")
@@ -146,14 +148,7 @@ public class Subject {
     @Setter
     private List<Visit> visits = new ArrayList<>();
 
-    @JsonSerialize(using = CustomDateSerializer.class)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @NonEditable
-    @Field
-    @Getter
-    @Setter
-    private LocalDate dateOfBirth;
-
+    @UIDisplayable(position = 12)
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeserializer.class)
     @NonEditable
@@ -162,6 +157,7 @@ public class Subject {
     @Setter
     private LocalDate primerVaccinationDate;
 
+    @UIDisplayable(position = 13)
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeserializer.class)
     @NonEditable
@@ -170,21 +166,22 @@ public class Subject {
     @Setter
     private LocalDate boosterVaccinationDate;
 
-    @JsonSerialize(using = CustomDateSerializer.class)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @NonEditable
-    @Field(displayName = "Date of Discontinuation Vac.")
+    @Field(defaultValue = "false")
     @Getter
     @Setter
-    private LocalDate dateOfDisconVac;
+    private boolean changed;
 
-    @JsonSerialize(using = CustomDateSerializer.class)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
-    @NonEditable
-    @Field(displayName = "Withdrawal Date")
+    @NonEditable(display = false)
+    @Field
     @Getter
     @Setter
-    private LocalDate dateOfDisconStd;
+    private Boolean femaleChildBearingAge;
+
+    @NonEditable(display = false)
+    @Field
+    @Getter
+    @Setter
+    private Integer yearOfBirth;
 
     /**
      * Motech internal fields
@@ -193,11 +190,6 @@ public class Subject {
     @Getter
     @Setter
     private Long id;
-
-    @Field(defaultValue = "false")
-    @Getter
-    @Setter
-    private boolean changed;
 
     @NonEditable(display = false)
     @Field

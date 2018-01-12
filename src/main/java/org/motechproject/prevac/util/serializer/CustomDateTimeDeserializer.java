@@ -1,4 +1,4 @@
-package org.motechproject.prevac.util;
+package org.motechproject.prevac.util.serializer;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;

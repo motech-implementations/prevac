@@ -49,6 +49,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang.CharEncoding.UTF_8;
+import static org.motechproject.prevac.constants.PrevacConstants.APPLICATION_PDF_CONTENT;
+import static org.motechproject.prevac.constants.PrevacConstants.TEXT_CSV_CONTENT;
 
 @Controller
 public class ExportController {
@@ -197,9 +199,9 @@ public class ExportController {
         final String fileName = fileNameBeginning + "_" + DateTime.now().toString(dateTimeFormatter);
 
         if (PDF_EXPORT_FORMAT.equals(outputFormat)) {
-            response.setContentType("application/pdf");
+            response.setContentType(APPLICATION_PDF_CONTENT);
         } else if (CSV_EXPORT_FORMAT.equals(outputFormat)) {
-            response.setContentType("text/csv");
+            response.setContentType(TEXT_CSV_CONTENT);
         } else if (XLS_EXPORT_FORMAT.equals(outputFormat)) {
             response.setContentType("application/vnd.ms-excel");
         } else {

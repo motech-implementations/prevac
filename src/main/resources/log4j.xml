@@ -10,6 +10,10 @@
         </layout>
     </appender>
 
+    <logger name="org.motechproject.prevac.service.impl.ZetesServiceImpl">
+        <level value="INFO"/>
+    </logger>
+
     <logger name="org.motechproject.prevac.web.ZetesController">
         <level value="WARN"/>
     </logger>

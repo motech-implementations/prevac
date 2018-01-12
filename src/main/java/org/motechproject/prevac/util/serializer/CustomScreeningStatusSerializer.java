@@ -1,4 +1,4 @@
-package org.motechproject.prevac.util;
+package org.motechproject.prevac.util.serializer;
 
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
