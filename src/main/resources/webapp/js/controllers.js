@@ -1112,7 +1112,7 @@
             $('#versionDate', document).html($filter('date')(new Date(), $scope.cardDateTimeFormat));
             $('#subjectId', document).html($scope.selectedSubject.subjectId);
             $('#subjectName', document).html($scope.selectedSubject.name);
-            $('#primeVacFirstFollowup', document).html($filter('date')($scope.findNextVisitDate(), $scope.cardDateFormat));
+            $('#nextVisit', document).html($filter('date')($scope.findNextVisitDate(), $scope.cardDateFormat));
             $('#location', document).html($scope.selectedSubject.siteName);
         };
 
@@ -1121,8 +1121,8 @@
             var currentDate = new Date();
             var nextVisitDate = null;
             for (var key in $scope.visitPlannedDates) {
-                var visitDate = $scope.parseDate($scope.visitPlannedDates[key]);
                 if ($scope.visitPlannedDates.hasOwnProperty(key)) {
+                    var visitDate = $scope.parseDate($scope.visitPlannedDates[key]);
                     if (currentDate <= visitDate && (nextVisitDate == null || visitDate < nextVisitDate)) {
                         nextVisitDate = visitDate;
                     }

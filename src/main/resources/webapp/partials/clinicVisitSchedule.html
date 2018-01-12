@@ -6,7 +6,7 @@
             <th>{{msg('prevac.schedule.subjectId')}}</th>
             <th>{{msg('prevac.schedule.subjectName')}}</th>
             <th>{{msg('prevac.schedule.primeVac')}}</th>
-            <th>{{msg('prevac.schedule.primeVacFirstFollowup')}}</th>
+            <th>{{msg('prevac.schedule.nextVisit')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -22,8 +22,8 @@
             <td class="col-md-2">
                 <input type="text" id="primeVacDateInput" class="form-control datepicker" readonly='true' prevac-date-picker min="dateRange.min" max="dateRange.max" ng-model="primeVac.date">
             </td>
-            <td id="primeVacFirstFollowUp" class="col-md-2">
-                {{nextVisit }}
+            <td id="nextVisit" class="col-md-2">
+                {{nextVisit}}
             </td>
         </tr>
         </tbody>
