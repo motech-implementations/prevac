@@ -655,6 +655,13 @@
             $scope.form = {};
             $scope.form.type = type;
             $scope.form.dto = {};
+            if ($scope.clinics.length === 1) {
+                $scope.form.dto.clinic = $scope.clinics[0];
+            }
+        };
+
+        $scope.showClinicDropdown = function () {
+          return $scope.clinics.length > 1;
         };
 
         $scope.reloadSelects = function() {

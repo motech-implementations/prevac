@@ -24,11 +24,12 @@
                     </div>
                     <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.location')}}</span>
-                        <select class="form-control" ui-select2 id="clinicSelect" ng-model="form.dto.clinicId">
+                        <select class="form-control" ui-select2 id="clinicSelect" ng-if="showClinicDropdown()" ng-model="form.dto.clinic">
                             <option ng-hide="form.dto.clinicId" value="">{{'- ' + msg('prevac.choose') + ' -'}}</option>
-                            <option ng-repeat="clinic in clinics" value="{{clinic.id}}" ng-selected="{{clinic.id == form.dto.clinicId}}">{{clinic.location}}</option>
+                            <option ng-repeat="clinic in clinics" value="{{clinic.id}}" ng-selected="{{clinic.id == form.dto.clinic.id}}">{{clinic.location}}</option>
                         </select>
-                        <span class="input-group-addon validator" ng-class="{'alert-success': form.dto.clinicId}"><i class="fa fa-fw fa-check"></i></span>
+                        <input id="clinicLocation" type="text" ng-if="!showClinicDropdown()" class="form-control" ng-model="form.dto.clinic.location" readonly="true">
+                        <span class="input-group-addon validator" ng-if="showClinicDropdown()" ng-class="{'alert-success': form.dto.clinicId}"><i class="fa fa-fw fa-check"></i></span>
                     </div>
                     <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.screening.contactNumber')}}</span>
