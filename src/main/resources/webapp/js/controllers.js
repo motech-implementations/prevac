@@ -1030,6 +1030,7 @@
         $scope.selectedSubject = {};
         $scope.primeVac = {};
         $scope.visitPlannedDates = {};
+        $scope.nextVisit = "";
 
         $http.get('../prevac/schedule/getScreeningVisits')
         .success(function(data) {
@@ -1052,13 +1053,19 @@
                     motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
                 });
             }
-        }
+        };
 
         $scope.$watch('primeVac.date', function(newVal, oldVal) {
             if ($scope.checkSubject()) {
                 $http.get('../prevac/schedule/getPlannedDates/' + $scope.selectedSubject.subjectId + '/' + newVal)
                 .success(function(data) {
                     $scope.visitPlannedDates = data;
+                    var nextVisit = $scope.findNextVisit();
+                    if (nextVisit === null) {
+                        $scope.nextVisit = '';
+                    } else {
+                         $scope.nextVisit = nextVisit + ": " + $scope.visitPlannedDates[nextVisit];
+                    }
                 })
                 .error(function(response) {
                     motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
@@ -1067,35 +1074,69 @@
         });
 
         $scope.save = function() {
-            var confMessage = "prevac.schedule.confirm.shouldSaveDates", date, now;
-            now = new Date();
-            date = $scope.parseDate($scope.primeVac.date);
-            date.setHours(23,59,59,0);
-            if (date < now) {
-                confMessage = "prevac.schedule.confirm.shouldSavePastDates";
+            var confMessage = "prevac.schedule.confirm.shouldSaveDates";
+            if ($scope.selectedSubject.primerVaccinationDate !== null) {
+                confMessage = "prevac.schedule.confirm.shouldUpdateDates";
             }
+
             motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
                 if (confirmed) {
-                    if ($scope.checkSubjectAndPrimeVacDate()) {
-                        $http.get('../prevac/schedule/savePlannedDates/' + $scope.selectedSubject.subjectId + '/' + $scope.primeVac.date)
-                        .success(function(response) {
-                            motechAlert('prevac.schedule.plannedDates.saved', 'prevac.schedule.saved.success');
-                        })
-                        .error(function(response) {
-                            motechAlert('prevac.schedule.plannedDates.save.error', 'prevac.schedule.error', response);
+                    var date, now;
+                    now = new Date();
+                    date = $scope.parseDate($scope.primeVac.date);
+                    date.setHours(23,59,59,0);
+                    if (date < now) {
+                        confMessage = "prevac.schedule.confirm.shouldSavePastDates";
+                        motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
+                            if (confirmed) {
+                                $scope.saveVisits();
+                            }
                         });
+                    } else {
+                        $scope.saveVisits();
                     }
                 }
             });
-        }
+        };
+
+        $scope.saveVisits = function () {
+            if ($scope.checkSubjectAndPrimeVacDate()) {
+                $http.get('../prevac/schedule/savePlannedDates/' + $scope.selectedSubject.subjectId + '/' + $scope.primeVac.date)
+                    .success(function(response) {
+                        motechAlert('prevac.schedule.plannedDates.saved', 'prevac.schedule.saved.success');
+                    })
+                    .error(function(response) {
+                        motechAlert('prevac.schedule.plannedDates.save.error', 'prevac.schedule.error', response);
+                    });
+            }
+        };
 
         $scope.setPrintData = function(document) {
 
             $('#versionDate', document).html($filter('date')(new Date(), $scope.cardDateTimeFormat));
             $('#subjectId', document).html($scope.selectedSubject.subjectId);
             $('#subjectName', document).html($scope.selectedSubject.name);
-            $('#primeVacFirstFollowup', document).html($filter('date')($scope.parseDate($scope.visitPlannedDates.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT), $scope.cardDateFormat));
-            $('#location', document).html($scope.selectedSubject.location);
+            $('#nextVisit', document).html($filter('date')($scope.parseDate($scope.visitPlannedDates[$scope.findNextVisit()]), $scope.cardDateFormat));
+            $('#location', document).html($scope.selectedSubject.siteName);
+        };
+
+
+        $scope.findNextVisit = function () {
+            var currentDate = new Date();
+            var nextVisitDate = null;
+            var nextVisit = null;
+
+            for (var key in $scope.visitPlannedDates) {
+                if ($scope.visitPlannedDates.hasOwnProperty(key)) {
+                    var visitDate = $scope.parseDate($scope.visitPlannedDates[key]);
+                    if (currentDate <= visitDate && (nextVisitDate === null || visitDate < nextVisitDate)) {
+                        nextVisitDate = visitDate;
+                        nextVisit = key;
+                    }
+                }
+            }
+
+            return nextVisit;
         };
 
         $scope.print = function() {
@@ -1124,16 +1165,19 @@
 
         $scope.cancel = function() {
             $scope.subjectChanged();
-        }
+        };
 
         $scope.checkSubject = function() {
             return $scope.selectedSubject !== undefined && $scope.selectedSubject !== null && $scope.selectedSubject.subjectId !== undefined;
-        }
+        };
 
         $scope.checkSubjectAndPrimeVacDate = function() {
             return $scope.checkSubject() && $scope.primeVac.date !== undefined && $scope.primeVac.date !== null && $scope.primeVac.date !== "";
-        }
+        };
 
+        $scope.setPrimeVacDateToCurrentDate = function () {
+            $scope.primeVac.date = $filter('date')(new Date(), "yyyy-MM-dd");
+        };
     });
 
     controllers.controller('PrevacRescheduleCtrl', function ($scope, $http, $timeout, $filter) {

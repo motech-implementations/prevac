@@ -2,6 +2,7 @@ package org.motechproject.prevac.service;
 
 import org.joda.time.LocalDate;
 
+
 import java.util.Map;
 
 public interface VisitScheduleService {

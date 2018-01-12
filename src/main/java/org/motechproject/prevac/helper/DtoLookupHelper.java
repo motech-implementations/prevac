@@ -68,14 +68,14 @@ public final class DtoLookupHelper {
         }
 
         if (StringUtils.isBlank(settings.getLookup())) {
-            settings.setLookup("Find By Participant Name Prime Vaccination Date And Visit Type And Booking Planned Date");
+            settings.setLookup("Find By Participant Name Prime Vaccination Date And Visit Type And Planned Visit Date");
             fieldsMap.put(Visit.SUBJECT_NAME_PROPERTY_NAME, NOT_BLANK_REGEX);
         } else {
             fieldsMap = getFields(settings.getFields());
             if ("Find By Participant Name".equals(settings.getLookup())) {
-                settings.setLookup(settings.getLookup() + " Prime Vaccination Date And Visit Type And Booking Planned Date");
+                settings.setLookup(settings.getLookup() + " Prime Vaccination Date And Visit Type And Planned Visit Date");
             } else {
-                settings.setLookup(settings.getLookup() + " Visit Type And Participant Prime Vaccination Date And Name And Booking Planned Date");
+                settings.setLookup(settings.getLookup() + " Visit Type And Participant Prime Vaccination Date And Name And Planned Visit Date");
                 fieldsMap.put(Visit.SUBJECT_NAME_PROPERTY_NAME, NOT_BLANK_REGEX);
             }
         }
