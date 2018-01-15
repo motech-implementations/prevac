@@ -9,7 +9,7 @@ import org.motechproject.prevac.mapper.SubjectMapper;
 import org.motechproject.prevac.repository.ClinicDataService;
 import org.motechproject.prevac.repository.SubjectDataService;
 import org.motechproject.prevac.repository.UnscheduledVisitDataService;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.SubjectService;
 import org.motechproject.prevac.web.domain.SubjectZetesDto;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class SubjectServiceImpl implements SubjectService {
     private SubjectDataService subjectDataService;
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Autowired
     private UnscheduledVisitDataService unscheduledVisitDataService;
@@ -85,12 +85,12 @@ public class SubjectServiceImpl implements SubjectService {
             Clinic clinic = clinicDataService.findByExactSiteId(siteId);
 
             if (clinic != null) {
-                List<Visit> visits = visitBookingDetailsDataService.findBySubjectId(subjectId);
+                List<Visit> visits = visitDataService.findBySubjectId(subjectId);
                 List<UnscheduledVisit> unscheduledVisits = unscheduledVisitDataService.findByParticipantId(subjectId);
 
                 for (Visit details : visits) {
                     details.setClinic(clinic);
-                    visitBookingDetailsDataService.update(details);
+                    visitDataService.update(details);
                 }
                 for (UnscheduledVisit unscheduledVisit : unscheduledVisits) {
                     unscheduledVisit.setClinic(clinic);

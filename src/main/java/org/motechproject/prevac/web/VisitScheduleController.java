@@ -7,7 +7,7 @@ import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.exception.VisitScheduleException;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.VisitScheduleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class VisitScheduleController {
     private static final Logger LOGGER = LoggerFactory.getLogger(VisitScheduleController.class);
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Autowired
     private VisitScheduleService visitScheduleService;
@@ -43,7 +43,7 @@ public class VisitScheduleController {
     @RequestMapping(value = "/getScreeningVisits", method = RequestMethod.GET)
     @ResponseBody
     public List<Visit> getScreeningVisits() {
-        return visitBookingDetailsDataService.findByVisitTypeAndActualDateLess(VisitType.SCREENING, LocalDate.now());
+        return visitDataService.findByVisitTypeAndActualDateLess(VisitType.SCREENING, LocalDate.now());
     }
 
     @RequestMapping(value = "/getPrimeVacDate/{subjectId}", method = RequestMethod.GET)

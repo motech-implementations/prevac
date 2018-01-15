@@ -14,7 +14,7 @@ import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.dto.VisitRescheduleDto;
 import org.motechproject.prevac.exception.LimitationExceededException;
 import org.motechproject.prevac.helper.VisitLimitationHelper;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.ConfigService;
 import org.motechproject.prevac.service.LookupService;
 import org.motechproject.prevac.service.VisitRescheduleService;
@@ -38,7 +38,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
     private LookupService lookupService;
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Autowired
     private VisitScheduleOffsetService visitScheduleOffsetService;
@@ -82,7 +82,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
     @Override
     public VisitRescheduleDto saveVisitReschedule(VisitRescheduleDto visitRescheduleDto, Boolean ignoreLimitation) {
-        Visit visit = visitBookingDetailsDataService.findById(visitRescheduleDto.getVisitBookingDetailsId());
+        Visit visit = visitDataService.findById(visitRescheduleDto.getVisitBookingDetailsId());
 
         if (visit == null) {
             throw new IllegalArgumentException("Cannot reschedule, because details for Visit not found");
@@ -103,7 +103,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
     private void checkNumberOfPatients(VisitRescheduleDto dto, Clinic clinic) { //NO CHECKSTYLE CyclomaticComplexity
 
-        List<Visit> visits = visitBookingDetailsDataService
+        List<Visit> visits = visitDataService
                 .findByClinicIdVisitPlannedDateAndType(clinic.getId(), dto.getPlannedDate(), dto.getVisitType());
 
         visitLimitationHelper.checkCapacityForVisit(dto.getPlannedDate(), clinic, dto.getVisitBookingDetailsId());
@@ -178,13 +178,13 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         details.setStartTime(dto.getStartTime());
         details.setEndTime(calculateEndTime(dto.getStartTime()));
         details.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
-        return visitBookingDetailsDataService.update(details);
+        return visitDataService.update(details);
     }
 
     private Visit updateVisitPlannedDate(Visit visit, VisitRescheduleDto visitRescheduleDto) {
         visit.setDateProjected(visitRescheduleDto.getPlannedDate());
 
-        return visitBookingDetailsDataService.update(visit);
+        return visitDataService.update(visit);
     }
 
     private Map<String, Object> getFields(String json) throws IOException {

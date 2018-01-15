@@ -13,7 +13,7 @@ import org.motechproject.prevac.dto.CapacityReportDto;
 import org.motechproject.prevac.repository.ClinicDataService;
 import org.motechproject.prevac.repository.ScreeningDataService;
 import org.motechproject.prevac.repository.UnscheduledVisitDataService;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.LookupService;
 import org.motechproject.prevac.service.ReportService;
 import org.motechproject.prevac.web.domain.GridSettings;
@@ -30,7 +30,7 @@ public class ReportServiceImpl implements ReportService {
     private ClinicDataService clinicDataService;
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Autowired
     private ScreeningDataService screeningDataService;
@@ -52,8 +52,8 @@ public class ReportServiceImpl implements ReportService {
         if (dateRange != null) {
             for (LocalDate date = dateRange.getMin(); !date.isAfter(dateRange.getMax()); date = date.plusDays(1)) {
                 for (Clinic clinic : clinics) {
-                    int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndPlannedVisitDate(clinic.getId(), date);
-                    int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndPlannedVisitDate(clinic.getId(),
+                    int visitCount = (int) visitDataService.countFindByClinicIdAndPlannedVisitDate(clinic.getId(), date);
+                    int primeVacCount = (int) visitDataService.countFindByClinicIdVisitTypeAndPlannedVisitDate(clinic.getId(),
                             VisitType.PRIME_VACCINATION_DAY, date);
                     int screeningCount = (int) screeningDataService.countFindByClinicIdAndDateAndStatus(clinic.getId(), date, ScreeningStatus.ACTIVE);
                     int unscheduledCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDate(clinic.getId(), date);
