@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Models data for registration of Subject in PREVAC
  */
-@Entity(recordHistory = true, name = "Participant")
+@Entity(recordHistory = true, name = "Participant", maxFetchDepth = 3)
 @NoArgsConstructor
 public class Subject {
     public static final String SUBJECT_ID_FIELD_NAME = "subjectId";
