@@ -151,7 +151,7 @@ public class ScreeningServiceImpl implements ScreeningService {
             List<Screening> screeningList = screeningDataService.findByClinicIdAndDateAndStatus(clinic.getId(), date, ScreeningStatus.ACTIVE);
 
             if (screeningList != null) {
-                int numberOfRooms = clinic.getNumberOfRooms();
+                Integer numberOfRooms = clinic.getNumberOfRooms();
                 int maxVisits = clinic.getMaxScreeningVisits();
                 int patients = 0;
 
@@ -174,7 +174,7 @@ public class ScreeningServiceImpl implements ScreeningService {
                 if (screeningList.size() >= maxVisits) {
                     throw new LimitationExceededException("The booking limit for this type of visit has been reached");
                 }
-                if (patients >= numberOfRooms) {
+                if (numberOfRooms != null && patients >= numberOfRooms) {
                     throw new LimitationExceededException("Too many visits at the same time");
                 }
             }

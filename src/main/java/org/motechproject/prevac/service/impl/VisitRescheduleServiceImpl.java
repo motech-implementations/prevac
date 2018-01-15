@@ -109,7 +109,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         visitLimitationHelper.checkCapacityForVisit(dto.getPlannedDate(), clinic, dto.getVisitBookingDetailsId());
 
         if (visits != null && !visits.isEmpty()) {
-            int numberOfRooms = clinic.getNumberOfRooms();
+            Integer numberOfRooms = clinic.getNumberOfRooms();
             int maxVisits = visitLimitationHelper.getMaxVisitCountForVisitType(dto.getVisitType(), clinic);
             int patients = 0;
 
@@ -139,7 +139,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             if (visits.size() >= maxVisits) {
                 throw new LimitationExceededException("The booking limit for this type of visit has been reached");
             }
-            if (patients >= numberOfRooms) {
+            if (numberOfRooms != null && patients >= numberOfRooms) {
                 throw new LimitationExceededException("Too many visits at the same time");
             }
         }
