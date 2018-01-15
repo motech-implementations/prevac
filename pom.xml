@@ -369,7 +369,7 @@
                 <fileset>
                   <directory>${user.home}/.motech/bundles</directory>
                   <includes>
-                    <include>**/*.jar</include>
+                    <include>**/prevac*.jar</include>
                   </includes>
                   <followSymlinks>false</followSymlinks>
                 </fileset>
