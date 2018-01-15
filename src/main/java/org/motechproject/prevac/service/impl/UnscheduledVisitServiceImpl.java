@@ -15,7 +15,7 @@ import org.motechproject.prevac.helper.VisitLimitationHelper;
 import org.motechproject.prevac.repository.ClinicDataService;
 import org.motechproject.prevac.repository.SubjectDataService;
 import org.motechproject.prevac.repository.UnscheduledVisitDataService;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.LookupService;
 import org.motechproject.prevac.service.UnscheduledVisitService;
 import org.motechproject.prevac.util.QueryParamsBuilder;
@@ -35,7 +35,7 @@ public class UnscheduledVisitServiceImpl implements UnscheduledVisitService {
     private LookupService lookupService;
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Autowired
     private UnscheduledVisitDataService unscheduledVisitDataService;

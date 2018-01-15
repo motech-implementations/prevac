@@ -12,7 +12,7 @@ import org.motechproject.prevac.domain.enums.VisitType;
 import java.util.List;
 import java.util.Set;
 
-public interface VisitBookingDetailsDataService extends MotechDataService<Visit> {
+public interface VisitDataService extends MotechDataService<Visit> {
 
     @Lookup(name = "Find By exact Participant Id")
     List<Visit> findBySubjectId(

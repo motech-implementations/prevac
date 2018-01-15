@@ -23,8 +23,8 @@
     <osgi:reference id="unscheduledVisitDataService"
                     interface="org.motechproject.prevac.repository.UnscheduledVisitDataService" />
 
-    <osgi:reference id="visitBookingDetailsDataService"
-                    interface="org.motechproject.prevac.repository.VisitBookingDetailsDataService" />
+    <osgi:reference id="visitDataService"
+                    interface="org.motechproject.prevac.repository.VisitDataService" />
 
     <osgi:reference id="visitScheduleOffsetDataService"
                     interface="org.motechproject.prevac.repository.VisitScheduleOffsetDataService" />

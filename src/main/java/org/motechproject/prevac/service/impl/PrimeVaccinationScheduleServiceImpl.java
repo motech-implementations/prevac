@@ -15,7 +15,7 @@ import org.motechproject.prevac.exception.LimitationExceededException;
 import org.motechproject.prevac.helper.VisitLimitationHelper;
 import org.motechproject.prevac.repository.ClinicDataService;
 import org.motechproject.prevac.repository.SubjectDataService;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.LookupService;
 import org.motechproject.prevac.service.PrimeVaccinationScheduleService;
 import org.motechproject.prevac.util.QueryParamsBuilder;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationScheduleService {
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Autowired
     private VisitLimitationHelper visitLimitationHelper;
@@ -68,7 +68,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
             checkNumberOfPatients(dto, clinic);
         }
 
-        Visit primeVisit = visitBookingDetailsDataService.findById(dto.getVisitId());
+        Visit primeVisit = visitDataService.findById(dto.getVisitId());
         // We have an update
         if (primeVisit != null) {
             Visit screeningVisit = getScreeningVisit(primeVisit);
@@ -78,8 +78,8 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
             return new PrimeVaccinationScheduleDto(updateVisitWithDto(primeVisit, screeningVisit, dto));
         } else {
             List<Visit> visits = subject.getVisits();
-            visits.add(visitBookingDetailsDataService.create(createScreeningVisitFromDto(dto, subject, clinic)));
-            primeVisit = visitBookingDetailsDataService.create(createPrimeVacVisitFromDto(dto, subject, clinic));
+            visits.add(visitDataService.create(createScreeningVisitFromDto(dto, subject, clinic)));
+            primeVisit = visitDataService.create(createPrimeVacVisitFromDto(dto, subject, clinic));
             visits.add(primeVisit);
             return new PrimeVaccinationScheduleDto(primeVisit);
         }
@@ -132,8 +132,8 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
 
         screeningDetails.setDate(dto.getActualScreeningDate());
 
-        visitBookingDetailsDataService.update(screeningDetails);
-        return visitBookingDetailsDataService.update(primeDetails);
+        visitDataService.update(screeningDetails);
+        return visitDataService.update(primeDetails);
     }
 
     private Map<String, Object> getFields(String json) throws IOException {
@@ -146,7 +146,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
     }
 
     private void checkNumberOfPatients(PrimeVaccinationScheduleDto dto, Clinic clinic) { //NO CHECKSTYLE CyclomaticComplexity
-        List<Visit> visits = visitBookingDetailsDataService.findByPlannedDateClinicIdAndVisitType(dto.getDate(),
+        List<Visit> visits = visitDataService.findByPlannedDateClinicIdAndVisitType(dto.getDate(),
                 clinic.getId(), VisitType.PRIME_VACCINATION_DAY);
 
         visitLimitationHelper.checkCapacityForVisit(dto.getDate(), clinic, dto.getVisitId());

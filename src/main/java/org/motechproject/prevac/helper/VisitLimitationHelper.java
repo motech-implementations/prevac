@@ -7,7 +7,7 @@ import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.exception.LimitationExceededException;
 import org.motechproject.prevac.repository.ScreeningDataService;
 import org.motechproject.prevac.repository.UnscheduledVisitDataService;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class VisitLimitationHelper {
     private ScreeningDataService screeningDataService;
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Autowired
     private UnscheduledVisitDataService unscheduledVisitDataService;
@@ -39,7 +39,7 @@ public class VisitLimitationHelper {
         if (clinic != null && date != null) {
             int screeningCount = (int) screeningDataService.countFindByClinicIdDateAndScreeningIdAndStatus(date, clinic.getId(), screeningId, ScreeningStatus.ACTIVE);
             int unscheduledVisitCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDateAndVisitId(date, clinic.getId(), unscheduledVisitId);
-            int visitCount = (int) visitBookingDetailsDataService.countFindByVisitPlannedDateAndClinicIdAndVisitId(date, clinic.getId(), visitId);
+            int visitCount = (int) visitDataService.countFindByVisitPlannedDateAndClinicIdAndVisitId(date, clinic.getId(), visitId);
             int totalVisitCount = screeningCount + visitCount + unscheduledVisitCount;
             if (totalVisitCount >= clinic.getMaxCapacityByDay()) {
                 throw new LimitationExceededException("The clinic capacity limit for this day has been reached");

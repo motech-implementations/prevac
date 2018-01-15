@@ -15,7 +15,7 @@ import org.motechproject.prevac.dto.CapacityInfoDto;
 import org.motechproject.prevac.repository.ClinicDataService;
 import org.motechproject.prevac.repository.ScreeningDataService;
 import org.motechproject.prevac.repository.UnscheduledVisitDataService;
-import org.motechproject.prevac.repository.VisitBookingDetailsDataService;
+import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.CapacityInfoService;
 import org.motechproject.prevac.util.QueryParamsBuilder;
 import org.motechproject.prevac.web.domain.GridSettings;
@@ -39,7 +39,7 @@ public class CapacityInfoServiceImpl implements CapacityInfoService {
     private UnscheduledVisitDataService unscheduledVisitDataService;
 
     @Autowired
-    private VisitBookingDetailsDataService visitBookingDetailsDataService;
+    private VisitDataService visitDataService;
 
     @Override
     public Records<CapacityInfoDto> getCapacityInfoRecords(GridSettings settings) {
@@ -55,8 +55,8 @@ public class CapacityInfoServiceImpl implements CapacityInfoService {
             numberOfDays = numberOfDays < 0 ? 0 : numberOfDays;
 
             for (Clinic clinic : clinics) {
-                int visitCount = (int) visitBookingDetailsDataService.countFindByClinicIdAndPlannedVisitDateRange(clinic.getId(), dateRange);
-                int primeVacCount = (int) visitBookingDetailsDataService.countFindByClinicIdVisitTypeAndPlannedVisitDateRange(clinic.getId(),
+                int visitCount = (int) visitDataService.countFindByClinicIdAndPlannedVisitDateRange(clinic.getId(), dateRange);
+                int primeVacCount = (int) visitDataService.countFindByClinicIdVisitTypeAndPlannedVisitDateRange(clinic.getId(),
                         VisitType.PRIME_VACCINATION_DAY, dateRange);
                 int screeningCount = (int) screeningDataService.countFindByClinicIdAndDateRangeAndStatus(clinic.getId(), dateRange, ScreeningStatus.ACTIVE);
                 int unscheduledCount = (int) unscheduledVisitDataService.countFindByClinicIdAndDateRange(clinic.getId(), dateRange);
