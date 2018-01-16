@@ -823,11 +823,7 @@
                             var rowData = elem.getRowData(rowId),
                                 extraRowData = gridDataExtension[rowId];
 
-                            if (rowData.actualDate !== undefined && rowData.actualDate !== null && rowData.actualDate !== '') {
-                                scope.visitForPrint = elem.getRowData(rowId);
-                                scope.form = null;
-                                scope.showRescheduleModal(scope.msg('prevac.visitReschedule.cannotReschedule'), scope.msg('prevac.visitReschedule.visitWithActualDate'));
-                            } else if (extraRowData.earliestDate === undefined || extraRowData.earliestDate === null || extraRowData.earliestDate === "") {
+                            if (extraRowData.earliestDate === undefined || extraRowData.earliestDate === null || extraRowData.earliestDate === "") {
                                 scope.visitForPrint = elem.getRowData(rowId);
                                 scope.form = null;
                                 var message = "prevac.visitReschedule.participantVisitScheduleOffsetMissing";
@@ -851,6 +847,7 @@
                                 scope.form.dto.participantName = rowData.participantName;
                                 scope.form.dto.visitType = rowData.visitType;
                                 scope.form.dto.plannedDate = rowData.plannedDate;
+                                scope.form.dto.actualDate = rowData.actualDate;
                                 scope.form.dto.startTime = rowData.startTime;
                                 scope.form.dto.visitId = extraRowData.visitId;
                                 scope.form.dto.ignoreDateLimitation = extraRowData.ignoreDateLimitation;

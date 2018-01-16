@@ -11,7 +11,7 @@
                         <span class="left left input-group-addon">{{msg('prevac.visitReschedule.participantName')}}</span>
                         <div class="form-control">{{form.dto.participantName}}</div>
                     </div>
-                    <div class="prevac input-group">
+                    <div class="prevac input-group" ng-if="isPlannedDateDisabled()">
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.plannedDate')}}</span>
                         <input id="plannedDateInput" type="text" class="form-control datepicker" readonly='true' prevac-date-picker min="form.dto.minDate" max="form.dto.maxDate" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.plannedDate">
                         <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.plannedDate === '', 'alert-success': form.dto.plannedDate}"><i class="fa fa-fw fa-check"></i></span>
@@ -20,6 +20,16 @@
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.time')}}</span>
                         <input id="startTimeInput" type="text" class="form-control" mds-time-picker placeholder="{{msg('prevac.startTimePlaceholder')}}" ng-model="form.dto.startTime">
                         <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.startTime === '', 'alert-success': form.dto.startTime}"><i class="fa fa-fw fa-check"></i></span>
+                    </div>
+                    <div class="prevac input-group">
+                        <span class="left input-group-addon">{{msg('prevac.visitReschedule.actualDate')}}</span>
+                        <input id="actualDateInput" type="text" class="form-control datepicker" readonly='true' prevac-date-picker min="form.dto.minActualDate" max="form.dto.maxActualDate" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.actualDate">
+                        <span class="input-group-btn">
+                            <button id="todayBtn" type="button" class="btn btn-primary form-control" ng-click="setActualDateToCurrentDate()">Today</button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button id="removeActualDateBtn" type="button" class="btn btn-danger btn-sm form-control" ng-click="clearActualDate()"><i class="fa fa-fw fa-trash-o"></i></button>
+                        </span>
                     </div>
                     <div class="prevac input-group prime-vaccination-schedule-modal">
                         <span class="left input-group-addon">{{msg('prevac.ignoreDateLimitation')}}</span>

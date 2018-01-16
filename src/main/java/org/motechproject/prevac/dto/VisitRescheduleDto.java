@@ -58,7 +58,7 @@ public class VisitRescheduleDto {
 
     @Getter
     @Setter
-    private Long visitBookingDetailsId;
+    private Long visitId;
 
     @JsonDeserialize(using = CustomDateDeserializer.class)
     @JsonSerialize(using = CustomDateSerializer.class)
@@ -90,27 +90,27 @@ public class VisitRescheduleDto {
     @Setter
     private Boolean notVaccinated;
 
-    public VisitRescheduleDto(Visit details) {
-        setParticipantId(details.getSubject().getSubjectId());
-        setParticipantName(details.getSubject().getName());
-        setVisitType(details.getType());
-        setActualDate(details.getDate());
-        setPlannedDate(details.getDateProjected());
-        setStartTime(details.getStartTime());
-        setVisitBookingDetailsId(details.getId());
-        if (details.getIgnoreDateLimitation() != null) {
-            setIgnoreDateLimitation(details.getIgnoreDateLimitation());
+    public VisitRescheduleDto(Visit visit) {
+        setParticipantId(visit.getSubject().getSubjectId());
+        setParticipantName(visit.getSubject().getName());
+        setVisitType(visit.getType());
+        setActualDate(visit.getDate());
+        setPlannedDate(visit.getDateProjected());
+        setStartTime(visit.getStartTime());
+        setVisitId(visit.getId());
+        if (visit.getIgnoreDateLimitation() != null) {
+            setIgnoreDateLimitation(visit.getIgnoreDateLimitation());
         } else {
             setIgnoreDateLimitation(false);
         }
-        if (details.getClinic() != null) {
-            setLocation(details.getClinic().getLocation());
+        if (visit.getClinic() != null) {
+            setLocation(visit.getClinic().getLocation());
         }
     }
 
-    public VisitRescheduleDto(Visit details, Range<LocalDate> dateRange,
+    public VisitRescheduleDto(Visit visit, Range<LocalDate> dateRange,
                               Boolean boosterRelated, Boolean notVaccinated) {
-        this(details);
+        this(visit);
         this.boosterRelated = boosterRelated;
         this.notVaccinated = notVaccinated;
         calculateEarliestAndLatestDate(dateRange);

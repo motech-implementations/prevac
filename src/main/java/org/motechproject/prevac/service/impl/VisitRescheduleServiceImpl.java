@@ -61,20 +61,20 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
         List<VisitRescheduleDto> dtos = new ArrayList<>();
 
-        for (Visit details : detailsRecords.getRows()) {
+        for (Visit visit : detailsRecords.getRows()) {
 
-            Boolean boosterRelated = isBoosterRelated(details.getType(), boosterRelatedVisits);
-            LocalDate vaccinationDate = getVaccinationDate(details, boosterRelated);
+            Boolean boosterRelated = isBoosterRelated(visit.getType(), boosterRelatedVisits);
+            LocalDate vaccinationDate = getVaccinationDate(visit, boosterRelated);
 
             Boolean notVaccinated = true;
             Range<LocalDate> dateRange = null;
 
             if (vaccinationDate != null) {
-                dateRange = calculateEarliestAndLatestDate(details.getType(), offsetMap, vaccinationDate);
+                dateRange = calculateEarliestAndLatestDate(visit.getType(), offsetMap, vaccinationDate);
                 notVaccinated = false;
             }
 
-            dtos.add(new VisitRescheduleDto(details, dateRange, boosterRelated, notVaccinated));
+            dtos.add(new VisitRescheduleDto(visit, dateRange, boosterRelated, notVaccinated));
         }
 
         return new Records<>(detailsRecords.getPage(), detailsRecords.getTotal(), detailsRecords.getRecords(), dtos);
@@ -82,7 +82,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
     @Override
     public VisitRescheduleDto saveVisitReschedule(VisitRescheduleDto visitRescheduleDto, Boolean ignoreLimitation) {
-        Visit visit = visitDataService.findById(visitRescheduleDto.getVisitBookingDetailsId());
+        Visit visit = visitDataService.findById(visitRescheduleDto.getVisitId());
 
         if (visit == null) {
             throw new IllegalArgumentException("Cannot reschedule, because details for Visit not found");
@@ -96,8 +96,6 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             checkNumberOfPatients(visitRescheduleDto, clinic);
         }
 
-        updateVisitPlannedDate(visit, visitRescheduleDto);
-
         return new VisitRescheduleDto(updateVisitDetailsWithDto(visit, visitRescheduleDto));
     }
 
@@ -106,7 +104,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         List<Visit> visits = visitDataService
                 .findByClinicIdVisitPlannedDateAndType(clinic.getId(), dto.getPlannedDate(), dto.getVisitType());
 
-        visitLimitationHelper.checkCapacityForVisit(dto.getPlannedDate(), clinic, dto.getVisitBookingDetailsId());
+        visitLimitationHelper.checkCapacityForVisit(dto.getPlannedDate(), clinic, dto.getVisitId());
 
         if (visits != null && !visits.isEmpty()) {
             Integer numberOfRooms = clinic.getNumberOfRooms();
@@ -121,7 +119,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             }
 
             for (Visit visit : visits) {
-                if (visit.getId().equals(dto.getVisitBookingDetailsId())) {
+                if (visit.getId().equals(dto.getVisitId())) {
                     maxVisits++;
                 } else if (startTime != null && visit.getStartTime() != null) {
                     if (startTime.isBefore(visit.getStartTime())) {
@@ -146,10 +144,6 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
     }
 
     private void validateDate(VisitRescheduleDto dto, Visit visit) {
-        if (visit.getDate() != null) {
-            throw new IllegalArgumentException("Cannot reschedule, because Visit already took place");
-        }
-
         if (dto.getPlannedDate().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Date cannot be in the past");
         }
@@ -174,15 +168,12 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         }
     }
 
-    private Visit updateVisitDetailsWithDto(Visit details, VisitRescheduleDto dto) {
-        details.setStartTime(dto.getStartTime());
-        details.setEndTime(calculateEndTime(dto.getStartTime()));
-        details.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
-        return visitDataService.update(details);
-    }
-
-    private Visit updateVisitPlannedDate(Visit visit, VisitRescheduleDto visitRescheduleDto) {
-        visit.setDateProjected(visitRescheduleDto.getPlannedDate());
+    private Visit updateVisitDetailsWithDto(Visit visit, VisitRescheduleDto dto) {
+        visit.setStartTime(dto.getStartTime());
+        visit.setEndTime(calculateEndTime(dto.getStartTime()));
+        visit.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
+        visit.setDateProjected(dto.getPlannedDate());
+        visit.setDate(dto.getActualDate());
 
         return visitDataService.update(visit);
     }

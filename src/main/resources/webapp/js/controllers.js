@@ -1192,6 +1192,27 @@
         $scope.newForm = function() {
             $scope.form = {};
             $scope.form.dto = {};
+            $scope.form.dto.minActualDate = null;
+            $scope.form.dto.maxActualDate = new Date();
+        };
+
+        $scope.setActualDateToCurrentDate = function () {
+            $scope.form.dto.actualDate = $filter('date')(new Date(), "yyyy-MM-dd");
+        };
+
+        $scope.isPlannedDateDisabled = function () {
+            return ($scope.form.dto.actualDate === null || $scope.form.dto.actualDate === "" || $scope.form.dto.actualDate === undefined);
+        };
+
+        $scope.clearActualDate = function () {
+           motechConfirm("prevac.visitReschedule.removeActualDate", "prevac.confirm", function(confirmed) {
+                   if (confirmed) {
+                       $scope.form.dto.actualDate = null;
+                       $timeout(function() {
+                           $('#actualDateInput').trigger('change');
+                       }, 100);
+                   }
+           })
         };
 
         $scope.showRescheduleModal = function(modalHeaderMessage, modalBodyMessage) {
