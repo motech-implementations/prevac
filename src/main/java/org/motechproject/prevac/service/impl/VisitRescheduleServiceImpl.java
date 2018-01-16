@@ -8,12 +8,14 @@ import org.motechproject.commons.date.model.Time;
 import org.motechproject.mds.query.QueryParams;
 import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Clinic;
+import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.VisitScheduleOffset;
 import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.dto.VisitRescheduleDto;
 import org.motechproject.prevac.exception.LimitationExceededException;
 import org.motechproject.prevac.helper.VisitLimitationHelper;
+import org.motechproject.prevac.repository.SubjectDataService;
 import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.ConfigService;
 import org.motechproject.prevac.service.LookupService;
@@ -45,6 +47,9 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
     @Autowired
     private VisitLimitationHelper visitLimitationHelper;
+
+    @Autowired
+    private SubjectDataService subjectDataService;
 
     @Autowired
     private ConfigService configService;
@@ -174,6 +179,11 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         visit.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
         visit.setDateProjected(dto.getPlannedDate());
         visit.setDate(dto.getActualDate());
+        if (VisitType.BOOST_VACCINATION_DAY.equals(dto.getVisitType())) {
+            Subject subject = visit.getSubject();
+            subject.setBoosterVaccinationDate(dto.getActualDate());
+            subjectDataService.update(subject);
+        }
 
         return visitDataService.update(visit);
     }
