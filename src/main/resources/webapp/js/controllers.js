@@ -722,7 +722,8 @@
             return $scope.form
                 && $scope.form.dto
                 && $scope.form.dto.date
-                && $scope.form.dto.clinicId;
+                && $scope.form.dto.clinicId
+                && $scope.form.dto.name;
         };
 
         $scope.exportInstance = function() {

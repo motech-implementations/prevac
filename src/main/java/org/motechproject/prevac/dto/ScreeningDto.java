@@ -24,4 +24,12 @@ public class ScreeningDto {
     @Getter
     @Setter
     private String startTime;
+
+    @Getter
+    @Setter
+    private String name;
+
+    @Getter
+    @Setter
+    private String contactNumber;
 }
