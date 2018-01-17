@@ -68,33 +68,6 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
-    public Screening add(ScreeningDto screeningDto, Boolean ignoreLimitation) {
-
-        ScreeningValidator.validateForAdd(screeningDto);
-
-        Screening screening = new Screening();
-        screening.setVolunteer(volunteerDataService.create(new Volunteer()));
-        checkNumberOfPatientsAndSetScreeningData(screeningDto, screening, ignoreLimitation);
-
-        return screeningDataService.create(screening);
-    }
-
-    @Override
-    public Screening update(ScreeningDto screeningDto, Boolean ignoreLimitation) {
-
-        ScreeningValidator.validateForUpdate(screeningDto);
-
-        Long screeningId = Long.parseLong(screeningDto.getId());
-        Screening screening = screeningDataService.findById(screeningId);
-
-        Validate.notNull(screening, String.format("Screening with id \"%s\" doesn't exist!", screeningId));
-
-        checkNumberOfPatientsAndSetScreeningData(screeningDto, screening, ignoreLimitation);
-
-        return screeningDataService.update(screening);
-    }
-
-    @Override
     public ScreeningDto getScreeningById(Long id) {
         return ScreeningMapper.INSTANCE.toDto(screeningDataService.findById(id));
     }
@@ -124,6 +97,45 @@ public class ScreeningServiceImpl implements ScreeningService {
         }
     }
 
+    private Volunteer setVolunteer(ScreeningDto dto) {
+        Volunteer volunteer;
+        String volunteerId = dto.getVolunteerId();
+        if (StringUtils.isNotBlank(volunteerId)) {
+            volunteer = volunteerDataService.findById(Long.valueOf(volunteerId));
+        } else {
+            volunteer = new Volunteer();
+        }
+        volunteer.setName(dto.getName());
+        volunteer.setContactNumber(dto.getContactNumber());
+        return volunteerDataService.createOrUpdate(volunteer);
+    }
+
+    private Screening add(ScreeningDto screeningDto, Boolean ignoreLimitation) {
+
+        ScreeningValidator.validateForAdd(screeningDto);
+
+        Screening screening = new Screening();
+
+        checkNumberOfPatientsAndSetScreeningData(screeningDto, screening, ignoreLimitation);
+
+        return screeningDataService.create(screening);
+    }
+
+    private Screening update(ScreeningDto screeningDto, Boolean ignoreLimitation) {
+
+        ScreeningValidator.validateForUpdate(screeningDto);
+
+        Long screeningId = Long.parseLong(screeningDto.getId());
+        Screening screening = screeningDataService.findById(screeningId);
+
+        Validate.notNull(screening, String.format("Screening with id \"%s\" doesn't exist!", screeningId));
+
+        checkNumberOfPatientsAndSetScreeningData(screeningDto, screening, ignoreLimitation);
+
+        return screeningDataService.update(screening);
+    }
+
+
     private void checkNumberOfPatientsAndSetScreeningData(ScreeningDto screeningDto, Screening screening, Boolean ignoreLimitation) {
         Clinic clinic = clinicDataService.findById(Long.parseLong(screeningDto.getClinicId()));
         LocalDate date = LocalDate.parse(screeningDto.getDate());
@@ -143,6 +155,7 @@ public class ScreeningServiceImpl implements ScreeningService {
         screening.setStartTime(startTime);
         screening.setEndTime(endTime);
         screening.setClinic(clinic);
+        screening.setVolunteer(setVolunteer(screeningDto));
     }
 
     private void checkNumberOfPatients(Clinic clinic, LocalDate date, Time startTime, Time endTime, Screening screening, Boolean ignoreLimitation) { //NO CHECKSTYLE CyclomaticComplexity

@@ -13,10 +13,6 @@ public interface ScreeningService {
 
     Screening addOrUpdate(ScreeningDto screeningDto, Boolean ignoreLimitation);
 
-    Screening add(ScreeningDto screeningDto, Boolean ignoreLimitation);
-
-    Screening update(ScreeningDto screeningDto, Boolean ignoreLimitation);
-
     ScreeningDto getScreeningById(Long id);
 
     void cancelScreening(Long id);

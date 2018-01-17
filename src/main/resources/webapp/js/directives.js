@@ -272,18 +272,22 @@
                     datatype: "json",
                     mtype: "GET",
                     colNames: [
-                        scope.msg("prevac.location"),
                         scope.msg("prevac.screening.bookingId"),
-                        scope.msg("prevac.screening.status"),
+                        scope.msg("prevac.screening.name"),
+                        scope.msg("prevac.screening.contactNumber"),
+                        scope.msg("prevac.location"),
                         scope.msg("prevac.screening.date"),
                         scope.msg("prevac.screening.time"),
+                        scope.msg("prevac.screening.status"),
                         "", ""],
                     colModel: [
-                        { name: "clinic.location" },
                         { name: "volunteer.id" },
-                        { name: "status" },
+                        { name: "volunteer.name" },
+                        { name: "volunteer.contactNumber" },
+                        { name: "clinic.location" },
                         { name: "date" },
                         { name: "startTime" },
+                        { name: "status" },
                         { name: "print", align: "center", sortable: false, width: 40 },
                         { name: "changeStatus", align: "center", sortable: false, width: 60,
                              formatter: function(cellValue, options, rowObject) {
@@ -1246,6 +1250,26 @@
                         });
                     }
                 });
+            }
+        };
+    });
+
+    directives.directive('numbersOnly', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attr, ngModelCtrl) {
+                function fromUser(text) {
+                    if (text) {
+                        var transformedInput = text.replace(/[^0-9-]/g, '');
+                        if (transformedInput !== text) {
+                            ngModelCtrl.$setViewValue(transformedInput);
+                            ngModelCtrl.$render();
+                        }
+                        return transformedInput;
+                    }
+                    return undefined;
+                }
+                ngModelCtrl.$parsers.push(fromUser);
             }
         };
     });

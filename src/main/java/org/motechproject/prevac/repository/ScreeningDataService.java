@@ -61,4 +61,20 @@ public interface ScreeningDataService extends MotechDataService<Screening> {
     long countFindByClinicIdAndDateAndStatus(@LookupField(name = "clinic.id") Long clinicId,
                                              @LookupField(name = "date") LocalDate date,
                                              @LookupField(name = "status") ScreeningStatus status);
+
+    @Lookup
+    List<Screening> findByName(@LookupField(name = "volunteer.name") String volunteerName);
+
+    @Lookup
+    List<Screening> findByNameAndDate(
+            @LookupField(name = "date") Range<LocalDate> date,
+            @LookupField(name = "volunteer.name") String volunteerName);
+
+    @Lookup
+    List<Screening> findByContactNumber(@LookupField(name = "volunteer.contactNumber") String volunteerContactNumber);
+
+    @Lookup
+    List<Screening> findByContactNumberAndDate(
+            @LookupField(name = "date") Range<LocalDate> date,
+            @LookupField(name = "volunteer.contactNumber") String volunteerContactNumber);
 }
