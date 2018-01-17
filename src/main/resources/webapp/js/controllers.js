@@ -1200,8 +1200,10 @@
             $scope.form.dto.actualDate = $filter('date')(new Date(), "yyyy-MM-dd");
         };
 
-        $scope.isPlannedDateDisabled = function () {
-            return ($scope.form.dto.actualDate === null || $scope.form.dto.actualDate === "" || $scope.form.dto.actualDate === undefined);
+        $scope.showPlannedDate = function () {
+            var isActualDateEmpty = $scope.form.dto.actualDate === null || $scope.form.dto.actualDate === "" || $scope.form.dto.actualDate === undefined;
+            var currentDate = new Date();
+            return $scope.form.dto.maxDate >= currentDate && isActualDateEmpty;
         };
 
         $scope.clearActualDate = function () {

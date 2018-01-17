@@ -11,7 +11,7 @@
                         <span class="left left input-group-addon">{{msg('prevac.visitReschedule.participantName')}}</span>
                         <div class="form-control">{{form.dto.participantName}}</div>
                     </div>
-                    <div class="prevac input-group" ng-if="isPlannedDateDisabled()">
+                    <div class="prevac input-group" ng-if="showPlannedDate()">
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.plannedDate')}}</span>
                         <input id="plannedDateInput" type="text" class="form-control datepicker" readonly='true' prevac-date-picker min="form.dto.minDate" max="form.dto.maxDate" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.plannedDate">
                         <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.plannedDate === '', 'alert-success': form.dto.plannedDate}"><i class="fa fa-fw fa-check"></i></span>

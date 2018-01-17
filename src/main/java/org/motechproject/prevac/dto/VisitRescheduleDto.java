@@ -120,16 +120,10 @@ public class VisitRescheduleDto {
         if (dateRange != null) {
             LocalDate maxDate = dateRange.getMax();
             LocalDate minDate = dateRange.getMin();
+
             earliestWindowDate = minDate;
-
-            if (minDate.isBefore(LocalDate.now())) {
-                minDate = LocalDate.now();
-            }
             earliestDate = minDate;
-
-            if (!maxDate.isBefore(LocalDate.now())) {
-                latestDate = maxDate;
-            }
+            latestDate = maxDate;
         }
     }
 }

@@ -149,10 +149,6 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
     }
 
     private void validateDate(VisitRescheduleDto dto, Visit visit) {
-        if (dto.getPlannedDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Date cannot be in the past");
-        }
-
         if (!dto.getIgnoreDateLimitation()) {
             Map<VisitType, VisitScheduleOffset> visitTypeOffsetMap = visitScheduleOffsetService.getAllAsMap();
             List<String> boosterRelatedVisits = configService.getConfig().getBoosterRelatedVisits();
