@@ -66,10 +66,13 @@ public final class PrevacConstants {
 
     public static final Map<String, String> SCREENING_FIELDS_MAP = new LinkedHashMap<String, String>() {
         {
-            put("Clinic Location", "clinic.location");
             put("Booking Id", "volunteer.id");
+            put("Name", "volunteer.name");
+            put("Contact Number", "volunteer.contactNumber");
+            put("Clinic Location", "clinic.location");
             put("Screening Date", "date");
             put("Screening Time", "startTime");
+            put("Status", "status");
         }
     };
 
