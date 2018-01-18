@@ -11,15 +11,17 @@
                         <span class="left left input-group-addon">{{msg('prevac.visitReschedule.participantName')}}</span>
                         <div class="form-control">{{form.dto.participantName}}</div>
                     </div>
-                    <div class="prevac input-group" ng-if="showPlannedDate()">
+                    <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.plannedDate')}}</span>
-                        <input id="plannedDateInput" type="text" class="form-control datepicker" readonly='true' prevac-date-picker min="form.dto.minDate" max="form.dto.maxDate" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.plannedDate">
-                        <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.plannedDate === '', 'alert-success': form.dto.plannedDate}"><i class="fa fa-fw fa-check"></i></span>
+                        <input id="plannedDateInput" type="text" class="form-control datepicker" ng-if="showPlannedDate()" readonly='true' prevac-date-picker min="form.dto.minDate" max="form.dto.maxDate" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.plannedDate">
+                        <input id="plannedDateTextInput" type="text" class="form-control" ng-if="!showPlannedDate()" readonly='true' ng-model="form.dto.plannedDate">
+                        <span class="input-group-addon validator" ng-if="showPlannedDate()" ng-class="{'alert-danger': form.dto.plannedDate === '', 'alert-success': form.dto.plannedDate}"><i class="fa fa-fw fa-check"></i></span>
                     </div>
                     <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.time')}}</span>
-                        <input id="startTimeInput" type="text" class="form-control" mds-time-picker placeholder="{{msg('prevac.startTimePlaceholder')}}" ng-model="form.dto.startTime">
-                        <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.startTime === '', 'alert-success': form.dto.startTime}"><i class="fa fa-fw fa-check"></i></span>
+                        <input id="startTimeInput" type="text" class="form-control" ng-if="showPlannedDate()" mds-time-picker placeholder="{{msg('prevac.startTimePlaceholder')}}" ng-model="form.dto.startTime">
+                        <input id="startTimeTextInput" type="text" class="form-control" ng-if="!showPlannedDate()" readonly='true' ng-model="form.dto.startTime">
+                        <span class="input-group-addon validator" ng-if="showPlannedDate()" ng-class="{'alert-danger': form.dto.startTime === '', 'alert-success': form.dto.startTime}"><i class="fa fa-fw fa-check"></i></span>
                     </div>
                     <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.actualDate')}}</span>

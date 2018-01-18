@@ -1261,7 +1261,7 @@
             return $scope.form
                 && $scope.form.dto
                 && $scope.form.dto.plannedDate
-                && $scope.form.dto.startTime;
+                && ($scope.form.dto.startTime || !$scope.showPlannedDate());
         };
 
         $scope.exportInstance = function() {
