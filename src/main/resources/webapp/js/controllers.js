@@ -1192,8 +1192,6 @@
         $scope.newForm = function() {
             $scope.form = {};
             $scope.form.dto = {};
-            $scope.form.dto.minActualDate = null;
-            $scope.form.dto.maxActualDate = new Date();
         };
 
         $scope.setActualDateToCurrentDate = function () {

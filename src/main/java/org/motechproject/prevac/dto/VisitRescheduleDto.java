@@ -118,12 +118,8 @@ public class VisitRescheduleDto {
 
     private void calculateEarliestAndLatestDate(Range<LocalDate> dateRange) {
         if (dateRange != null) {
-            LocalDate maxDate = dateRange.getMax();
-            LocalDate minDate = dateRange.getMin();
-
-            earliestWindowDate = minDate;
-            earliestDate = minDate;
-            latestDate = maxDate;
+            earliestDate = dateRange.getMin();
+            latestDate = dateRange.getMax();
         }
     }
 }

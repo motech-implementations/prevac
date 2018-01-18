@@ -853,6 +853,8 @@
                                 scope.form.dto.ignoreDateLimitation = extraRowData.ignoreDateLimitation;
                                 scope.earliestDateToReturn = scope.parseDate(extraRowData.earliestDate);
                                 scope.latestDateToReturn = scope.parseDate(extraRowData.latestDate);
+                                scope.form.dto.minActualDate = null;
+                                scope.form.dto.maxActualDate = new Date();
                                 if (!scope.form.dto.ignoreDateLimitation) {
                                     scope.form.dto.minDate = scope.earliestDateToReturn;
                                     scope.form.dto.maxDate = scope.latestDateToReturn;
