@@ -340,7 +340,7 @@
                         return false;
                     },
                     onCellSelect: function (id, iCol, cellContent, e) {
-                        if (iCol !== 5 && iCol !== 6) {
+                        if (iCol !== 7 && iCol !== 8) {
                             scope.editScreening(id);
                         }
                     }
