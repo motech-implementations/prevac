@@ -715,8 +715,12 @@
         var gridDataExtension;
         var rowsToColor = [];
 
-        function createButton(id) {
-            return '<button type="button" class="btn btn-primary btn-sm ng-binding printBtn" ng-click="print()"><i class="fa fa-fw fa-print"></i></button>';
+        function createButton(disabled) {
+            if (disabled) {
+                return '<button type="button" class="btn btn-primary btn-sm ng-binding printBtn" ng-click="print()" disabled><i class="fa fa-fw fa-print"></i></button>';
+            } else {
+                return '<button type="button" class="btn btn-primary btn-sm ng-binding printBtn" ng-click="print()"><i class="fa fa-fw fa-print"></i></button>';
+            }
         }
 
         function extendGrid(cellValue, options, rowObject) {
@@ -790,7 +794,10 @@
                     gridComplete: function(){
                         var ids = elem.getDataIDs();
                         for(var i = 0; i < ids.length; i++){
-                            elem.setRowData(ids[i], {print: createButton(ids[i])})
+                            var buttonDisabled = elem.getRowData(ids[i]).actualDate !== ""
+                            && elem.getRowData(ids[i]).actualDate !== null
+                            && elem.getRowData(ids[i]).actualDate !== undefined;
+                            elem.setRowData(ids[i], {print: createButton(buttonDisabled)})
                         }
                         $compile($('.printBtn'))(scope);
                         $('#visitRescheduleTable .ui-jqgrid-hdiv').addClass("table-lightblue");
@@ -819,7 +826,7 @@
                         rowsToColor = [];
                     },
                     onCellSelect: function(rowId, iCol, cellContent, e) {
-                        if (iCol !== 8) {
+                        if (iCol !== 7) {
                             var rowData = elem.getRowData(rowId),
                                 extraRowData = gridDataExtension[rowId];
 
