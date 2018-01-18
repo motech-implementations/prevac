@@ -95,9 +95,9 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
         Clinic clinic = visit.getClinic();
 
-        validateDate(visitRescheduleDto, visit);
+        validateDates(visitRescheduleDto, visit);
 
-        if (clinic != null && !ignoreLimitation) {
+        if (clinic != null && !ignoreLimitation && visitRescheduleDto.getActualDate() == null) {
             checkNumberOfPatients(visitRescheduleDto, clinic);
         }
 
@@ -148,7 +148,26 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         }
     }
 
-    private void validateDate(VisitRescheduleDto dto, Visit visit) {
+    private void validateDates(VisitRescheduleDto dto, Visit visit) {
+        if (dto.getActualDate() != null) {
+            validateActualDate(dto);
+        } else {
+            validatePlannedDate(dto, visit);
+        }
+    }
+
+    private void validateActualDate(VisitRescheduleDto dto) {
+        if (dto.getActualDate().isAfter(new LocalDate())) {
+            throw new IllegalArgumentException("Actual Date cannot be in the future.");
+        }
+    }
+    
+    private void validatePlannedDate(VisitRescheduleDto dto, Visit visit) {
+        LocalDate plannedDate = dto.getPlannedDate();
+        if (plannedDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Planned Date cannot be in the past.");
+        }
+
         if (!dto.getIgnoreDateLimitation()) {
             Map<VisitType, VisitScheduleOffset> visitTypeOffsetMap = visitScheduleOffsetService.getAllAsMap();
             List<String> boosterRelatedVisits = configService.getConfig().getBoosterRelatedVisits();
@@ -162,16 +181,19 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             LocalDate earliestDate = dateRange.getMin();
             LocalDate latestDate = dateRange.getMax();
 
-            if (dto.getPlannedDate().isBefore(earliestDate) || dto.getPlannedDate().isAfter(latestDate)) {
+            if (plannedDate.isBefore(earliestDate) || plannedDate.isAfter(latestDate)) {
                 throw new IllegalArgumentException(String.format("The date should be between %s and %s but is %s",
-                        earliestDate, latestDate, dto.getPlannedDate()));
+                        earliestDate, latestDate, plannedDate));
             }
         }
     }
 
     private Visit updateVisitDetailsWithDto(Visit visit, VisitRescheduleDto dto) {
-        visit.setStartTime(dto.getStartTime());
-        visit.setEndTime(calculateEndTime(dto.getStartTime()));
+        Time startTime = dto.getStartTime();
+        if (startTime != null) {
+            visit.setStartTime(startTime);
+            visit.setEndTime(calculateEndTime(startTime));
+        }
         visit.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
         visit.setDateProjected(dto.getPlannedDate());
         visit.setDate(dto.getActualDate());

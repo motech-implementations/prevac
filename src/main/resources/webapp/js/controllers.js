@@ -1245,13 +1245,26 @@
                     });
             }
 
+            if ($scope.form.dto.startTime === "") {
+                $scope.form.dto.startTime = null;
+            }
             if (ignoreLimitation) {
                 sendRequest();
             } else {
                 motechConfirm("prevac.visitReschedule.confirm.shouldSavePlannedDate", "prevac.confirm",
                     function(confirmed) {
                         if (confirmed) {
-                            sendRequest();
+                            var daysBetween = Math.round((new Date - $scope.parseDate($scope.form.dto.actualDate))/(1000*60*60*24));
+                            if (daysBetween > 7) {
+                                motechConfirm("prevac.visitReschedule.confirm.shouldSaveOldActualDate", "prevac.confirm",
+                                    function(confirmed) {
+                                    if (confirmed) {
+                                        sendRequest();
+                                    }
+                                })
+                            } else {
+                                sendRequest();
+                            }
                         }
                 })
             }
