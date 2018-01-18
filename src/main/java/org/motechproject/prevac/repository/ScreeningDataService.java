@@ -63,18 +63,20 @@ public interface ScreeningDataService extends MotechDataService<Screening> {
                                              @LookupField(name = "status") ScreeningStatus status);
 
     @Lookup
-    List<Screening> findByName(@LookupField(name = "volunteer.name") String volunteerName);
+    List<Screening> findByName(
+            @LookupField(name = "volunteer.name", customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String volunteerName);
 
     @Lookup
     List<Screening> findByNameAndDate(
             @LookupField(name = "date") Range<LocalDate> date,
-            @LookupField(name = "volunteer.name") String volunteerName);
+            @LookupField(name = "volunteer.name", customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String volunteerName);
 
     @Lookup
-    List<Screening> findByContactNumber(@LookupField(name = "volunteer.contactNumber") String volunteerContactNumber);
+    List<Screening> findByContactNumber(
+            @LookupField(name = "volunteer.contactNumber", customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String volunteerContactNumber);
 
     @Lookup
     List<Screening> findByContactNumberAndDate(
             @LookupField(name = "date") Range<LocalDate> date,
-            @LookupField(name = "volunteer.contactNumber") String volunteerContactNumber);
+            @LookupField(name = "volunteer.contactNumber", customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String volunteerContactNumber);
 }
