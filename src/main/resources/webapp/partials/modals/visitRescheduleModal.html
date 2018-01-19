@@ -23,6 +23,10 @@
                         <input id="startTimeTextInput" type="text" class="form-control" ng-if="!showPlannedDate()" readonly='true' ng-model="form.dto.startTime">
                         <span class="input-group-addon validator" ng-if="showPlannedDate()" ng-class="{'alert-danger': form.dto.startTime === '', 'alert-success': form.dto.startTime}"><i class="fa fa-fw fa-check"></i></span>
                     </div>
+                    <div class="prevac input-group prime-vaccination-schedule-modal" ng-if="showPlannedDate()">
+                        <span class="left input-group-addon">{{msg('prevac.ignoreDateLimitation')}}</span>
+                        <input id="ignoreDateLimit" type="checkbox" class="col-md-2" ng-model="form.dto.ignoreDateLimitation">
+                    </div>
                     <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.actualDate')}}</span>
                         <input id="actualDateInput" type="text" class="form-control datepicker" readonly='true' prevac-date-picker min="form.dto.minActualDate" max="form.dto.maxActualDate" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.actualDate">
@@ -32,10 +36,6 @@
                         <span class="input-group-btn">
                             <button id="removeActualDateBtn" type="button" class="btn btn-danger btn-sm form-control" ng-click="clearActualDate()"><i class="fa fa-fw fa-trash-o"></i></button>
                         </span>
-                    </div>
-                    <div class="prevac input-group prime-vaccination-schedule-modal">
-                        <span class="left input-group-addon">{{msg('prevac.ignoreDateLimitation')}}</span>
-                        <input id="ignoreDateLimit" type="checkbox" class="col-md-2" ng-model="form.dto.ignoreDateLimitation">
                     </div>
                 </div>
                 <div class="modal-footer">

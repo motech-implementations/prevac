@@ -863,7 +863,13 @@
                                 scope.form.dto.minActualDate = null;
                                 scope.form.dto.maxActualDate = new Date();
                                 if (!scope.form.dto.ignoreDateLimitation) {
-                                    scope.form.dto.minDate = scope.earliestDateToReturn;
+                                    var currentDate = new Date();
+                                    currentDate.setHours(0,0,0,0);
+                                    if (scope.earliestDateToReturn < currentDate) {
+                                        scope.form.dto.minDate = currentDate;
+                                    } else {
+                                        scope.form.dto.minDate = scope.earliestDateToReturn;
+                                    }
                                     scope.form.dto.maxDate = scope.latestDateToReturn;
                                 } else {
                                     scope.form.dto.minDate = new Date();

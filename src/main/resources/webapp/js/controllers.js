@@ -1201,6 +1201,7 @@
         $scope.showPlannedDate = function () {
             var isActualDateEmpty = $scope.form.dto.actualDate === null || $scope.form.dto.actualDate === "" || $scope.form.dto.actualDate === undefined;
             var currentDate = new Date();
+            currentDate.setHours(0,0,0,0);
             return $scope.form.dto.maxDate >= currentDate && isActualDateEmpty;
         };
 
@@ -1273,8 +1274,7 @@
         $scope.formIsFilled = function() {
             return $scope.form
                 && $scope.form.dto
-                && $scope.form.dto.plannedDate
-                && ($scope.form.dto.startTime || !$scope.showPlannedDate());
+                && ($scope.form.dto.actualDate || ($scope.form.dto.plannedDate && $scope.form.dto.startTime));
         };
 
         $scope.exportInstance = function() {
