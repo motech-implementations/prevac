@@ -589,7 +589,23 @@
         $scope.$parent.selectedFilter.endDate = undefined;
         $scope.$parent.selectedFilter = $scope.filters[0];
 
-        $scope.clinics = Clinics.query();
+        $scope.clinics = Clinics.query()
+            .$promise.then(
+                //success
+                function(clinics) {
+                    if (clinics.length === 1
+                        && $scope.form !== undefined && $scope.form !== null
+                        && $scope.form.dto !== undefined && $scope.form.dto !== null) {
+                        $scope.form.dto.clinicLocation = clinics[0].location;
+                        $scope.form.dto.clinicId = clinics[0].id;
+                    }
+                    $scope.clinics = clinics;
+                },
+                //error
+                function(response) {
+                    $scope.clinics = [];
+                    motechAlert('prevac.screening.clinicsLoading', 'prevac.error', response);
+                });
 
         $scope.updateInProgress = false;
 
