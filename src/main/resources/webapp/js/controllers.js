@@ -656,7 +656,8 @@
             $scope.form.type = type;
             $scope.form.dto = {};
             if ($scope.clinics.length === 1) {
-                $scope.form.dto.clinic = $scope.clinics[0];
+                $scope.form.dto.clinicLocation = $scope.clinics[0].location;
+                $scope.form.dto.clinicId = $scope.clinics[0].id;
             }
         };
 
