@@ -1,6 +1,7 @@
 package org.motechproject.prevac.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.mapstruct.factory.Mappers;
 import org.motechproject.prevac.domain.Clinic;
 import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.domain.UnscheduledVisit;
@@ -45,16 +46,18 @@ public class SubjectServiceImpl implements SubjectService {
 
         Subject subjectInDb = findSubjectBySubjectId(newSubject.getSubjectId());
 
+        SubjectMapper subjectMapper = Mappers.getMapper(SubjectMapper.class);
+
         if (subjectInDb != null) {
             if (StringUtils.isNotBlank(newSubject.getSiteId()) && !newSubject.getSiteId().equals(subjectInDb.getSiteId())) {
                 updateSiteId(newSubject.getSubjectId(), newSubject.getSiteId());
             }
 
-            SubjectMapper.INSTANCE.updateFromDto(newSubject, subjectInDb);
+            subjectMapper.updateFromDto(newSubject, subjectInDb);
 
             subjectInDb = update(subjectInDb);
         } else {
-            subjectInDb = create(SubjectMapper.INSTANCE.fromDto(newSubject));
+            subjectInDb = create(subjectMapper.fromDto(newSubject));
         }
 
         return subjectInDb;
