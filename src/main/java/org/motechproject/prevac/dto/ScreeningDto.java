@@ -32,4 +32,8 @@ public class ScreeningDto {
     @Getter
     @Setter
     private String contactNumber;
+
+    @Getter
+    @Setter
+    private String clinicLocation;
 }
