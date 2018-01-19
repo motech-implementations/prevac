@@ -715,8 +715,12 @@
         var gridDataExtension;
         var rowsToColor = [];
 
-        function createButton(id) {
-            return '<button type="button" class="btn btn-primary btn-sm ng-binding printBtn" ng-click="print()"><i class="fa fa-fw fa-print"></i></button>';
+        function createButton(disabled) {
+            if (disabled) {
+                return '<button type="button" class="btn btn-primary btn-sm ng-binding printBtn" ng-click="print()" disabled><i class="fa fa-fw fa-print"></i></button>';
+            } else {
+                return '<button type="button" class="btn btn-primary btn-sm ng-binding printBtn" ng-click="print()"><i class="fa fa-fw fa-print"></i></button>';
+            }
         }
 
         function extendGrid(cellValue, options, rowObject) {
@@ -790,7 +794,10 @@
                     gridComplete: function(){
                         var ids = elem.getDataIDs();
                         for(var i = 0; i < ids.length; i++){
-                            elem.setRowData(ids[i], {print: createButton(ids[i])})
+                            var buttonDisabled = elem.getRowData(ids[i]).actualDate !== ""
+                            && elem.getRowData(ids[i]).actualDate !== null
+                            && elem.getRowData(ids[i]).actualDate !== undefined;
+                            elem.setRowData(ids[i], {print: createButton(buttonDisabled)})
                         }
                         $compile($('.printBtn'))(scope);
                         $('#visitRescheduleTable .ui-jqgrid-hdiv').addClass("table-lightblue");
@@ -819,15 +826,11 @@
                         rowsToColor = [];
                     },
                     onCellSelect: function(rowId, iCol, cellContent, e) {
-                        if (iCol !== 8) {
+                        if (iCol !== 7) {
                             var rowData = elem.getRowData(rowId),
                                 extraRowData = gridDataExtension[rowId];
 
-                            if (rowData.actualDate !== undefined && rowData.actualDate !== null && rowData.actualDate !== '') {
-                                scope.visitForPrint = elem.getRowData(rowId);
-                                scope.form = null;
-                                scope.showRescheduleModal(scope.msg('prevac.visitReschedule.cannotReschedule'), scope.msg('prevac.visitReschedule.visitWithActualDate'));
-                            } else if (extraRowData.earliestDate === undefined || extraRowData.earliestDate === null || extraRowData.earliestDate === "") {
+                            if (extraRowData.earliestDate === undefined || extraRowData.earliestDate === null || extraRowData.earliestDate === "") {
                                 scope.visitForPrint = elem.getRowData(rowId);
                                 scope.form = null;
                                 var message = "prevac.visitReschedule.participantVisitScheduleOffsetMissing";
@@ -851,13 +854,22 @@
                                 scope.form.dto.participantName = rowData.participantName;
                                 scope.form.dto.visitType = rowData.visitType;
                                 scope.form.dto.plannedDate = rowData.plannedDate;
+                                scope.form.dto.actualDate = rowData.actualDate;
                                 scope.form.dto.startTime = rowData.startTime;
                                 scope.form.dto.visitId = extraRowData.visitId;
                                 scope.form.dto.ignoreDateLimitation = extraRowData.ignoreDateLimitation;
                                 scope.earliestDateToReturn = scope.parseDate(extraRowData.earliestDate);
                                 scope.latestDateToReturn = scope.parseDate(extraRowData.latestDate);
+                                scope.form.dto.minActualDate = null;
+                                scope.form.dto.maxActualDate = new Date();
                                 if (!scope.form.dto.ignoreDateLimitation) {
-                                    scope.form.dto.minDate = scope.earliestDateToReturn;
+                                    var currentDate = new Date();
+                                    currentDate.setHours(0,0,0,0);
+                                    if (scope.earliestDateToReturn < currentDate) {
+                                        scope.form.dto.minDate = currentDate;
+                                    } else {
+                                        scope.form.dto.minDate = scope.earliestDateToReturn;
+                                    }
                                     scope.form.dto.maxDate = scope.latestDateToReturn;
                                 } else {
                                     scope.form.dto.minDate = new Date();

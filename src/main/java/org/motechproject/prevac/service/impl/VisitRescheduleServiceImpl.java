@@ -8,12 +8,14 @@ import org.motechproject.commons.date.model.Time;
 import org.motechproject.mds.query.QueryParams;
 import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Clinic;
+import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.VisitScheduleOffset;
 import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.dto.VisitRescheduleDto;
 import org.motechproject.prevac.exception.LimitationExceededException;
 import org.motechproject.prevac.helper.VisitLimitationHelper;
+import org.motechproject.prevac.repository.SubjectDataService;
 import org.motechproject.prevac.repository.VisitDataService;
 import org.motechproject.prevac.service.ConfigService;
 import org.motechproject.prevac.service.LookupService;
@@ -47,6 +49,9 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
     private VisitLimitationHelper visitLimitationHelper;
 
     @Autowired
+    private SubjectDataService subjectDataService;
+
+    @Autowired
     private ConfigService configService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -61,20 +66,20 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
         List<VisitRescheduleDto> dtos = new ArrayList<>();
 
-        for (Visit details : detailsRecords.getRows()) {
+        for (Visit visit : detailsRecords.getRows()) {
 
-            Boolean boosterRelated = isBoosterRelated(details.getType(), boosterRelatedVisits);
-            LocalDate vaccinationDate = getVaccinationDate(details, boosterRelated);
+            Boolean boosterRelated = isBoosterRelated(visit.getType(), boosterRelatedVisits);
+            LocalDate vaccinationDate = getVaccinationDate(visit, boosterRelated);
 
             Boolean notVaccinated = true;
             Range<LocalDate> dateRange = null;
 
             if (vaccinationDate != null) {
-                dateRange = calculateEarliestAndLatestDate(details.getType(), offsetMap, vaccinationDate);
+                dateRange = calculateEarliestAndLatestDate(visit.getType(), offsetMap, vaccinationDate);
                 notVaccinated = false;
             }
 
-            dtos.add(new VisitRescheduleDto(details, dateRange, boosterRelated, notVaccinated));
+            dtos.add(new VisitRescheduleDto(visit, dateRange, boosterRelated, notVaccinated));
         }
 
         return new Records<>(detailsRecords.getPage(), detailsRecords.getTotal(), detailsRecords.getRecords(), dtos);
@@ -82,7 +87,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
     @Override
     public VisitRescheduleDto saveVisitReschedule(VisitRescheduleDto visitRescheduleDto, Boolean ignoreLimitation) {
-        Visit visit = visitDataService.findById(visitRescheduleDto.getVisitBookingDetailsId());
+        Visit visit = visitDataService.findById(visitRescheduleDto.getVisitId());
 
         if (visit == null) {
             throw new IllegalArgumentException("Cannot reschedule, because details for Visit not found");
@@ -90,13 +95,11 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
 
         Clinic clinic = visit.getClinic();
 
-        validateDate(visitRescheduleDto, visit);
+        validateDates(visitRescheduleDto, visit);
 
-        if (clinic != null && !ignoreLimitation) {
+        if (clinic != null && !ignoreLimitation && visitRescheduleDto.getActualDate() == null) {
             checkNumberOfPatients(visitRescheduleDto, clinic);
         }
-
-        updateVisitPlannedDate(visit, visitRescheduleDto);
 
         return new VisitRescheduleDto(updateVisitDetailsWithDto(visit, visitRescheduleDto));
     }
@@ -106,7 +109,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         List<Visit> visits = visitDataService
                 .findByClinicIdVisitPlannedDateAndType(clinic.getId(), dto.getPlannedDate(), dto.getVisitType());
 
-        visitLimitationHelper.checkCapacityForVisit(dto.getPlannedDate(), clinic, dto.getVisitBookingDetailsId());
+        visitLimitationHelper.checkCapacityForVisit(dto.getPlannedDate(), clinic, dto.getVisitId());
 
         if (visits != null && !visits.isEmpty()) {
             Integer numberOfRooms = clinic.getNumberOfRooms();
@@ -121,7 +124,7 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             }
 
             for (Visit visit : visits) {
-                if (visit.getId().equals(dto.getVisitBookingDetailsId())) {
+                if (visit.getId().equals(dto.getVisitId())) {
                     maxVisits++;
                 } else if (startTime != null && visit.getStartTime() != null) {
                     if (startTime.isBefore(visit.getStartTime())) {
@@ -145,13 +148,24 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
         }
     }
 
-    private void validateDate(VisitRescheduleDto dto, Visit visit) {
-        if (visit.getDate() != null) {
-            throw new IllegalArgumentException("Cannot reschedule, because Visit already took place");
+    private void validateDates(VisitRescheduleDto dto, Visit visit) {
+        if (dto.getActualDate() != null) {
+            validateActualDate(dto);
+        } else {
+            validatePlannedDate(dto, visit);
         }
+    }
 
-        if (dto.getPlannedDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Date cannot be in the past");
+    private void validateActualDate(VisitRescheduleDto dto) {
+        if (dto.getActualDate().isAfter(new LocalDate())) {
+            throw new IllegalArgumentException("Actual Date cannot be in the future.");
+        }
+    }
+    
+    private void validatePlannedDate(VisitRescheduleDto dto, Visit visit) {
+        LocalDate plannedDate = dto.getPlannedDate();
+        if (plannedDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Planned Date cannot be in the past.");
         }
 
         if (!dto.getIgnoreDateLimitation()) {
@@ -167,22 +181,27 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
             LocalDate earliestDate = dateRange.getMin();
             LocalDate latestDate = dateRange.getMax();
 
-            if (dto.getPlannedDate().isBefore(earliestDate) || dto.getPlannedDate().isAfter(latestDate)) {
+            if (plannedDate.isBefore(earliestDate) || plannedDate.isAfter(latestDate)) {
                 throw new IllegalArgumentException(String.format("The date should be between %s and %s but is %s",
-                        earliestDate, latestDate, dto.getPlannedDate()));
+                        earliestDate, latestDate, plannedDate));
             }
         }
     }
 
-    private Visit updateVisitDetailsWithDto(Visit details, VisitRescheduleDto dto) {
-        details.setStartTime(dto.getStartTime());
-        details.setEndTime(calculateEndTime(dto.getStartTime()));
-        details.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
-        return visitDataService.update(details);
-    }
-
-    private Visit updateVisitPlannedDate(Visit visit, VisitRescheduleDto visitRescheduleDto) {
-        visit.setDateProjected(visitRescheduleDto.getPlannedDate());
+    private Visit updateVisitDetailsWithDto(Visit visit, VisitRescheduleDto dto) {
+        Time startTime = dto.getStartTime();
+        if (startTime != null) {
+            visit.setStartTime(startTime);
+            visit.setEndTime(calculateEndTime(startTime));
+        }
+        visit.setIgnoreDateLimitation(dto.getIgnoreDateLimitation());
+        visit.setDateProjected(dto.getPlannedDate());
+        visit.setDate(dto.getActualDate());
+        if (VisitType.BOOST_VACCINATION_DAY.equals(dto.getVisitType())) {
+            Subject subject = visit.getSubject();
+            subject.setBoosterVaccinationDate(dto.getActualDate());
+            subjectDataService.update(subject);
+        }
 
         return visitDataService.update(visit);
     }

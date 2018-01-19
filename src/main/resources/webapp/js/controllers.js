@@ -1218,6 +1218,28 @@
             $scope.form.dto = {};
         };
 
+        $scope.setActualDateToCurrentDate = function () {
+            $scope.form.dto.actualDate = $filter('date')(new Date(), "yyyy-MM-dd");
+        };
+
+        $scope.showPlannedDate = function () {
+            var isActualDateEmpty = $scope.form.dto.actualDate === null || $scope.form.dto.actualDate === "" || $scope.form.dto.actualDate === undefined;
+            var currentDate = new Date();
+            currentDate.setHours(0,0,0,0);
+            return $scope.form.dto.maxDate >= currentDate && isActualDateEmpty;
+        };
+
+        $scope.clearActualDate = function () {
+           motechConfirm("prevac.visitReschedule.removeActualDate", "prevac.confirm", function(confirmed) {
+                   if (confirmed) {
+                       $scope.form.dto.actualDate = null;
+                       $timeout(function() {
+                           $('#actualDateInput').trigger('change');
+                       }, 100);
+                   }
+           })
+        };
+
         $scope.showRescheduleModal = function(modalHeaderMessage, modalBodyMessage) {
             $timeout(function() {
             $scope.rescheduleModalHeader = modalHeaderMessage;
@@ -1248,13 +1270,26 @@
                     });
             }
 
+            if ($scope.form.dto.startTime === "") {
+                $scope.form.dto.startTime = null;
+            }
             if (ignoreLimitation) {
                 sendRequest();
             } else {
                 motechConfirm("prevac.visitReschedule.confirm.shouldSavePlannedDate", "prevac.confirm",
                     function(confirmed) {
                         if (confirmed) {
-                            sendRequest();
+                            var daysBetween = Math.round((new Date - $scope.parseDate($scope.form.dto.actualDate))/(1000*60*60*24));
+                            if (daysBetween > 7) {
+                                motechConfirm("prevac.visitReschedule.confirm.shouldSaveOldActualDate", "prevac.confirm",
+                                    function(confirmed) {
+                                    if (confirmed) {
+                                        sendRequest();
+                                    }
+                                })
+                            } else {
+                                sendRequest();
+                            }
                         }
                 })
             }
@@ -1263,8 +1298,7 @@
         $scope.formIsFilled = function() {
             return $scope.form
                 && $scope.form.dto
-                && $scope.form.dto.plannedDate
-                && $scope.form.dto.startTime;
+                && ($scope.form.dto.actualDate || ($scope.form.dto.plannedDate && $scope.form.dto.startTime));
         };
 
         $scope.exportInstance = function() {
