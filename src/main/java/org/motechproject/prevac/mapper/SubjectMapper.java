@@ -5,11 +5,14 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.web.domain.SubjectZetesDto;
 
 @Mapper(uses = { EnumsMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public abstract class SubjectMapper {
+
+    public static final SubjectMapper INSTANCE = Mappers.getMapper(SubjectMapper.class);
 
     public abstract Subject fromDto(SubjectZetesDto subjectZetesDto);
 
@@ -18,7 +21,9 @@ public abstract class SubjectMapper {
     @AfterMapping
     protected void calculateYearOfBirth(SubjectZetesDto dto, @MappingTarget Subject subject) {
         Integer currentYear = new LocalDate().getYear();
-        subject.setYearOfBirth(currentYear - dto.getAge());
+        if (dto.getAge() != null) {
+            subject.setYearOfBirth(currentYear - dto.getAge());
+        }
     }
 
 }
