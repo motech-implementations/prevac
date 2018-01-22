@@ -1203,6 +1203,15 @@
         $scope.setPrimeVacDateToCurrentDate = function () {
             $scope.primeVac.date = $filter('date')(new Date(), "yyyy-MM-dd");
         };
+
+        $scope.isTodayButtonDisabled =  function () {
+            var currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            if ($scope.dateRange !== undefined && $scope.dateRange !== null) {
+                return currentDate < $scope.dateRange.min || currentDate > $scope.dateRange.max;
+            }
+            return true;
+        }
     });
 
     controllers.controller('PrevacRescheduleCtrl', function ($scope, $http, $timeout, $filter) {
