@@ -20,11 +20,11 @@
                 {{selectedSubject.name}}
             </td>
             <td class="col-md-2">
-                <div class="col-md-8">
+                <div class="prevac input-group">
                     <input type="text" id="primeVacDateInput" class="form-control datepicker" readonly="true" prevac-date-picker="" min="dateRange.min" max="dateRange.max" ng-model="primeVac.date">
-                </div>
-                <div class="col-md-4">
-                    <button id="todayBtn" type="button" class="btn btn-primary" ng-disabled="!checkSubject() || isTodayButtonDisabled()" ng-click="setPrimeVacDateToCurrentDate()">Today</button>
+                    <span class="input-group-btn">
+                            <button id="todayBtn" type="button" class="btn btn-primary" ng-disabled="!checkSubject() || isTodayButtonDisabled()" ng-click="setPrimeVacDateToCurrentDate()">Today</button>
+                    </span>
                 </div>
             </td>
             <td id="nextVisit" class="col-md-2">
