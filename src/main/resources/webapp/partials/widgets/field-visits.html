@@ -10,7 +10,7 @@
         <tr ng-repeat="visit in [].concat(field.value)"  ng-click="editInstanceOfEntity(visit.id, getMetadata(field, 'related.class'))">
             <td>{{visit.type}}</td>
             <td>{{visit.date}}</td>
-            <td>{{visit.motechProjectedDate}}</td>
+            <td>{{visit.dateProjected}}</td>
         </tr>
     </tbody>
 </table>
