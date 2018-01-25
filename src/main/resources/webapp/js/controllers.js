@@ -1285,7 +1285,13 @@
             if (ignoreLimitation) {
                 sendRequest();
             } else {
-                motechConfirm("prevac.visitReschedule.confirm.shouldSavePlannedDate", "prevac.confirm",
+                var confirmMsg = "prevac.visitReschedule.confirm.shouldSavePlannedDate";
+                if ($scope.form.dto.actualDate !== ""
+                    && $scope.form.dto.actualDate !== undefined
+                    && $scope.form.dto.actualDate !== null) {
+                    confirmMsg = "prevac.visitReschedule.confirm.shouldSaveActualDate";
+                }
+                motechConfirm(confirmMsg, "prevac.confirm",
                     function(confirmed) {
                         if (confirmed) {
                             var daysBetween = Math.round((new Date - $scope.parseDate($scope.form.dto.actualDate))/(1000*60*60*24));
