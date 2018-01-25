@@ -72,15 +72,14 @@ public class VisitRescheduleServiceTest {
     @Mock
     private VisitLimitationHelper visitLimitationHelper;
 
-    private Subject subject1;
+    private Subject subject;
 
     @Before
     public void setUp() {
         initMocks(this);
-        subject1 = createSubject("1", "asd", "123", "asd", Language.English, "asd", "asd", "asd", "asd", "asd", "asd");
-        subject1.setPrimerVaccinationDate(new LocalDate(2217, 2, 1));
-        subject1.setBoosterVaccinationDate(new LocalDate(2217, 3, 1));
-        Subject subject2 = createSubject("2", "asd", "123", "asd", Language.English, "asd", "asd", "asd", "asd", "asd", "asd");
+        subject = createSubject();
+        subject.setPrimerVaccinationDate(new LocalDate(2217, 2, 1));
+        subject.setBoosterVaccinationDate(new LocalDate(2217, 3, 1));
     }
 
     @Test
@@ -90,8 +89,8 @@ public class VisitRescheduleServiceTest {
         gridSettings.setRows(10);
 
         List<Visit> visits = new ArrayList<>(Arrays.asList(
-                createVisit(1L, VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 4, 1), subject1),
-                createVisit(2L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 4, 1), subject1)
+                createVisit(1L, VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 4, 1), subject),
+                createVisit(2L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 4, 1), subject)
         ));
 
         Records<Visit> records = new Records<>(1, 10, 2, visits);
@@ -128,8 +127,8 @@ public class VisitRescheduleServiceTest {
     @Test
     public void shouldNotCalculateVisitDateRangeIfVisitScheduleOffsetIsMissing() throws IOException {
         List<Visit> visits = new ArrayList<>(Arrays.asList(
-                createVisit(1L, VisitType.THREE_MONTHS_POST_PRIME_VISIT, null, null, subject1),
-                createVisit(2L, VisitType.SIX_MONTHS_POST_PRIME_VISIT, null, null, subject1)
+                createVisit(1L, VisitType.THREE_MONTHS_POST_PRIME_VISIT, null, null, subject),
+                createVisit(2L, VisitType.SIX_MONTHS_POST_PRIME_VISIT, null, null, subject)
         ));
 
         Records<Visit> records = new Records<>(1, 10, visits.size(), visits);
@@ -154,7 +153,7 @@ public class VisitRescheduleServiceTest {
 
     @Test
     public void shouldSaveRescheduledVisit() {
-        Visit visit = createVisit(1L, VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 1, 1), subject1);
+        Visit visit = createVisit(1L, VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 1, 1), subject);
 
         VisitRescheduleDto expectedVisitRescheduleDto = new VisitRescheduleDto(visit, new Range<>(new LocalDate(2217, 2, 1), new LocalDate(2217, 3, 1)), false, false);
         Boolean ignoreLimitation = true;
@@ -171,6 +170,7 @@ public class VisitRescheduleServiceTest {
         // Returned dto should not have earliest and latest return dates
         expectedVisitRescheduleDto.setEarliestDate(null);
         expectedVisitRescheduleDto.setLatestDate(null);
+
         assertVisitRescheduleDto(expectedVisitRescheduleDto, actualVisitRescheduleDto);
 
         verify(visitDataService).update(any(Visit.class));
@@ -180,7 +180,7 @@ public class VisitRescheduleServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenVisitActualDateIsInFuture() {
         Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT,
-                new LocalDate().plusDays(3), new LocalDate(2217, 1, 1), subject1);
+                new LocalDate().plusDays(3), new LocalDate(2217, 1, 1), subject);
 
         VisitRescheduleDto visitRescheduleDto = new VisitRescheduleDto(visit);
 
@@ -191,7 +191,7 @@ public class VisitRescheduleServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenPlannedDateIsInThePast() {
-        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2015, 1, 1), subject1);
+        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2015, 1, 1), subject);
 
         VisitRescheduleDto visitRescheduleDto = new VisitRescheduleDto(visit);
 
@@ -202,7 +202,7 @@ public class VisitRescheduleServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenCannotCalculateVisitWindow() {
-        Visit visit = createVisit(1L, VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 1, 1), subject1);
+        Visit visit = createVisit(1L, VisitType.PRIME_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 1, 1), subject);
 
         VisitRescheduleDto visitRescheduleDto = new VisitRescheduleDto(visit);
         visitRescheduleDto.setStartTime(new Time(9, 0));
@@ -221,7 +221,7 @@ public class VisitRescheduleServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenVisitPlannedDateOutOfWindow() {
-        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 1, 1), subject1);
+        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 1, 1), subject);
 
         VisitRescheduleDto visitRescheduleDto = new VisitRescheduleDto(visit);
         visitRescheduleDto.setStartTime(new Time(9, 0));
@@ -249,7 +249,7 @@ public class VisitRescheduleServiceTest {
         clinic.setId(1L);
         clinic.setNumberOfRooms(20);
 
-        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 2, 11), subject1);
+        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 2, 11), subject);
         visit.setClinic(clinic);
 
         VisitRescheduleDto visitRescheduleDto = new VisitRescheduleDto(visit);
@@ -282,7 +282,7 @@ public class VisitRescheduleServiceTest {
         clinic.setId(1L);
         clinic.setNumberOfRooms(2);
 
-        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 2, 11), subject1);
+        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2217, 2, 11), subject);
         visit.setClinic(clinic);
 
         VisitRescheduleDto visitRescheduleDto = new VisitRescheduleDto(visit);
@@ -313,7 +313,7 @@ public class VisitRescheduleServiceTest {
 
     @Test
     public void shouldUpdateSubjectBoosterVaccinationDate() {
-        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_DAY, null, new LocalDate(2217, 1, 1), subject1);
+        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_DAY, null, new LocalDate(2217, 1, 1), subject);
 
         VisitRescheduleDto expectedVisitRescheduleDto = new VisitRescheduleDto(visit, new Range<>(new LocalDate(2217, 2, 1), new LocalDate(2217, 3, 1)), false, false);
         Boolean ignoreLimitation = true;
@@ -372,20 +372,19 @@ public class VisitRescheduleServiceTest {
         assertEquals(expected.getIgnoreDateLimitation(), actual.getIgnoreDateLimitation());
     }
 
-    private Subject createSubject(String subjectId, String name, String phoneNumber, String address, Language language, //NO CHECKSTYLE ParameterNumber
-                                  String community, String siteId, String siteName, String chiefdom, String section, String district) {
-        Subject subject = new Subject();
-        subject.setSubjectId(subjectId);
-        subject.setName(name);
-        subject.setPhoneNumber(phoneNumber);
-        subject.setAddress(address);
-        subject.setCommunity(community);
-        subject.setSiteId(siteId);
-        subject.setSiteName(siteName);
-        subject.setChiefdom(chiefdom);
-        subject.setSection(section);
-        subject.setDistrict(district);
-        subject.setLanguage(language);
-        return subject;
+    private Subject createSubject() {
+        Subject newSubject = new Subject();
+        newSubject.setSubjectId("1");
+        newSubject.setName("asd");
+        newSubject.setPhoneNumber("123");
+        newSubject.setAddress("asd");
+        newSubject.setCommunity("asd");
+        newSubject.setSiteId("asd");
+        newSubject.setSiteName("asd");
+        newSubject.setChiefdom("asd");
+        newSubject.setSection("asd");
+        newSubject.setDistrict("asd");
+        newSubject.setLanguage(Language.English);
+        return newSubject;
     }
 }

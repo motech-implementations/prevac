@@ -58,7 +58,7 @@ public class ScreeningServiceTest {
     @Before
     public void setUp() {
         initMocks(this);
-        clinic = createClinic("siteId", "location", 1, 5, 2, 9, 8, 7, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);
+        clinic = createClinic();
         clinic.setId(1L);
     }
 
@@ -164,31 +164,26 @@ public class ScreeningServiceTest {
         return screeningDto;
     }
 
-    private Clinic createClinic(String siteId, String location, Integer numberOfRooms, Integer maxCapacityByDay, Integer maxScreeningVisits, //NO CHECKSTYLE ParameterNumber
-                                Integer maxPrimeVisits, Integer maxPrimeFirstFollowUpVisits, Integer maxPrimeSecondFollowUpVisits, Integer maxPrimeThirdFollowUpVisits,
-                                Integer maxBoosterVisits, Integer maxBoosterFirstFollowUpVisits,
-                                Integer maxThreeMonthsPostPrimeVisits, Integer maxSixMonthsPostPrimeVisits, Integer maxTwelveMonthsPostPrimeVisits,
-                                Integer maxTwentyFourMonthsPostPrimeVisits, Integer maxThirtySixMonthsPostPrimeVisits,
-                                Integer maxFortyEightMonthsPostPrimeVisits, Integer maxSixtyMonthsPostPrimeVisits) {
+    private Clinic createClinic() {
         Clinic newClinic = new Clinic();
-        newClinic.setSiteId(siteId);
-        newClinic.setLocation(location);
-        newClinic.setNumberOfRooms(numberOfRooms);
-        newClinic.setMaxCapacityByDay(maxCapacityByDay);
-        newClinic.setMaxScreeningVisits(maxScreeningVisits);
-        newClinic.setMaxPrimeVisits(maxPrimeVisits);
-        newClinic.setMaxPrimeFirstFollowUpVisits(maxPrimeFirstFollowUpVisits);
-        newClinic.setMaxPrimeSecondFollowUpVisits(maxPrimeSecondFollowUpVisits);
-        newClinic.setMaxPrimeThirdFollowUpVisits(maxPrimeThirdFollowUpVisits);
-        newClinic.setMaxBoosterVisits(maxBoosterVisits);
-        newClinic.setMaxBoosterFirstFollowUpVisits(maxBoosterFirstFollowUpVisits);
-        newClinic.setMaxThreeMonthsPostPrimeVisits(maxThreeMonthsPostPrimeVisits);
-        newClinic.setMaxSixMonthsPostPrimeVisits(maxSixMonthsPostPrimeVisits);
-        newClinic.setMaxTwelveMonthsPostPrimeVisits(maxTwelveMonthsPostPrimeVisits);
-        newClinic.setMaxTwentyFourMonthsPostPrimeVisits(maxTwentyFourMonthsPostPrimeVisits);
-        newClinic.setMaxThirtySixMonthsPostPrimeVisits(maxThirtySixMonthsPostPrimeVisits);
-        newClinic.setMaxFortyEightMonthsPostPrimeVisits(maxFortyEightMonthsPostPrimeVisits);
-        newClinic.setMaxSixtyMonthsPostPrimeVisits(maxSixtyMonthsPostPrimeVisits);
+        newClinic.setSiteId("siteId");
+        newClinic.setLocation("location");
+        newClinic.setNumberOfRooms(1);
+        newClinic.setMaxCapacityByDay(5);
+        newClinic.setMaxScreeningVisits(2);
+        newClinic.setMaxPrimeVisits(9);
+        newClinic.setMaxPrimeFirstFollowUpVisits(8);
+        newClinic.setMaxPrimeSecondFollowUpVisits(7);
+        newClinic.setMaxPrimeThirdFollowUpVisits(10);
+        newClinic.setMaxBoosterVisits(10);
+        newClinic.setMaxBoosterFirstFollowUpVisits(10);
+        newClinic.setMaxThreeMonthsPostPrimeVisits(10);
+        newClinic.setMaxSixMonthsPostPrimeVisits(10);
+        newClinic.setMaxTwelveMonthsPostPrimeVisits(10);
+        newClinic.setMaxTwentyFourMonthsPostPrimeVisits(10);
+        newClinic.setMaxThirtySixMonthsPostPrimeVisits(10);
+        newClinic.setMaxFortyEightMonthsPostPrimeVisits(10);
+        newClinic.setMaxSixtyMonthsPostPrimeVisits(10);
         return newClinic;
     }
 

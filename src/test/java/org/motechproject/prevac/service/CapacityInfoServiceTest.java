@@ -60,8 +60,8 @@ public class CapacityInfoServiceTest {
     public void shouldCalculateClinicCapacity() {
         GridSettings gridSettings = createGridSettings(1, 10, DateFilter.DATE_RANGE, "2017-1-1", "2017-1-2");
 
-        Clinic firstClinic = createClinic(1L, "siteId1", "first", 20, 5, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-        Clinic secondClinic = createClinic(2L, "siteId2", "second", 20, 10, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        Clinic firstClinic = createClinic(1L, "siteId1", "first", 5, 4, 3);
+        Clinic secondClinic = createClinic(2L, "siteId2", "second", 10, 2, 9);
         List<Clinic> clinics = new ArrayList<>(Arrays.asList(firstClinic, secondClinic));
 
         Range<LocalDate> dateRange = new Range<>(new LocalDate(2017, 1, 1), new LocalDate(2017, 1, 2));
@@ -93,8 +93,8 @@ public class CapacityInfoServiceTest {
     public void shouldReturnZerosForEmptyDateRange() {
         GridSettings gridSettings = createGridSettings(1, 10, null, "", "");
         List<Clinic> clinics = new ArrayList<>(Arrays.asList(
-                createClinic(1L, "siteId1", "first", 20, 5, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-                createClinic(2L, "siteId2", "second", 20, 10, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+                createClinic(1L, "siteId1", "first", 5, 4, 3),
+                createClinic(2L, "siteId2", "second", 10, 2, 9)));
 
         when(clinicDataService.retrieveAll(Mockito.any(QueryParams.class))).thenReturn(clinics);
         when(clinicDataService.count()).thenReturn(2L);
@@ -127,32 +127,28 @@ public class CapacityInfoServiceTest {
         assertEquals(expected.getVaccineSlotRemaining(), result.getVaccineSlotRemaining());
     }
 
-    private Clinic createClinic(Long id, String siteId, String location, Integer numberOfRooms, Integer maxCapacityByDay, Integer maxScreeningVisits, //NO CHECKSTYLE ParameterNumber
-                                Integer maxPrimeVisits, Integer maxPrimeFirstFollowUpVisits, Integer maxPrimeSecondFollowUpVisits, Integer maxPrimeThirdFollowUpVisits,
-                                Integer maxBoosterVisits, Integer maxBoosterFirstFollowUpVisits,
-                                Integer maxThreeMonthsPostPrimeVisits, Integer maxSixMonthsPostPrimeVisits, Integer maxTwelveMonthsPostPrimeVisits,
-                                Integer maxTwentyFourMonthsPostPrimeVisits, Integer maxThirtySixMonthsPostPrimeVisits,
-                                Integer maxFortyEightMonthsPostPrimeVisits, Integer maxSixtyMonthsPostPrimeVisits) {
+    private Clinic createClinic(Long id, String siteId, String location, Integer maxCapacityByDay,
+                                Integer maxScreeningVisits, Integer maxPrimeVisits) {
         Clinic clinic = new Clinic();
         clinic.setId(id);
         clinic.setSiteId(siteId);
         clinic.setLocation(location);
-        clinic.setNumberOfRooms(numberOfRooms);
+        clinic.setNumberOfRooms(20);
         clinic.setMaxCapacityByDay(maxCapacityByDay);
         clinic.setMaxScreeningVisits(maxScreeningVisits);
         clinic.setMaxPrimeVisits(maxPrimeVisits);
-        clinic.setMaxPrimeFirstFollowUpVisits(maxPrimeFirstFollowUpVisits);
-        clinic.setMaxPrimeSecondFollowUpVisits(maxPrimeSecondFollowUpVisits);
-        clinic.setMaxPrimeThirdFollowUpVisits(maxPrimeThirdFollowUpVisits);
-        clinic.setMaxBoosterVisits(maxBoosterVisits);
-        clinic.setMaxBoosterFirstFollowUpVisits(maxBoosterFirstFollowUpVisits);
-        clinic.setMaxThreeMonthsPostPrimeVisits(maxThreeMonthsPostPrimeVisits);
-        clinic.setMaxSixMonthsPostPrimeVisits(maxSixMonthsPostPrimeVisits);
-        clinic.setMaxTwelveMonthsPostPrimeVisits(maxTwelveMonthsPostPrimeVisits);
-        clinic.setMaxTwentyFourMonthsPostPrimeVisits(maxTwentyFourMonthsPostPrimeVisits);
-        clinic.setMaxThirtySixMonthsPostPrimeVisits(maxThirtySixMonthsPostPrimeVisits);
-        clinic.setMaxFortyEightMonthsPostPrimeVisits(maxFortyEightMonthsPostPrimeVisits);
-        clinic.setMaxSixtyMonthsPostPrimeVisits(maxSixtyMonthsPostPrimeVisits);
+        clinic.setMaxPrimeFirstFollowUpVisits(0);
+        clinic.setMaxPrimeSecondFollowUpVisits(0);
+        clinic.setMaxPrimeThirdFollowUpVisits(0);
+        clinic.setMaxBoosterVisits(0);
+        clinic.setMaxBoosterFirstFollowUpVisits(0);
+        clinic.setMaxThreeMonthsPostPrimeVisits(0);
+        clinic.setMaxSixMonthsPostPrimeVisits(0);
+        clinic.setMaxTwelveMonthsPostPrimeVisits(0);
+        clinic.setMaxTwentyFourMonthsPostPrimeVisits(0);
+        clinic.setMaxThirtySixMonthsPostPrimeVisits(0);
+        clinic.setMaxFortyEightMonthsPostPrimeVisits(0);
+        clinic.setMaxSixtyMonthsPostPrimeVisits(0);
         return clinic;
     }
 }

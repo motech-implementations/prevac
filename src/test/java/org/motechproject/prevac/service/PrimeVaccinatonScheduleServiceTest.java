@@ -120,11 +120,14 @@ public class PrimeVaccinatonScheduleServiceTest {
         // Update visit
         primeVaccinationScheduleDto.setStartTime(new Time(12, 0));
         primeVaccinationScheduleDto.setDate(new LocalDate(2217, 1, 2));
-        Visit expectedPrimeVac = visit;
+        primeVaccinationScheduleDto.setFemaleChildBearingAge(false);
+        Visit expectedPrimeVac = new Visit();
+        expectedPrimeVac.setId(1L);
         expectedPrimeVac.setStartTime(primeVaccinationScheduleDto.getStartTime());
         expectedPrimeVac.setEndTime(new Time(13, 0));
         expectedPrimeVac.setIgnoreDateLimitation(true);
-        expectedPrimeVac.getSubject().setFemaleChildBearingAge(false);
+        expectedPrimeVac.setSubject(subject);
+        expectedPrimeVac.getSubject().setFemaleChildBearingAge(primeVaccinationScheduleDto.getFemaleChildBearingAge());
         expectedPrimeVac.setDateProjected(primeVaccinationScheduleDto.getDate());
 
         when(visitDataService.update(any(Visit.class))).thenReturn(expectedPrimeVac);
