@@ -773,7 +773,8 @@
                         },
                         {
                             name: "visitType",
-                            index: 'type'
+                            index: 'type',
+                            width: 250
                         },
                         {
                             name: "actualDate",
