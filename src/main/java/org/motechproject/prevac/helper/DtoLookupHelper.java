@@ -117,6 +117,10 @@ public final class DtoLookupHelper {
         switch (lookup) {
             case "Find By Visit Type And Planned Date Range":
                 break;
+            case "Find By Visit Planned Date Range":
+                fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
+                settings.setLookup(lookup + " And Visit Type Set");
+                break;
             case "Find By Visit Type Set And Planned Date":
                 if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
                     settings.setLookup(lookup + " Range");
@@ -129,19 +133,15 @@ public final class DtoLookupHelper {
                     fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
                 }
                 break;
-            case "Find By Participant Id":
-            case "Find By Participant Name":
-            case "Find By Clinic Location":
-            case "Find By Visit Actual Date Range":
+            default:
                 if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
                     settings.setLookup(lookup + " And Visit Type Set And Planned Date Range");
                     fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
                     fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
-                    break;
+                } else {
+                    fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
+                    settings.setLookup(lookup + " And Visit Type Set");
                 }
-            default:
-                fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
-                settings.setLookup(lookup + " And Visit Type Set");
                 break;
         }
         settings.setFields(OBJECT_MAPPER.writeValueAsString(fieldsMap));
