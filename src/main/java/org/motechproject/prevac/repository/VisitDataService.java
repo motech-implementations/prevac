@@ -111,7 +111,7 @@ public interface VisitDataService extends MotechDataService<Visit> {
 
     @Lookup
     List<Visit> findByVisitActualDate(
-            @LookupField(name = "date") LocalDate date);
+            @LookupField(name = "date") Range<LocalDate> date);
 
     @Lookup
     List<Visit> findByVisitActualDateRange(
@@ -122,7 +122,16 @@ public interface VisitDataService extends MotechDataService<Visit> {
             @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
 
     @Lookup
+    List<Visit> findByVisitPlannedDate(
+            @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
+
+    @Lookup
     List<Visit> findByVisitTypeAndActualDateRange(
+            @LookupField(name = "type") VisitType type,
+            @LookupField(name = "date") Range<LocalDate> date);
+
+    @Lookup
+    List<Visit> findByVisitTypeAndActualDate(
             @LookupField(name = "type") VisitType type,
             @LookupField(name = "date") Range<LocalDate> date);
 
@@ -204,8 +213,7 @@ public interface VisitDataService extends MotechDataService<Visit> {
     @Lookup
     List<Visit> findByVisitTypeAndPlannedDate(
             @LookupField(name = "type") VisitType type,
-            @LookupField(name = "dateProjected",
-                    customOperator = Constants.Operators.NEQ) LocalDate plannedDate);
+            @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
 
     @Lookup
     List<Visit> findByVisitTypeAndPlannedDateRange(
@@ -221,12 +229,6 @@ public interface VisitDataService extends MotechDataService<Visit> {
 
     @Lookup
     List<Visit> findByVisitActualDateAndVisitTypeSetAndPlannedDateRange(
-            @LookupField(name = "date") LocalDate date,
-            @LookupField(name = "type") Set<VisitType> typeSet,
-            @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
-
-    @Lookup
-    List<Visit> findByVisitActualDateRangeAndVisitTypeSetAndPlannedDateRange(
             @LookupField(name = "date") Range<LocalDate> date,
             @LookupField(name = "type") Set<VisitType> typeSet,
             @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
@@ -243,7 +245,7 @@ public interface VisitDataService extends MotechDataService<Visit> {
             @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
 
     @Lookup
-    List<Visit> findByVisitActualDateRangeAndVisitTypeSet(
+    List<Visit> findByVisitActualDateAndVisitTypeSet(
             @LookupField(name = "date") Range<LocalDate> date,
             @LookupField(name = "type") Set<VisitType> typeSet);
 

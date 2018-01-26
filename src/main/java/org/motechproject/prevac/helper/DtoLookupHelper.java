@@ -115,11 +115,11 @@ public final class DtoLookupHelper {
         String lookup = settings.getLookup();
 
         switch (lookup) {
-            case "Find By Visit Type And Planned Date Range":
+            case "Find By Visit Type And Planned Date":
                 break;
-            case "Find By Visit Planned Date Range":
+            case "Find By Visit Planned Date":
                 fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
-                settings.setLookup(lookup + " And Visit Type Set");
+                settings.setLookup(lookup + " Range And Visit Type Set");
                 break;
             case "Find By Visit Type Set And Planned Date":
                 if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
@@ -127,9 +127,9 @@ public final class DtoLookupHelper {
                     fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
                 }
                 break;
-            case "Find By Visit Type And Actual Date Range":
+            case "Find By Visit Type And Actual Date":
                 if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
-                    settings.setLookup(lookup + " And Planned Date Range");
+                    settings.setLookup(lookup + " Range And Planned Date Range");
                     fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
                 }
                 break;
