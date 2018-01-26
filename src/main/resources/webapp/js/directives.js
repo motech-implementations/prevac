@@ -774,7 +774,8 @@
                         {
                             name: "visitType",
                             index: 'type',
-                            width: 250
+                            fixed: true,
+                            width: 275
                         },
                         {
                             name: "actualDate",
