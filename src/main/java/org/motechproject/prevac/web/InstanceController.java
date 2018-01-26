@@ -57,7 +57,7 @@ public class InstanceController {
 
     private static final List<String> SUBJECT_AVAILABLE_LOOKUPS = new ArrayList<>(Arrays.asList("Find By Name",
             "Find By Primer Vaccination Date Range", "Find By Booster Vaccination Date Range", "Find By Address",
-            "Find By Participant Id", "Find By exact Phone Number", "Find By Site Name"));
+            "Find By Participant Id", "Find By exact Phone Number", "Find By Site Name", "Find by Visit Type and Actual Date Range"));
 
     @Autowired
     private LookupService lookupService;

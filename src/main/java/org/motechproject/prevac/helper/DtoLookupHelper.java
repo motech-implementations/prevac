@@ -95,6 +95,8 @@ public final class DtoLookupHelper {
         return settings;
     }
 
+    //CHECKSTYLE:OFF: checkstyle:cyclomaticcomplexity
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     public static GridSettings changeLookupForVisitReschedule(GridSettings settings) throws IOException {  //NO CHECKSTYLE CyclomaticComplexity
         Map<String, Object> fieldsMap = new HashMap<>();
 
@@ -107,33 +109,45 @@ public final class DtoLookupHelper {
             fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
         } else {
             fieldsMap = getFields(settings.getFields());
-            switch (settings.getLookup()) {
-                case "Find By Visit Type":
-                    String type = (String) fieldsMap.get(Visit.VISIT_TYPE_PROPERTY_NAME);
-                    if (StringUtils.isBlank(type) || !AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN.contains(VisitType.valueOf(type))) {
-                        fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, null);
-                    }
-                    settings.setLookup(settings.getLookup() + " And Planned Date");
-                    break;
-                default:
-                    fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
-                    settings.setLookup(settings.getLookup() + " And Visit Type Set And Planned Date");
-                    break;
-            }
         }
 
         Map<String, String> rangeMap = getDateRangeFromFilter(settings);
+        String lookup = settings.getLookup();
 
-        if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
-            settings.setLookup(settings.getLookup() + " Range");
-            fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
-        } else {
-            fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, null);
+        switch (lookup) {
+            case "Find By Visit Type And Planned Date Range":
+                break;
+            case "Find By Visit Planned Date Range":
+                fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
+                settings.setLookup(lookup + " And Visit Type Set");
+                break;
+            case "Find By Visit Type Set And Planned Date":
+                if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
+                    settings.setLookup(lookup + " Range");
+                    fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
+                }
+                break;
+            case "Find By Visit Type And Actual Date Range":
+                if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
+                    settings.setLookup(lookup + " And Planned Date Range");
+                    fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
+                }
+                break;
+            default:
+                if (rangeMap != null && (StringUtils.isNotBlank(rangeMap.get("min")) || StringUtils.isNotBlank(rangeMap.get("max")))) {
+                    settings.setLookup(lookup + " And Visit Type Set And Planned Date Range");
+                    fieldsMap.put(Visit.VISIT_PLANNED_DATE_PROPERTY_NAME, rangeMap);
+                    fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
+                } else {
+                    fieldsMap.put(Visit.VISIT_TYPE_PROPERTY_NAME, AVAILABLE_VISIT_TYPES_FOR_RESCHEDULE_SCREEN);
+                    settings.setLookup(lookup + " And Visit Type Set");
+                }
+                break;
         }
-
         settings.setFields(OBJECT_MAPPER.writeValueAsString(fieldsMap));
         return settings;
     }
+    //CHECKSTYLE:ON: checkstyle:cyclomaticcomplexity
 
     private static Map<String, String> getDateRangeFromFilter(GridSettings settings) {
         DateFilter dateFilter = settings.getDateFilter();
