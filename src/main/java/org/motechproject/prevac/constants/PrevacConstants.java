@@ -128,10 +128,10 @@ public final class PrevacConstants {
             "Find By Clinic Location", "Find By Name", "Find By Booking Id", "Find By Contact Number"));
 
     public static final List<String> AVAILABLE_LOOKUPS_FOR_VISIT_RESCHEDULE = new ArrayList<>(Arrays.asList(
-            "Find By Visit Planned Date Range",
-            "Find By Visit Type And Planned Date Range",
-            "Find By Visit Actual Date Range",
-            "Find By Visit Type And Actual Date Range",
+            "Find By Visit Planned Date",
+            "Find By Visit Type And Planned Date",
+            "Find By Visit Actual Date",
+            "Find By Visit Type And Actual Date",
             "Find By Participant Id",
             "Find By Participant Name",
             "Find By Clinic Location"));
