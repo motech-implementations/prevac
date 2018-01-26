@@ -61,6 +61,11 @@ public interface SubjectDataService extends MotechDataService<Subject> {
             @LookupField(name = "visits.type") VisitType visitType,
             @LookupField(name = "visits.date", customOperator = Constants.Operators.NEQ) LocalDate date);
 
+    @Lookup(name = "Find by Visit Type and Actual Date Range")
+    List<Subject> findSubjectByVisitTypeAndActualDateRange(
+            @LookupField(name = "visits.type") VisitType visitType,
+            @LookupField(name = "visits.date")  Range<LocalDate> date);
+
     @Lookup
     List<Subject> findBySiteName(@LookupField(name = "siteName",
             customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String siteName);
