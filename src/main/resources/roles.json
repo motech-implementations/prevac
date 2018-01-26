@@ -10,10 +10,12 @@
     "permissionNames": [
       "managePrevac",
       "prevacCapacityInfoTab",
+      "prevacSubjectsTab",
       "prevacScreeningBookingTab",
       "prevacPrimeVaccinationBookingTab",
       "prevacClinicVisitBookingTab",
       "prevacVisitRescheduleBookingTab",
+      "unscheduledVisitsTab",
       "prevacAdvancedSettings",
       "prevacReportsTab",
       "viewUI"
