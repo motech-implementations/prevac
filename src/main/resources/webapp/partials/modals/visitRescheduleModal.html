@@ -12,6 +12,10 @@
                         <div class="form-control">{{form.dto.participantName}}</div>
                     </div>
                     <div class="prevac input-group">
+                        <span class="left left input-group-addon">{{msg('prevac.visitReschedule.visitType')}}</span>
+                        <div class="form-control">{{form.dto.visitType}}</div>
+                    </div>
+                    <div class="prevac input-group">
                         <span class="left input-group-addon">{{msg('prevac.visitReschedule.plannedDate')}}</span>
                         <input id="plannedDateInput" type="text" class="form-control datepicker" ng-if="showPlannedDate()" readonly='true' prevac-date-picker min="form.dto.minDate" max="form.dto.maxDate" placeholder="{{msg('prevac.datePlaceholder')}}" ng-model="form.dto.plannedDate">
                         <input id="plannedDateTextInput" type="text" class="form-control" ng-if="!showPlannedDate()" readonly='true' ng-model="form.dto.plannedDate">
