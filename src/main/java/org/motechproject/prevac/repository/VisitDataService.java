@@ -261,4 +261,46 @@ public interface VisitDataService extends MotechDataService<Visit> {
             @LookupField(name = "type") Set<VisitType> typeSet,
             @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
 
+    @Lookup
+    List<Visit> findByVisitPlannedDateRangeAndVisitTypeSet(
+            @LookupField(name = "dateProjected") Range<LocalDate> plannedDate,
+            @LookupField(name = "type") Set<VisitType> typeSet);
+
+    @Lookup
+    List<Visit> findByVisitPlannedDateRange(
+            @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
+
+    @Lookup
+    List<Visit> findByVisitTypeAndActualDateRange(
+            @LookupField(name = "type") VisitType type,
+            @LookupField(name = "date") Range<LocalDate> date);
+
+    @Lookup
+    List<Visit> findByVisitTypeAndActualDateRangeAndPlannedDateRange(
+            @LookupField(name = "type") VisitType type,
+            @LookupField(name = "date") Range<LocalDate> date,
+            @LookupField(name = "dateProjected") Range<LocalDate> plannedDate);
+
+    @Lookup
+    List<Visit> findByVisitActualDateRangeAndVisitTypeSet(
+            @LookupField(name = "date") Range<LocalDate> date,
+            @LookupField(name = "type") Set<VisitType> typeSet);
+
+    @Lookup
+    List<Visit> findByParticipantNameAndVisitTypeSet(
+            @LookupField(name = "subject.name",
+                    customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String name,
+            @LookupField(name = "type") Set<VisitType> typeSet);
+
+    @Lookup
+    List<Visit> findByParticipantIdAndVisitTypeSet(
+            @LookupField(name = "subject.subjectId",
+                    customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String subjectId,
+            @LookupField(name = "type") Set<VisitType> typeSet);
+
+    @Lookup
+    List<Visit> findByClinicLocationAndVisitTypeSet(
+            @LookupField(name = "clinic.location",
+                    customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String location,
+            @LookupField(name = "type") Set<VisitType> typeSet);
 }
