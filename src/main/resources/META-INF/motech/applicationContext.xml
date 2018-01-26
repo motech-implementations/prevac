@@ -30,10 +30,12 @@
             <list>
                 <value>managePrevac</value>
                 <value>prevacCapacityInfoTab</value>
+                <value>prevacSubjectsTab</value>
                 <value>prevacScreeningBookingTab</value>
                 <value>prevacPrimeVaccinationBookingTab</value>
                 <value>prevacClinicVisitBookingTab</value>
                 <value>prevacVisitRescheduleBookingTab</value>
+                <value>unscheduledVisitsTab</value>
                 <value>prevacAdvancedSettings</value>
                 <value>prevacReportsTab</value>
             </list>
