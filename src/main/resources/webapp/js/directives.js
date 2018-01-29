@@ -468,7 +468,7 @@
                             var rowData = elem.getRowData(rowId),
                                 extraRowData = gridDataExtension[rowId];
 
-                            scope.newForm();
+                            scope.newForm("edit");
                             scope.form.dto.id = extraRowData.id;
                             scope.form.dto.participantId = rowData.participantId;
                             scope.form.dto.date = rowData.date;

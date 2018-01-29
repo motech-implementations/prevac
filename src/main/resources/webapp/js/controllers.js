@@ -50,7 +50,14 @@
             if (ignoreLimitation) {
                 sendRequest();
             } else {
-                motechConfirm("prevac.uncheduledVisit.confirm.shouldScheduleScreening", "prevac.confirm",
+                var confirmMsg;
+                if ($scope.form.type === "add") {
+                    confirmMsg = "prevac.uncheduledVisit.confirm.shouldAddVisit";
+                } else if ($scope.form.type === "edit") {
+                    confirmMsg = "prevac.uncheduledVisit.confirm.shouldUpdateVisit";
+                }
+
+                motechConfirm(confirmMsg, "prevac.confirm",
                     function(confirmed) {
                         if (confirmed) {
                             sendRequest();
@@ -282,7 +289,7 @@
             .success(function(data) {
                 $scope.lookups = data;
             });
-        }
+        };
 
         /**
         * Shows/Hides lookup dialog
@@ -433,7 +440,7 @@
                 }
                 clearInterval(intervalHeightResize);
             }, 250);
-         }
+         };
 
         $scope.resizeGridWidth = function(gridId) {
             var intervalWidthResize, tableWidth;
@@ -628,7 +635,7 @@
                     $scope.$apply();
                 }
             });
-        }
+        };
 
         $scope.activate = function(id) {
             $scope.updateInProgress = true;
@@ -665,7 +672,7 @@
                     $scope.$apply();
                 }
             });
-        }
+        };
 
         $scope.newForm = function(type) {
             $scope.form = {};
@@ -725,9 +732,9 @@
                     });
             }
 
-            if ($scope.form.type == "add") {
+            if ($scope.form.type === "add") {
                 confirmMsg = "prevac.screening.confirm.shouldScheduleScreening";
-            } else if ($scope.form.type == "edit") {
+            } else if ($scope.form.type === "edit") {
                 confirmMsg = "prevac.screening.confirm.shouldUpdateScreening";
             }
 
@@ -845,7 +852,7 @@
                 motechAlert('prevac.primeVaccination.getParticipantsError', 'prevac.error', response);
                 $scope.participantsLoading = false;
             });
-        }
+        };
 
         $scope.getPrimeVacDtos();
 
@@ -868,7 +875,7 @@
             if ($scope.form.dto) {
                 $scope.form.range = $scope.calculateRange($scope.form.dto.actualScreeningDate, $scope.form.dto.femaleChildBearingAge, $scope.form.dto.ignoreDateLimitation);
             }
-        }
+        };
 
         $scope.savePrimeVaccinationSchedule = function(ignoreLimitation) {
 
@@ -902,9 +909,9 @@
                 sendRequest();
             } else {
                 var confirmMsg;
-                if ($scope.form.type == "add") {
+                if ($scope.form.type === "add") {
                     confirmMsg  = "prevac.primeVaccination.confirm.shouldCreatePrimeVaccination";                   
-                } else if ($scope.form.type == "edit") {
+                } else if ($scope.form.type === "edit") {
                     confirmMsg  = "prevac.primeVaccination.confirm.shouldUpdatePrimeVaccination";
                 }
                 motechConfirm(confirmMsg, "prevac.confirm", function(confirmed) {
@@ -924,8 +931,8 @@
         $scope.calculateRangeForGrid = function(forDate, femaleChildBearingAge, ignoreDateLimitation) {
             var range = {};
 
-            if (ignoreDateLimitation == undefined || ignoreDateLimitation == '' || ignoreDateLimitation == null || ignoreDateLimitation == false) {
-                if (femaleChildBearingAge == "Yes") {
+            if (ignoreDateLimitation === undefined || ignoreDateLimitation === '' || ignoreDateLimitation === null || ignoreDateLimitation === false) {
+                if (femaleChildBearingAge === "Yes") {
                     range.min = $scope.parseDate(forDate, 14);
                 } else {
                     range.min = $scope.parseDate(forDate, 1);
