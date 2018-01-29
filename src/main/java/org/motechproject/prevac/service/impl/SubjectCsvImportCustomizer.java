@@ -22,6 +22,13 @@ public class SubjectCsvImportCustomizer extends DefaultCsvImportCustomizer {
         if (StringUtils.isNotBlank(subjectId)) {
             return subjectService.findSubjectBySubjectId(subjectId);
         }
+
+        subjectId = row.get(Subject.SUBJECT_ID_FIELD_DISPLAY_NAME);
+
+        if (StringUtils.isNotBlank(subjectId)) {
+            return subjectService.findSubjectBySubjectId(subjectId);
+        }
+
         return null;
     }
 

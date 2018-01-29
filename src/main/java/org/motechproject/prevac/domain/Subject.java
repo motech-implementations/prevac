@@ -36,8 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Subject {
     public static final String SUBJECT_ID_FIELD_NAME = "subjectId";
-
-    private static final String SUBJECT_ID_FIELD_DISPLAY_NAME = "Participant Id";
+    public static final String SUBJECT_ID_FIELD_DISPLAY_NAME = "Participant Id";
 
     /**
      * Fields captured in ZETES
