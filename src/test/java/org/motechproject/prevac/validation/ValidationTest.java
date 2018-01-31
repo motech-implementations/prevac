@@ -29,8 +29,8 @@ public class ValidationTest {
         SubjectZetesDto subjectZetesDtoCorrectId = createBasicSubjectZetesDto();
         SubjectZetesDto subjectZetesDtoWrongId = createBasicSubjectZetesDto();
 
-        subjectZetesDtoCorrectId.setSubjectId("203-0002-6");
-        subjectZetesDtoWrongId.setSubjectId("101-0003-2");
+        subjectZetesDtoCorrectId.setSubjectId("20300026");
+        subjectZetesDtoWrongId.setSubjectId("10100032");
 
         List<ValidationError> request1Errors = SubjectValidator.validate(subjectZetesDtoCorrectId);
         List<ValidationError> request2Errors = SubjectValidator.validate(subjectZetesDtoWrongId);

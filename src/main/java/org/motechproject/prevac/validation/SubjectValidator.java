@@ -81,10 +81,10 @@ public final class SubjectValidator {
             addValidationError(ValidationError.SUBJECT_ID_NULL);
             return;
         }
-        String plainSubjectId = removeDashesFromSubjectId(subjectId);
-        if (plainSubjectId.length() != 8) {
+
+        if (subjectId.length() != 8) {
             addValidationError(ValidationError.SUBJECT_ID_NOT_VERIFIED);
-        } else if (!(validateCountryAndSiteNumber(plainSubjectId) && validateChecksum(plainSubjectId))) {
+        } else if (!(validateCountryAndSiteNumber(subjectId) && validateChecksum(subjectId))) {
             addValidationError(ValidationError.SUBJECT_ID_NOT_VERIFIED);
         }
     }
@@ -134,10 +134,6 @@ public final class SubjectValidator {
                 && SITES_IN_COUNTRIES.get(countryNumber).contains(siteNumber);
     }
     //endregion
-
-    private static String removeDashesFromSubjectId(String subjectId) {
-        return subjectId.replaceAll("[\\s\\-]", "");
-    }
 
     private static void addValidationError(String message) {
         validationErrors.add(new ValidationError(message));
