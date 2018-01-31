@@ -19,6 +19,7 @@ import org.motechproject.prevac.service.impl.VisitScheduleServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,7 @@ public class VisitScheduleServiceTest {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
         LocalDate primeVacDate = new LocalDate(2017, 4, 17);
+        List<String> boosterRelated = new ArrayList<>(Collections.singletonList(VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT.getDisplayValue()));
 
         Subject subject = createSubject(subjectId, null, false);
         setSubjectVisits(subject, screeningDate, primeVacDate);
@@ -128,7 +130,7 @@ public class VisitScheduleServiceTest {
         when(visitScheduleOffsetService.getAllAsMap()).thenReturn(visitTypeVisitScheduleOffsetMap);
         Config config = mock(Config.class);
         when(configService.getConfig()).thenReturn(config);
-        when(config.getBoosterRelatedVisits()).thenReturn(new ArrayList<String>());
+        when(config.getBoosterRelatedVisits()).thenReturn(boosterRelated);
 
         Map<String, String> resultMap = visitScheduleService.calculatePlannedVisitDates(subjectId, primeVacDate);
 
@@ -184,6 +186,7 @@ public class VisitScheduleServiceTest {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
         LocalDate primeVacDate = new LocalDate(2017, 4, 17);
+        List<String> boosterRelated = new ArrayList<>(Collections.singletonList(VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT.getDisplayValue()));
 
         Subject subject = createSubject(subjectId, null, false);
         setSubjectVisits(subject, screeningDate, primeVacDate);
@@ -194,7 +197,7 @@ public class VisitScheduleServiceTest {
         when(visitScheduleOffsetService.getAllAsMap()).thenReturn(visitTypeVisitScheduleOffsetMap);
         Config config = mock(Config.class);
         when(configService.getConfig()).thenReturn(config);
-        when(config.getBoosterRelatedVisits()).thenReturn(new ArrayList<String>());
+        when(config.getBoosterRelatedVisits()).thenReturn(boosterRelated);
 
         visitScheduleService.savePlannedVisitDates(subjectId, primeVacDate);
 
@@ -213,22 +216,50 @@ public class VisitScheduleServiceTest {
 
         for (Visit visit : visits) {
             if (visit.getType() != VisitType.SCREENING && visit.getType() != VisitType.PRIME_VACCINATION_DAY) {
-                LocalDate calculatedDate = visit.getDateProjected();
+                if (visit.getType().equals(VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT)){
+                    LocalDate boosterBaseDate = getVisitByType(visits, VisitType.BOOST_VACCINATION_DAY).getDateProjected();
+                    LocalDate calculatedDate = visit.getDateProjected();
 
-                Integer timeOffset = offsetMap.get(visit.getType()).getTimeOffset();
+                    Integer timeOffset = offsetMap.get(visit.getType()).getTimeOffset();
 
-                assertEquals(baseDate.plusDays(timeOffset), calculatedDate);
+                    assertEquals(boosterBaseDate.plusDays(timeOffset), calculatedDate);
+                } else {
+                    LocalDate calculatedDate = visit.getDateProjected();
+
+                    Integer timeOffset = offsetMap.get(visit.getType()).getTimeOffset();
+
+                    assertEquals(baseDate.plusDays(timeOffset), calculatedDate);
+                }
             }
         }
     }
 
+    private Visit getVisitByType(List<Visit> visits, VisitType type) {
+        for (Visit v : visits) {
+            if (v.getType().equals(type)) {
+                return v;
+            }
+        }
+        return null;
+    }
+
     private void checkCalculatedVisits(Map<VisitType, VisitScheduleOffset> offsetMap, Map<String, String> calculatedVisits, LocalDate baseDate) {
         for (VisitType key : offsetMap.keySet()) {
-            String calculatedDateString = calculatedVisits.get(key.getDisplayValue());
-            LocalDate calculatedDate = LocalDate.parse(calculatedDateString,  DateTimeFormat.forPattern(PrevacConstants.SIMPLE_DATE_FORMAT));
-            Integer timeOffset = offsetMap.get(key).getTimeOffset();
+            if (key.equals(VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT)) {
+                String boostPrimeVacDate = calculatedVisits.get(VisitType.BOOST_VACCINATION_DAY.getDisplayValue());
+                LocalDate baseBoostDate = LocalDate.parse(boostPrimeVacDate, DateTimeFormat.forPattern(PrevacConstants.SIMPLE_DATE_FORMAT));
+                String calculatedDateString = calculatedVisits.get(key.getDisplayValue());
+                LocalDate calculatedDate = LocalDate.parse(calculatedDateString,  DateTimeFormat.forPattern(PrevacConstants.SIMPLE_DATE_FORMAT));
+                Integer timeOffset = offsetMap.get(key).getTimeOffset();
 
-            assertEquals(baseDate.plusDays(timeOffset), calculatedDate);
+                assertEquals(baseBoostDate.plusDays(timeOffset), calculatedDate);
+            } else {
+                String calculatedDateString = calculatedVisits.get(key.getDisplayValue());
+                LocalDate calculatedDate = LocalDate.parse(calculatedDateString,  DateTimeFormat.forPattern(PrevacConstants.SIMPLE_DATE_FORMAT));
+                Integer timeOffset = offsetMap.get(key).getTimeOffset();
+
+                assertEquals(baseDate.plusDays(timeOffset), calculatedDate);
+            }
         }
     }
 
