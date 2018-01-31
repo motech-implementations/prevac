@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
         PrevacWebIT.class,
         PrevacLifecycleListenerIT.class,
         PrevacConfigServiceIT.class,
-        LookupServiceIT.class
+        LookupServiceIT.class,
+        SubjectServiceIT.class
 })
 public class PrevacIntegrationTests {
 }
