@@ -68,7 +68,7 @@ public class ZetesControllerTest {
         SubjectZetesDto subjectZetesDto = new SubjectZetesDto();
         subjectZetesDto.setPhoneNumber("123456789");
         subjectZetesDto.setName("Kasia");
-        subjectZetesDto.setSubjectId("203-0002-6");
+        subjectZetesDto.setSubjectId("20300026");
         subjectZetesDto.setAddress("Warszawa 19");
         subjectZetesDto.setLanguage("eng");
         subjectZetesDto.setCommunity("community");
