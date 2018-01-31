@@ -69,4 +69,8 @@ public class SubjectZetesDto {
     @Getter
     @Setter
     private String guardianName;
+
+    @Getter
+    @Setter
+    private String guardianType;
 }
