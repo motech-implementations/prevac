@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         PrevacWebIT.class,
         PrevacLifecycleListenerIT.class,
-        PrevacConfigServiceIT.class
+        PrevacConfigServiceIT.class,
+        LookupServiceIT.class
 })
 public class PrevacIntegrationTests {
 }
