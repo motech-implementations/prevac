@@ -134,11 +134,17 @@ public class Subject {
     @Setter
     private String guardianName;
 
+    @UIDisplayable(position = 11)
+    @Field
+    @Getter
+    @Setter
+    private String guardianType;
+
     /**
      * Other fields
      */
 
-    @UIDisplayable(position = 11)
+    @UIDisplayable(position = 12)
     @JsonDeserialize(using = CustomVisitListDeserializer.class)
     @Field
     @Persistent(mappedBy = "subject")
@@ -147,7 +153,7 @@ public class Subject {
     @Setter
     private List<Visit> visits = new ArrayList<>();
 
-    @UIDisplayable(position = 12)
+    @UIDisplayable(position = 13)
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeserializer.class)
     @NonEditable
@@ -156,7 +162,7 @@ public class Subject {
     @Setter
     private LocalDate primerVaccinationDate;
 
-    @UIDisplayable(position = 13)
+    @UIDisplayable(position = 14)
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeserializer.class)
     @NonEditable
