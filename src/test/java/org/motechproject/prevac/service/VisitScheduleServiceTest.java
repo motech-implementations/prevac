@@ -100,7 +100,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldGetPrimeVaccinationDateAndDateRangeNoScreening() {
+    public void shouldThrowSubjectHasNoScreening() {
         String subjectId = "subjectId";
         LocalDate primeVacDate = new LocalDate(2017, 4, 17);
 
@@ -110,9 +110,7 @@ public class VisitScheduleServiceTest {
         when(subjectDataService.findBySubjectId(subjectId)).thenReturn(subject);
 
 
-        Map<String, String> resultMap = visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
-
-        checkMap(resultMap, "2017-04-17", "2017-04-29", "2017-05-13");
+        visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
     }
 
     @Test
@@ -138,7 +136,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldCalculatePlannedDatesNoPrimeVacDate() {
+    public void shouldThrowPrimeVacDateIsEmpty() {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
         LocalDate primeVacDate = null;
@@ -152,7 +150,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldCalculatePlannedDatesEmptyOffsetMap() {
+    public void shouldThrowVisitScheduleOffsetMapIsEmpty() {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
         LocalDate primeVacDate = new LocalDate(2017, 4, 17);
@@ -168,7 +166,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldCalculatePlannedDatesNoPrimeOrScreeningVisit() {
+    public void shouldThrowPrimeOrScreeningVisitIsEmpty() {
         String subjectId = "subjectId";
 
         Subject subject = createSubject(subjectId, null, false);
@@ -178,9 +176,7 @@ public class VisitScheduleServiceTest {
         when(subjectDataService.findBySubjectId(subjectId)).thenReturn(subject);
         when(visitScheduleOffsetService.getAllAsMap()).thenReturn(visitTypeVisitScheduleOffsetMap);
 
-        Map<String, String> resultMap = visitScheduleService.calculatePlannedVisitDates(subjectId, null);
-
-        checkCalculatedVisits(createVisitScheduleOffsetMap(), resultMap, null);
+        visitScheduleService.calculatePlannedVisitDates(subjectId, null);
     }
 
     @Test
