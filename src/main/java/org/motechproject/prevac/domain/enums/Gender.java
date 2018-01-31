@@ -10,7 +10,7 @@ public enum Gender {
     Male("male"),
     Female("female"),
     Unknown("unknown"),
-    Unidentified("unidentified");
+    Undifferentiated("undifferentiated");
 
     @Getter
     private String value;
