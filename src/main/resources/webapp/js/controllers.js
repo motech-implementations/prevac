@@ -1357,7 +1357,14 @@
                     $scope.form.dto.minDate = $scope.earliestDateToReturn;
                     $scope.form.dto.maxDate = $scope.latestDateToReturn;
                 } else {
-                    $scope.form.dto.minDate = new Date();
+                    var plannedDate = $scope.parseDate($scope.form.dto.plannedDate);
+                    var currentDate = new Date();
+                    currentDate.setHours(0, 0, 0, 0);
+                    if (plannedDate < currentDate) {
+                        $scope.form.dto.minDate = plannedDate;
+                    } else {
+                        $scope.form.dto.minDate = currentDate;
+                    }
                     $scope.form.dto.maxDate = null;
                 }
             }
