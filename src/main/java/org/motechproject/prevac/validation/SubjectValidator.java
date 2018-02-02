@@ -26,6 +26,8 @@ public final class SubjectValidator {
         }
     };
 
+    private static final int SUBJECT_ID_LENGTH = 8;
+
     private SubjectValidator() {
     }
 
@@ -82,7 +84,7 @@ public final class SubjectValidator {
             return;
         }
 
-        if (subjectId.length() != 8) {
+        if (subjectId.length() != SUBJECT_ID_LENGTH) {
             addValidationError(ValidationError.SUBJECT_ID_NOT_VERIFIED);
         } else if (!(validateCountryAndSiteNumber(subjectId) && validateChecksum(subjectId))) {
             addValidationError(ValidationError.SUBJECT_ID_NOT_VERIFIED);
@@ -110,6 +112,7 @@ public final class SubjectValidator {
     /**
      * Method uses Luhn Algorithm to validate subject's id.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private static boolean validateChecksum(String subjectId) {
         int sum = 0;
         int parity = subjectId.length() % 2;
@@ -117,18 +120,18 @@ public final class SubjectValidator {
             int digit = Integer.parseInt(subjectId.substring(i, i + 1));
             if (i % 2 == parity) {
                 digit *= 2;
-                if (digit > 9) {
-                    digit -= 9;
+                if (digit > 9) { //NO CHECKSTYLE MagicNumber
+                    digit -= 9; //NO CHECKSTYLE MagicNumber
                 }
             }
             sum += digit;
         }
-        return sum % 10 == 0;
+        return sum % 10 == 0; //NO CHECKSTYLE MagicNumber
     }
 
     private static boolean validateCountryAndSiteNumber(String subjectId) {
         String countryNumber = subjectId.substring(0, 1);
-        String siteNumber = subjectId.substring(1, 3);
+        String siteNumber = subjectId.substring(1, 3); //NO CHECKSTYLE MagicNumber
 
         return SITES_IN_COUNTRIES.keySet().contains(countryNumber)
                 && SITES_IN_COUNTRIES.get(countryNumber).contains(siteNumber);
