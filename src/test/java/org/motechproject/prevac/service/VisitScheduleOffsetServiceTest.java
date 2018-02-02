@@ -61,9 +61,9 @@ public class VisitScheduleOffsetServiceTest {
         for (int i = 0; i < types.size(); i++) {
             VisitScheduleOffset offset = new VisitScheduleOffset();
             offset.setVisitType(types.get(i));
-            offset.setEarliestDateOffset(i*2 + 1);
-            offset.setLatestDateOffset(i*2 + 10);
-            offset.setTimeOffset(i*2 + 5);
+            offset.setEarliestDateOffset(i * 2 + 1);
+            offset.setLatestDateOffset(i * 2 + 10);
+            offset.setTimeOffset(i * 2 + 5);
             list.add(offset);
         }
 
