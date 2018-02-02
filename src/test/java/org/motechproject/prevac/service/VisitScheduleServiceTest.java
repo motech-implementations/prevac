@@ -216,7 +216,7 @@ public class VisitScheduleServiceTest {
 
         for (Visit visit : visits) {
             if (visit.getType() != VisitType.SCREENING && visit.getType() != VisitType.PRIME_VACCINATION_DAY) {
-                if (visit.getType().equals(VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT)){
+                if (visit.getType().equals(VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT)) {
                     LocalDate boosterBaseDate = getVisitByType(visits, VisitType.BOOST_VACCINATION_DAY).getDateProjected();
                     LocalDate calculatedDate = visit.getDateProjected();
 
@@ -305,9 +305,9 @@ public class VisitScheduleServiceTest {
             if (type != VisitType.PRIME_VACCINATION_DAY && type != VisitType.SCREENING) {
                 VisitScheduleOffset offset = new VisitScheduleOffset();
                 offset.setVisitType(types.get(i));
-                offset.setEarliestDateOffset(i*2 + 1);
-                offset.setLatestDateOffset(i*2 + 10);
-                offset.setTimeOffset(i*2 + 5);
+                offset.setEarliestDateOffset(i * 2 + 1);
+                offset.setLatestDateOffset(i * 2 + 10);
+                offset.setTimeOffset(i * 2 + 5);
                 map.put(offset.getVisitType(), offset);
             }
         }
