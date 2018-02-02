@@ -23,7 +23,7 @@ public final class SubjectUtil {
         subject.setSection("section");
         subject.setDistrict("district");
         subject.setGender(Gender.Male);
-        subject.setAge(45);
+        subject.setAge(45); //NO CHECKSTYLE MagicNumber
         return subject;
     }
 }
