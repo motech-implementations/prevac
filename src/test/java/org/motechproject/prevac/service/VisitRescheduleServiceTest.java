@@ -83,7 +83,7 @@ public class VisitRescheduleServiceTest {
     }
 
     @Test
-    public void shouldGetVisitBookingDetailsRecords() throws IOException {
+    public void shouldGetVisitRecords() throws IOException {
         GridSettings gridSettings = new GridSettings();
         gridSettings.setPage(1);
         gridSettings.setRows(10);
