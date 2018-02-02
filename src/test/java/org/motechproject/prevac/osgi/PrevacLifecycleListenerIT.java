@@ -75,7 +75,7 @@ public class PrevacLifecycleListenerIT extends BasePaxIT {
         visitList = visitDataService.retrieveAll();
 
         for (Visit visit : visitList) {
-            if (visit.getSubject() == subject) {
+            if (visit.getSubject().getSubjectId().equals(subject.getSubjectId())) {
                 assertEquals(clinic, visit.getClinic());
             } else {
                 assertEquals(null, visit.getClinic());
