@@ -1261,8 +1261,21 @@
             $scope.rescheduleModalHeader = modalHeaderMessage;
             $scope.rescheduleModalBody = modalBodyMessage;
             $('#visitRescheduleModal').modal('show');
+            $scope.setDatePicker();
             }, 10);
         };
+
+        $scope.setDatePicker = function () {
+            var plannedDate = $scope.parseDate($scope.form.dto.plannedDate);
+            $('#plannedDateInput').datepicker("setDate", plannedDate);
+            $('#plannedDateInput').datepicker('option', 'minDate', $scope.form.dto.minDate);
+            $('#plannedDateInput').datepicker('option', 'maxDate', $scope.form.dto.maxDate);
+
+            var actualDate = $scope.parseDate($scope.form.dto.actualDate);
+            $('#actualDateInput').datepicker("setDate", actualDate);
+            $('#actualDateInput').datepicker('option', 'minDate', $scope.form.dto.minActualDate);
+            $('#actualDateInput').datepicker('option', 'maxDate', $scope.form.dto.maxActualDate);
+        }
 
         $scope.saveVisitReschedule = function(ignoreLimitation) {
             function sendRequest() {
