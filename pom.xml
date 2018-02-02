@@ -325,11 +325,15 @@
             <Context-Path>prevac</Context-Path>
             <Export-Package>
               org.motechproject.prevac.constants;version=${project.version},
+              org.motechproject.prevac.client;version=${project.version},
               org.motechproject.prevac.domain;version=${project.version},
               org.motechproject.prevac.domain.enums;version=${project.version},
+              org.motechproject.prevac.dto;version=${project.version},
               org.motechproject.prevac.exception;version=${project.version},
               org.motechproject.prevac.repository;version=${project.version},
               org.motechproject.prevac.service;version=${project.version},
+              org.motechproject.prevac.service.impl;version=${project.version},
+              org.motechproject.prevac.template;version=${project.version},
               org.motechproject.prevac.util;version=${project.version},
               org.motechproject.prevac.validation;version=${project.version},
               org.motechproject.prevac.web;version=${project.version},
@@ -574,9 +578,9 @@
                 <configuration>
                   <autocommit>true</autocommit>
                   <sqlCommand>
-                                        DROP DATABASE IF EXISTS motech_data_services;
-                                        DROP DATABASE IF EXISTS motechquartz;
-                                    </sqlCommand>
+                    DROP DATABASE IF EXISTS motech_data_services;
+                    DROP DATABASE IF EXISTS motechquartz;
+                  </sqlCommand>
                   <onError>continue</onError>
                 </configuration>
               </execution>
@@ -590,9 +594,9 @@
                   <autocommit>true</autocommit>
                   <orderFile>ascending</orderFile>
                   <sqlCommand>
-                                        CREATE DATABASE motech_data_services;
-                                        CREATE DATABASE motechquartz;
-                                    </sqlCommand>
+                    CREATE DATABASE motech_data_services;
+                    CREATE DATABASE motechquartz;
+                  </sqlCommand>
                 </configuration>
               </execution>
             </executions>
@@ -631,287 +635,5 @@
       </build>
     </profile>
 
-    <profile>
-      <id>ui-local</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>2.5</version>
-            <inherited>false</inherited>
-            <executions>
-              <execution>
-                <id>clean-test-config-files</id>
-                <goals>
-                  <goal>clean</goal>
-                </goals>
-                <phase>pre-integration-test</phase>
-                <configuration>
-                  <excludeDefaultDirectories>true</excludeDefaultDirectories>
-                  <filesets>
-                    <fileset>
-                      <followSymlinks>false</followSymlinks>
-                      <directory>${user.home}/.motech/config</directory>
-                      <includes>
-                        <include>bootstrap.properties</include>
-                        <include>motech-settings.properties</include>
-                        <include>datanucleus.properties</include>
-                      </includes>
-                    </fileset>
-                  </filesets>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>copy-test-config-files</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${user.home}/.motech/config</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>${basedir}/src/test/resources/</directory>
-                      <include>bootstrap.properties</include>
-                      <include>motech-settings.properties</include>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>sql-maven-plugin</artifactId>
-            <version>1.5</version>
-            <dependencies>
-              <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-              </dependency>
-            </dependencies>
-            <configuration>
-              <driver>com.mysql.jdbc.Driver</driver>
-              <username>root</username>
-              <password>password</password>
-              <url>jdbc:mysql://localhost:3306/</url>
-            </configuration>
-            <!--
-                For each Bundle IT tests in modules migrated to MDS the
-                'motech_data_services' database has to be dropped and created again.
-            -->
-            <executions>
-              <execution>
-                <id>drop-db</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <autocommit>true</autocommit>
-                  <sqlCommand>
-                                        DROP DATABASE IF EXISTS motech_data_services;
-                                        DROP DATABASE IF EXISTS motechquartz;
-                                    </sqlCommand>
-                  <onError>continue</onError>
-                </configuration>
-              </execution>
-              <execution>
-                <id>create-db</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <autocommit>true</autocommit>
-                  <orderFile>ascending</orderFile>
-                  <sqlCommand>
-                                        CREATE DATABASE motech_data_services;
-                                        CREATE DATABASE motechquartz;
-                                    </sqlCommand>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>com.googlecode.t7mp</groupId>
-            <artifactId>maven-t7-plugin</artifactId>
-            <version>0.9.16</version>
-            <configuration>
-              <tomcatHttpPort>8080</tomcatHttpPort>
-              <tomcatShutdownPort>8005</tomcatShutdownPort>
-              <tomcatShutdownCommand>SHUTDOWN</tomcatShutdownCommand>
-              <tomcatSetAwait>false</tomcatSetAwait>
-              <tomcatVersion>7.0.63</tomcatVersion>
-              <webapps>
-                <webappArtifact>
-                  <groupId>org.motechproject</groupId>
-                  <artifactId>motech-platform-server</artifactId>
-                  <version>${motech.version}</version>
-                </webappArtifact>
-              </webapps>
-            </configuration>
-            <executions>
-              <execution>
-                <id>tomcat-start</id>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <phase>pre-integration-test</phase>
-              </execution>
-              <execution>
-                <id>tomcat-stop</id>
-                <goals>
-                  <goal>stop</goal>
-                </goals>
-                <phase>post-integration-test</phase>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>selenium-maven-plugin</artifactId>
-            <version>2.3</version>
-            <executions>
-              <execution>
-                <id>xvfb</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>xvfb</goal>
-                </goals>
-                <configuration>
-                  <display>:99</display>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.17</version>
-            <configuration>
-              <encoding>UTF-8</encoding>
-              <forkCount>1</forkCount>
-              <reuseForks>false</reuseForks>
-            </configuration>
-            <executions>
-              <execution>
-                <id>integration-test</id>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-                <configuration>
-                  <encoding>UTF-8</encoding>
-                  <runOrder>alphabetical</runOrder>
-                  <environmentVariables>
-                    <DISPLAY>:99</DISPLAY>
-                  </environmentVariables>
-                  <includes>
-                    <include>**/*UiTest.java</include>
-                  </includes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>ui-remote</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>1.4.1</version>
-            <executions>
-              <execution>
-                <id>enforce-property</id>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <configuration>
-                  <rules>
-                    <requireProperty>
-                      <property>webapp.url</property>
-                      <message>You must set a webapp.url property!</message>
-                    </requireProperty>
-                    <requireProperty>
-                      <property>login.username</property>
-                      <message>You must set a login.username property!</message>
-                    </requireProperty>
-                    <requireProperty>
-                      <property>login.password</property>
-                      <message>You must set a login.password property!</message>
-                    </requireProperty>
-                  </rules>
-                  <fail>true</fail>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>selenium-maven-plugin</artifactId>
-            <version>2.3</version>
-            <executions>
-              <execution>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start-server</goal>
-                </goals>
-                <configuration>
-                  <background>true</background>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.17</version>
-            <configuration>
-              <encoding>UTF-8</encoding>
-              <forkCount>1</forkCount>
-              <reuseForks>false</reuseForks>
-              <systemPropertyVariables>
-                <propertyName>webapp.url</propertyName>
-                <propertyName>login.username</propertyName>
-                <propertyName>login.password</propertyName>
-                <buildDirectory>${project.build.directory}</buildDirectory>
-              </systemPropertyVariables>
-            </configuration>
-
-            <executions>
-              <execution>
-                <id>integration-test</id>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-                <configuration>
-                  <encoding>UTF-8</encoding>
-                  <runOrder>alphabetical</runOrder>
-                  <includes>
-                    <include>**/*UiTest.java</include>
-                  </includes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
   </profiles>
 </project>
