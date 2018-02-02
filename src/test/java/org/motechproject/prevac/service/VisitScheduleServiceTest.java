@@ -101,7 +101,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldThrowSubjectHasNoScreening() {
+    public void shouldThrowExceptionWhenSubjectHasNoScreening() {
         String subjectId = "subjectId";
         LocalDate primeVacDate = new LocalDate(2017, 4, 17);
 
@@ -138,7 +138,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldThrowPrimeVacDateIsEmpty() {
+    public void shouldThrowExceptionWhenPrimeVacDateIsEmpty() {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
         LocalDate primeVacDate = null;
@@ -152,7 +152,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldThrowVisitScheduleOffsetMapIsEmpty() {
+    public void shouldThrowExceptionWhenVisitScheduleOffsetMapIsEmpty() {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
         LocalDate primeVacDate = new LocalDate(2017, 4, 17);
@@ -168,7 +168,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test(expected = VisitScheduleException.class)
-    public void shouldThrowPrimeOrScreeningVisitIsEmpty() {
+    public void shouldThrowExceptionWhenPrimeOrScreeningVisitIsEmpty() {
         String subjectId = "subjectId";
 
         Subject subject = createSubject(subjectId, null, false);
