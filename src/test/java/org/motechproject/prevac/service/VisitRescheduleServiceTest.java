@@ -194,10 +194,35 @@ public class VisitRescheduleServiceTest {
         Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, new LocalDate(2015, 1, 1), subject);
 
         VisitRescheduleDto visitRescheduleDto = new VisitRescheduleDto(visit);
+        visitRescheduleDto.setPlannedDate(new LocalDate(2015, 1, 2));
 
         when(visitDataService.findById(1L)).thenReturn(visit);
 
         visitRescheduleService.saveVisitReschedule(visitRescheduleDto, true);
+    }
+
+    @Test
+    public void shouldNotThrowIllegalArgumentExceptionWhenPlannedDateIsInThePastButNotChanged() {
+        LocalDate plannedDateInPast = new LocalDate(2015, 1, 1);
+        Visit visit = createVisit(1L, VisitType.BOOST_VACCINATION_FIRST_FOLLOW_UP_VISIT, null, plannedDateInPast, subject);
+
+        VisitRescheduleDto expectedVisitRescheduleDto = new VisitRescheduleDto(visit, new Range<>(new LocalDate(2217, 2, 1), new LocalDate(2217, 3, 1)), false, false);
+        expectedVisitRescheduleDto.setPlannedDate(plannedDateInPast);
+        expectedVisitRescheduleDto.setIgnoreDateLimitation(true);
+
+        when(visitDataService.findById(1L)).thenReturn(visit);
+        when(visitDataService.update(visit)).thenReturn(visit);
+
+        VisitRescheduleDto actualVisitRescheduleDto = visitRescheduleService.saveVisitReschedule(expectedVisitRescheduleDto, true);
+
+        // Returned dto should not have earliest and latest return dates
+        expectedVisitRescheduleDto.setEarliestDate(null);
+        expectedVisitRescheduleDto.setLatestDate(null);
+
+        assertVisitRescheduleDto(expectedVisitRescheduleDto, actualVisitRescheduleDto);
+
+        verify(visitDataService).update(any(Visit.class));
+        verify(visitDataService, never()).findByClinicIdVisitPlannedDateAndType(anyLong(), any(LocalDate.class), any(VisitType.class));
     }
 
     @Test(expected = IllegalArgumentException.class)

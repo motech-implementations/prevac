@@ -164,7 +164,8 @@ public class VisitRescheduleServiceImpl implements VisitRescheduleService {
     
     private void validatePlannedDate(VisitRescheduleDto dto, Visit visit) {
         LocalDate plannedDate = dto.getPlannedDate();
-        if (plannedDate.isBefore(LocalDate.now())) {
+        //If plannedDate isn't actually updated then can be in past
+        if (plannedDate.isBefore(LocalDate.now()) && !plannedDate.equals(visit.getDateProjected())) {
             throw new IllegalArgumentException("Planned Date cannot be in the past.");
         }
 

@@ -867,8 +867,11 @@
                                 if (!scope.form.dto.ignoreDateLimitation) {
                                     var currentDate = new Date();
                                     currentDate.setHours(0,0,0,0);
-                                    if (scope.earliestDateToReturn < currentDate) {
+                                    var plannedDate = scope.parseDate(scope.form.dto.plannedDate);
+                                    if (scope.earliestDateToReturn < currentDate && plannedDate >= currentDate) {
                                         scope.form.dto.minDate = currentDate;
+                                    } else if (plannedDate < currentDate) {
+                                        scope.form.dto.minDate = plannedDate;
                                     } else {
                                         scope.form.dto.minDate = scope.earliestDateToReturn;
                                     }
