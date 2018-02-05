@@ -1087,6 +1087,7 @@
                     $scope.dateRange = {};
                     $scope.dateRange.min = $scope.parseDate(data.earliestDate);
                     $scope.dateRange.max = $scope.parseDate(data.latestDate);
+                    $scope.nextVisit = '';
                 })
                 .error(function(response) {
                     motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
