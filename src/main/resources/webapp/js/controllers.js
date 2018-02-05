@@ -857,6 +857,13 @@
         $scope.getPrimeVacDtos();
 
         $scope.newForm = function(type) {
+            if ($scope.form.dto) {
+                $scope.form.dto.actualScreeningDate = null;
+                $scope.form.dto.date = null;
+                $scope.form.dto.startTime = null;
+                $scope.form.dto.ignoreDateLimitation = false;
+                $('#primeVacTimeInput').datetimepicker("setTime", "00:00");
+            }
             $scope.form = {};
             $scope.form.dto = {};
             $scope.form.type = type;
