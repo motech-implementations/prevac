@@ -1250,7 +1250,7 @@
             var isActualDateEmpty = $scope.form.dto.actualDate === null || $scope.form.dto.actualDate === "" || $scope.form.dto.actualDate === undefined;
             var currentDate = new Date();
             currentDate.setHours(0,0,0,0);
-            return isActualDateEmpty && ($scope.form.dto.maxDate >= currentDate || $scope.form.dto.ignoreDateLimitation);
+            return isActualDateEmpty && ($scope.form.dto.ignoreDateLimitation || $scope.form.dto.maxDate >= currentDate );
         };
 
         $scope.clearActualDate = function () {
