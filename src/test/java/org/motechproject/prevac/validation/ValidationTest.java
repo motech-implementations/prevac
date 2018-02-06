@@ -45,6 +45,7 @@ public class ValidationTest {
         request.setLanguage(null);
         request.setSubjectId(null);
         request.setName(null);
+        request.setSiteId(null);
         request.setPhoneNumber("123a435666");
 
         List<ValidationError> requestErrors = SubjectValidator.validate(request);
@@ -52,6 +53,7 @@ public class ValidationTest {
         Assert.assertTrue(any(requestErrors, hasErrorPredicate(ValidationError.LANGUAGE_NULL)));
         Assert.assertTrue(any(requestErrors, hasErrorPredicate(ValidationError.SUBJECT_ID_NULL)));
         Assert.assertTrue(any(requestErrors, hasErrorPredicate(ValidationError.NAME_NULL)));
+        Assert.assertTrue(any(requestErrors, hasErrorPredicate(ValidationError.SITE_ID_NULL)));
         Assert.assertTrue(any(requestErrors, hasErrorPredicate(ValidationError.PHONE_NUMBER_HAS_NON_DIGITS)));
     }
 
@@ -83,9 +85,24 @@ public class ValidationTest {
         Assert.assertTrue(any(requestErrors, hasErrorPredicate(ValidationError.NAME_HAS_DIGITS)));
     }
 
+    @Test
+    public void testEmptyPhoneNumber() {
+        SubjectZetesDto request1 = createBasicSubjectZetesDto();
+        request1.setPhoneNumber("");
+
+        SubjectZetesDto request2 = createBasicSubjectZetesDto();
+        request2.setPhoneNumber(null);
+
+        List<ValidationError> request1Errors = SubjectValidator.validate(request1);
+        List<ValidationError> request2Errors = SubjectValidator.validate(request2);
+
+        Assert.assertTrue(request1Errors.isEmpty());
+        Assert.assertTrue(request2Errors.isEmpty());
+    }
+
     private SubjectZetesDto createBasicSubjectZetesDto() {
         SubjectZetesDto subjectZetesDto = new SubjectZetesDto();
-        subjectZetesDto.setSubjectId("1000000452");
+        subjectZetesDto.setSubjectId("10100014");
         subjectZetesDto.setPhoneNumber("123456789");
         subjectZetesDto.setName("Kasia");
         subjectZetesDto.setAddress("Warszawa 19");

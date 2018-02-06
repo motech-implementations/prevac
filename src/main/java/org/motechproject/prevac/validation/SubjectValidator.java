@@ -41,6 +41,7 @@ public final class SubjectValidator {
         validateSiteName(subjectToValidate.getSiteName());
         validateCommunity(subjectToValidate.getCommunity());
         validatePhoneNumber(subjectToValidate.getPhoneNumber());
+        validateSiteId(subjectToValidate.getSiteId());
 
         return validationErrors;
     }
@@ -104,8 +105,14 @@ public final class SubjectValidator {
     }
 
     private static void validatePhoneNumber(String phoneNumber) {
-        if (!phoneNumber.matches("[0-9]+")) {
+        if (StringUtils.isNotEmpty(phoneNumber) && !phoneNumber.matches("[0-9]+")) {
             addValidationError(ValidationError.PHONE_NUMBER_HAS_NON_DIGITS);
+        }
+    }
+
+    private static void validateSiteId(String siteId) {
+        if (StringUtils.isBlank(siteId)) {
+            addValidationError(ValidationError.SITE_ID_NULL);
         }
     }
 
