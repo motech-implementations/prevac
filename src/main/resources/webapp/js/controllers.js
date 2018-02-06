@@ -37,7 +37,7 @@
                                     }
                                 });
                         } else {
-                            $("#unscheduleVisit").trigger('reloadGrid');
+                            $("#unscheduledVisit").trigger('reloadGrid');
                             $scope.form.updated = data;
                             $scope.form.dto = undefined;
                         }
