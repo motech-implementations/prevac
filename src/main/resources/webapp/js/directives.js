@@ -880,7 +880,7 @@
                                     scope.form.dto.minDate = new Date();
                                     scope.form.dto.maxDate = null;
                                 }
-                                scope.showRescheduleModal(scope.msg('prevac.visitReschedule.update'), scope.msg('prevac.visitReschedule.updateSuccessful'));
+                                scope.showRescheduleModal(scope.msg('prevac.visitReschedule.update'), scope.msg('prevac.visitReschedule.plannedDateUpdateSuccessful'));
                             }
                         } else {
                             scope.visitForPrint = elem.getRowData(rowId);

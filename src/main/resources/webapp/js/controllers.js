@@ -1265,6 +1265,12 @@
             }, 10);
         };
 
+        $scope.getUploadSuccessMessage = function () {
+            if ($scope.form.dto && $scope.form.dto.actualDate) {
+                $scope.rescheduleModalBody = $scope.msg('prevac.visitReschedule.actualDateUpdateSuccessful');
+            }
+        };
+
         $scope.setDatePicker = function () {
             var plannedDate = $scope.parseDate($scope.form.dto.plannedDate);
             $('#plannedDateInput').datepicker("setDate", plannedDate);
@@ -1279,6 +1285,7 @@
 
         $scope.saveVisitReschedule = function(ignoreLimitation) {
             function sendRequest() {
+                $scope.getUploadSuccessMessage();
                 $http.post('../prevac/saveVisitReschedule/' + ignoreLimitation, $scope.form.dto)
                     .success(function(data) {
                         if (data && (typeof(data) === 'string')) {
