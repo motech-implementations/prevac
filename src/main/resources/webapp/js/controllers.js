@@ -1283,15 +1283,21 @@
 
         $scope.setDatePicker = function () {
             var plannedDate = $scope.parseDate($scope.form.dto.plannedDate);
-            $('#plannedDateInput').datepicker("setDate", plannedDate);
-            $('#plannedDateInput').datepicker('option', 'minDate', $scope.form.dto.minDate);
-            $('#plannedDateInput').datepicker('option', 'maxDate', $scope.form.dto.maxDate);
+            var plannedDateInput = $('#plannedDateInput');
+            plannedDateInput.datepicker("setDate", plannedDate);
+            plannedDateInput.datepicker('option', 'minDate', $scope.form.dto.minDate);
+            plannedDateInput.datepicker('option', 'maxDate', $scope.form.dto.maxDate);
 
-            var actualDate = $scope.parseDate($scope.form.dto.actualDate);
-            $('#actualDateInput').datepicker("setDate", actualDate);
-            $('#actualDateInput').datepicker('option', 'minDate', $scope.form.dto.minActualDate);
-            $('#actualDateInput').datepicker('option', 'maxDate', $scope.form.dto.maxActualDate);
-        }
+            var actualDateInput = $('#actualDateInput');
+            actualDateInput.datepicker('option', 'minDate', $scope.form.dto.minActualDate);
+            actualDateInput.datepicker('option', 'maxDate', $scope.form.dto.maxActualDate);
+            if ($scope.form.dto.actualDate) {
+                var actualDate = $scope.parseDate($scope.form.dto.actualDate);
+                actualDateInput.datepicker("setDate", actualDate);
+            } else {
+                actualDateInput.datepicker("setDate", null);
+            }
+        };
 
         $scope.saveVisitReschedule = function(ignoreLimitation) {
             function sendRequest() {
