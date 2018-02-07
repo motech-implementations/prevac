@@ -37,7 +37,7 @@
                                     }
                                 });
                         } else {
-                            $("#unscheduleVisit").trigger('reloadGrid');
+                            $("#unscheduledVisit").trigger('reloadGrid');
                             $scope.form.updated = data;
                             $scope.form.dto = undefined;
                         }
@@ -1087,6 +1087,7 @@
                     $scope.dateRange = {};
                     $scope.dateRange.min = $scope.parseDate(data.earliestDate);
                     $scope.dateRange.max = $scope.parseDate(data.latestDate);
+                    $scope.nextVisit = '';
                 })
                 .error(function(response) {
                     motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
@@ -1249,7 +1250,7 @@
             var isActualDateEmpty = $scope.form.dto.actualDate === null || $scope.form.dto.actualDate === "" || $scope.form.dto.actualDate === undefined;
             var currentDate = new Date();
             currentDate.setHours(0,0,0,0);
-            return isActualDateEmpty && ($scope.form.dto.maxDate >= currentDate || $scope.form.dto.ignoreDateLimitation);
+            return isActualDateEmpty && ($scope.form.dto.ignoreDateLimitation || $scope.form.dto.maxDate >= currentDate );
         };
 
         $scope.clearActualDate = function () {

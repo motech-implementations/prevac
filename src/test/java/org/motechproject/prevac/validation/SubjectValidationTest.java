@@ -10,9 +10,9 @@ import java.util.List;
 import static com.google.common.collect.Iterables.any;
 
 /**
- * Tests SubmitSubjectRequest validations
+ * Tests SubjectZetesDto validations
  */
-public class ValidationTest {
+public class SubjectValidationTest {
 
     private Predicate<ValidationError> hasErrorPredicate(final String errorMessage) {
         return new Predicate<ValidationError>() {
