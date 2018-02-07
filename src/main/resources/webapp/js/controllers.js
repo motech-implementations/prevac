@@ -1268,6 +1268,8 @@
         $scope.getUploadSuccessMessage = function () {
             if ($scope.form.dto && $scope.form.dto.actualDate) {
                 $scope.rescheduleModalBody = $scope.msg('prevac.visitReschedule.actualDateUpdateSuccessful');
+            } else {
+                $scope.rescheduleModalBody = $scope.msg('prevac.visitReschedule.plannedDateUpdateSuccessful');
             }
         };
 
