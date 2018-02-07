@@ -1273,11 +1273,13 @@
             }, 10);
         };
 
-        $scope.getUploadSuccessMessage = function () {
+        $scope.getUploadSuccessMessageAndTogglePrintButton = function () {
             if ($scope.form.dto && $scope.form.dto.actualDate) {
                 $scope.rescheduleModalBody = $scope.msg('prevac.visitReschedule.actualDateUpdateSuccessful');
+                $scope.diablePrint = true;
             } else {
                 $scope.rescheduleModalBody = $scope.msg('prevac.visitReschedule.plannedDateUpdateSuccessful');
+                $scope.diablePrint = false;
             }
         };
 
@@ -1301,7 +1303,7 @@
 
         $scope.saveVisitReschedule = function(ignoreLimitation) {
             function sendRequest() {
-                $scope.getUploadSuccessMessage();
+                $scope.getUploadSuccessMessageAndTogglePrintButton();
                 $http.post('../prevac/saveVisitReschedule/' + ignoreLimitation, $scope.form.dto)
                     .success(function(data) {
                         if (data && (typeof(data) === 'string')) {
