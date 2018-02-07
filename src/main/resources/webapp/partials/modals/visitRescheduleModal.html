@@ -56,7 +56,7 @@
                     {{rescheduleModalBody}}
                 </div>
                 <div class="modal-footer">
-                    <button id="printBtn" type="button" class="btn btn-primary ng-binding" ng-click="print()">
+                    <button id="printBtn" type="button" class="btn btn-primary ng-binding" ng-click="print()" ng-disabled="diablePrint">
                         <i class="fa fa-fw fa-print"></i> {{msg('prevac.screening.printCard')}}
                     </button>
                     <div class="btn-group" role="group">
