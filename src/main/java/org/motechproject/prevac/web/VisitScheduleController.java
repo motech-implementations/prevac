@@ -43,7 +43,7 @@ public class VisitScheduleController {
     @RequestMapping(value = "/getScreeningVisits", method = RequestMethod.GET)
     @ResponseBody
     public List<Visit> getScreeningVisits() {
-        return visitDataService.findByVisitTypeAndActualDateLess(VisitType.SCREENING, LocalDate.now());
+        return visitDataService.findByVisitTypeAndActualDateLessOrEqual(VisitType.SCREENING, LocalDate.now());
     }
 
     @RequestMapping(value = "/getPrimeVacDate/{subjectId}", method = RequestMethod.GET)

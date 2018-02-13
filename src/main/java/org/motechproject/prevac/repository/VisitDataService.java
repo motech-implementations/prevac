@@ -86,9 +86,9 @@ public interface VisitDataService extends MotechDataService<Visit> {
             @LookupField(name = "subject.siteId") String siteId);
 
     @Lookup
-    List<Visit> findByVisitTypeAndActualDateLess(
+    List<Visit> findByVisitTypeAndActualDateLessOrEqual(
             @LookupField(name = "type") VisitType type,
-            @LookupField(name = "date", customOperator = Constants.Operators.LT) LocalDate date);
+            @LookupField(name = "date", customOperator = Constants.Operators.LT_EQ) LocalDate date);
 
     /**
      * UI Lookups
