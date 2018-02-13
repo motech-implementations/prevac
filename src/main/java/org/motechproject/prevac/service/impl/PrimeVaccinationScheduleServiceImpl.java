@@ -200,7 +200,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
 
             LocalDate earliestDate = dto.getFemaleChildBearingAge() != null && dto.getFemaleChildBearingAge()
                     ? actualScreeningDate.plusDays(PrevacConstants.EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE)
-                    : actualScreeningDate.plusDays(PrevacConstants.EARLIEST_DATE);
+                    : actualScreeningDate;
             LocalDate latestDate = actualScreeningDate.plusDays(PrevacConstants.LATEST_DATE);
 
             if (dto.getDate().isBefore(earliestDate) || dto.getDate().isAfter(latestDate)) {

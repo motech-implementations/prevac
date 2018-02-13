@@ -14,7 +14,6 @@ public final class PrevacConstants {
     public static final int MAX_TIME_HOUR = 24;
     public static final int TIME_OF_THE_VISIT = 1;
 
-    public static final int EARLIEST_DATE = 1;
     public static final int EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE = 14;
     public static final int LATEST_DATE = 28;
 

@@ -942,7 +942,7 @@
                 if (femaleChildBearingAge === "Yes") {
                     range.min = $scope.parseDate(forDate, 14);
                 } else {
-                    range.min = $scope.parseDate(forDate, 1);
+                    range.min = $scope.parseDate(forDate);
                 }
 
                 range.max = $scope.parseDate(forDate, 28);
