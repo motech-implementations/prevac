@@ -82,6 +82,12 @@ public class ScreeningController {
         return null;
     }
 
+    @RequestMapping(value = "/complete", method = RequestMethod.POST)
+    @ResponseBody
+    public void completeScreening(@RequestBody Long id) {
+        screeningService.completeScreening(id);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody

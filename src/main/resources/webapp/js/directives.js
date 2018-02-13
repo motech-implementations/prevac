@@ -281,24 +281,34 @@
                         scope.msg("prevac.screening.status"),
                         "", ""],
                     colModel: [
-                        { name: "volunteer.id" },
+                        { name: "volunteer.id", width: 90 },
                         { name: "volunteer.name" },
-                        { name: "volunteer.contactNumber" },
-                        { name: "clinic.location" },
-                        { name: "date" },
-                        { name: "startTime" },
-                        { name: "status" },
+                        { name: "volunteer.contactNumber", width: 120 },
+                        { name: "clinic.location", width: 120 },
+                        { name: "date", width: 120 },
+                        { name: "startTime", width: 120 },
+                        { name: "status", width: 80 },
                         { name: "print", align: "center", sortable: false, width: 40 },
-                        { name: "changeStatus", align: "center", sortable: false, width: 60,
+                        { name: "changeStatus", align: "center", sortable: false,
                              formatter: function(cellValue, options, rowObject) {
                                  if (rowObject.status === 'Active') {
-                                     return "<button ng-click='cancel(\"" + rowObject.id + "\")'" +
-                                             " type='button' class='btn btn-danger compileBtn' ng-disabled='updateInProgress'>" +
-                                             scope.msg('prevac.screening.btn.cancel') + "</button>";
-                                 } else if (rowObject.status === 'Canceled') {
-                                     return "<button ng-click='activate(\"" + rowObject.id + "\")'" +
-                                             " type='button' class='btn btn-success compileBtn' ng-disabled='updateInProgress'>" +
-                                             scope.msg('prevac.screening.btn.activate') + "</button>";
+                                     return "<div class=\"btn-group\">" +
+                                                "<button ng-click='cancel(\"" + rowObject.id + "\")'" +
+                                                    " type='button' class='btn btn-danger compileBtn' ng-disabled='updateInProgress'>" +
+                                                    scope.msg('prevac.screening.btn.cancel') + "</button>" +
+                                                "<button ng-click='complete(\"" + rowObject.id + "\")'" +
+                                                    " type='button' class='btn btn-success compileBtn' ng-disabled='updateInProgress'>" +
+                                                    scope.msg('prevac.screening.btn.complete') + "</button>" +
+                                            "</div>";
+                                 } else if (rowObject.status === 'Canceled' || rowObject.status === 'Completed') {
+                                     return "<div class=\"btn-group\">" +
+                                                "<button ng-click='activate(\"" + rowObject.id + "\")'" +
+                                                    " type='button' class='btn btn-primary compileBtn' ng-disabled='updateInProgress'>" +
+                                                    scope.msg('prevac.screening.btn.activate') + "</button>" +
+                                                "<button ng-click='complete(\"" + rowObject.id + "\")'" +
+                                                    " type='button' class='btn btn-success compileBtn' ng-disabled='updateInProgress' disabled>" +
+                                                    scope.msg('prevac.screening.btn.complete') + "</button>" +
+                                            "</div>";
                                  }
                                  return '';
                              }
@@ -340,7 +350,8 @@
                         return false;
                     },
                     onCellSelect: function (id, iCol, cellContent, e) {
-                        if (iCol !== 7 && iCol !== 8) {
+                        var rowData = elem.getRowData(id);
+                        if (iCol !== 7 && iCol !== 8 && rowData.status !== "Completed") {
                             scope.editScreening(id);
                         }
                     }

@@ -18,4 +18,6 @@ public interface ScreeningService {
     void cancelScreening(Long id);
 
     void activateScreening(Long id, Boolean ignoreLimitation);
+
+    void completeScreening(Long id);
 }
