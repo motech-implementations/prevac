@@ -20,6 +20,20 @@
       "prevacReportsTab",
       "viewUI"
     ]
+  },
+  {
+    "roleName": "PREVAC User",
+    "permissionNames": [
+      "managePrevac",
+      "prevacSubjectsTab",
+      "prevacScreeningBookingTab",
+      "prevacPrimeVaccinationBookingTab",
+      "prevacClinicVisitBookingTab",
+      "prevacVisitRescheduleBookingTab",
+      "unscheduledVisitsTab",
+      "prevacReportsTab",
+      "viewUI"
+    ]
   }
 ]
 
