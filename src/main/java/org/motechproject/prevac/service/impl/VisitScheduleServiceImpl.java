@@ -47,7 +47,7 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
             LocalDate screeningDate = getScreeningDate(subject);
             if (screeningDate != null) {
                 if (subject.getFemaleChildBearingAge() == null || !subject.getFemaleChildBearingAge()) {
-                    earliestDate = screeningDate.plusDays(PrevacConstants.EARLIEST_DATE);
+                    earliestDate = screeningDate;
                 } else {
                     earliestDate = screeningDate.plusDays(PrevacConstants.EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE);
                 }
@@ -183,7 +183,7 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
         LocalDate latestDate = screeningDate.plusDays(PrevacConstants.LATEST_DATE);
 
         if (subject.getFemaleChildBearingAge() == null || !subject.getFemaleChildBearingAge()) {
-            earliestDate = screeningDate.plusDays(PrevacConstants.EARLIEST_DATE);
+            earliestDate = screeningDate;
         } else {
             earliestDate = screeningDate.plusDays(PrevacConstants.EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE);
         }

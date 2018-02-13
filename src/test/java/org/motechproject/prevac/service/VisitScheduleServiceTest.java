@@ -1,5 +1,17 @@
 package org.motechproject.prevac.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Before;
@@ -16,19 +28,6 @@ import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.exception.VisitScheduleException;
 import org.motechproject.prevac.repository.SubjectDataService;
 import org.motechproject.prevac.service.impl.VisitScheduleServiceImpl;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 public class VisitScheduleServiceTest {
 
@@ -65,7 +64,7 @@ public class VisitScheduleServiceTest {
 
         Map<String, String> resultMap = visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
 
-        checkMap(resultMap, "", "2017-04-16", "2017-05-13");
+        checkMap(resultMap, "", "2017-04-15", "2017-05-13");
     }
 
     @Test
@@ -81,7 +80,7 @@ public class VisitScheduleServiceTest {
 
         Map<String, String> resultMap = visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
 
-        checkMap(resultMap, "2017-04-17", "2017-04-16", "2017-05-13");
+        checkMap(resultMap, "2017-04-17", "2017-04-15", "2017-05-13");
     }
 
     @Test
