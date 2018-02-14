@@ -1070,6 +1070,8 @@
         $scope.primeVac = {};
         $scope.visitPlannedDates = {};
         $scope.nextVisit = "";
+        $scope.dateRange = {};
+        $scope.ignoreDateLimitation = false;
 
         $http.get('../prevac/schedule/getScreeningVisits')
         .success(function(data) {
@@ -1085,8 +1087,8 @@
                         }, 1);
                     $scope.primeVac.date = data.primeVacDate;
                     $scope.dateRange = {};
-                    $scope.dateRange.min = $scope.parseDate(data.earliestDate);
-                    $scope.dateRange.max = $scope.parseDate(data.latestDate);
+                    $scope.dateRange.min = $scope.earliestDateToReturn = $scope.parseDate(data.earliestDate);
+                    $scope.dateRange.max = $scope.latestDateToReturn = $scope.parseDate(data.latestDate);
                     $scope.nextVisit = '';
                 })
                 .error(function(response) {
@@ -1096,22 +1098,44 @@
         };
 
         $scope.$watch('primeVac.date', function(newVal, oldVal) {
-            if ($scope.checkSubject()) {
-                $http.get('../prevac/schedule/getPlannedDates/' + $scope.selectedSubject.subjectId + '/' + newVal)
-                .success(function(data) {
-                    $scope.visitPlannedDates = data;
-                    var nextVisit = $scope.findNextVisit();
-                    if (nextVisit === null) {
-                        $scope.nextVisit = '';
-                    } else {
-                         $scope.nextVisit = nextVisit + ": " + $scope.visitPlannedDates[nextVisit];
-                    }
-                })
-                .error(function(response) {
-                    motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
-                });
-            }
+            $scope.calculatePlannedDates(newVal);
         });
+
+        $scope.$watch('ignoreDateLimitation', function (value) {
+            if (!value) {
+                $scope.dateRange.min = $scope.earliestDateToReturn;
+                $scope.dateRange.max = $scope.latestDateToReturn;
+            } else {
+                var currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                $scope.dateRange.min = currentDate;
+                $scope.dateRange.max = null;
+            }
+            $('#todayBtn').trigger('change');
+            $scope.calculatePlannedDates($scope.primeVac.date);
+        });
+
+        $scope.displayNextVisit = function () {
+          var nextVisit = $scope.findNextVisit();
+          if (nextVisit === null) {
+            $scope.nextVisit = '';
+          } else {
+            $scope.nextVisit = nextVisit + ": " + $scope.visitPlannedDates[nextVisit];
+          }
+        };
+
+        $scope.calculatePlannedDates = function (newVal) {
+          if ($scope.checkSubject()) {
+            $http.get('../prevac/schedule/getPlannedDates/' + $scope.selectedSubject.subjectId + '/' + newVal + '/' + $scope.ignoreDateLimitation)
+            .success(function(data) {
+              $scope.visitPlannedDates = data;
+              $scope.displayNextVisit();
+            })
+            .error(function(response) {
+              motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
+            });
+          }
+        }
 
         $scope.save = function() {
             var confMessage = "prevac.schedule.confirm.shouldSaveDates";
@@ -1121,17 +1145,27 @@
 
             motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
                 if (confirmed) {
-                    var date, now;
-                    now = new Date();
+                    var date;
                     date = $scope.parseDate($scope.primeVac.date);
                     date.setHours(23,59,59,0);
-                    if (date < now) {
-                        confMessage = "prevac.schedule.confirm.shouldSavePastDates";
+                    if (date < $scope.earliestDateToReturn) {
+                        confMessage = "prevac.schedule.confirm.shouldSaveBeforePlannedDate";
                         motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
                             if (confirmed) {
-                                $scope.saveVisits();
+                                var now = new Date();
+                                now.setHours(0, 0, 0, 0);
+                                if (date < now) {
+                                    confMessage = "prevac.schedule.confirm.shouldSavePastDates";
+                                    motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
+                                        if (confirmed) {
+                                            $scope.saveVisits();
+                                        }
+                                    });
+                                } else {
+                                    $scope.saveVisits();
+                                }
                             }
-                        });
+                      });
                     } else {
                         $scope.saveVisits();
                     }
@@ -1141,7 +1175,7 @@
 
         $scope.saveVisits = function () {
             if ($scope.checkSubjectAndPrimeVacDate()) {
-                $http.get('../prevac/schedule/savePlannedDates/' + $scope.selectedSubject.subjectId + '/' + $scope.primeVac.date)
+                $http.get('../prevac/schedule/savePlannedDates/' + $scope.selectedSubject.subjectId + '/' + $scope.primeVac.date + '/' + $scope.ignoreDateLimitation)
                     .success(function(response) {
                         motechAlert('prevac.schedule.plannedDates.saved', 'prevac.schedule.saved.success');
                     })
@@ -1223,7 +1257,7 @@
             var currentDate = new Date();
             currentDate.setHours(0, 0, 0, 0);
             if ($scope.dateRange !== undefined && $scope.dateRange !== null) {
-                return currentDate < $scope.dateRange.min || currentDate > $scope.dateRange.max;
+                return currentDate < $scope.dateRange.min || ($scope.dateRange.max != null && currentDate > $scope.dateRange.max);
             }
             return true;
         }

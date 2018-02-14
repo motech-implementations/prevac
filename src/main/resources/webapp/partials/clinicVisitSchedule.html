@@ -26,6 +26,12 @@
                             <button id="todayBtn" type="button" class="btn btn-primary" ng-disabled="!checkSubject() || isTodayButtonDisabled()" ng-click="setPrimeVacDateToCurrentDate()">Today</button>
                     </span>
                 </div>
+                <div class="input-group">
+                    <label for="ignoreDateLimitationInput" class="control-label">
+                        <span>{{msg('prevac.ignoreDateLimitation')}}</span>
+                    </label>
+                    <input id="ignoreDateLimitationInput" type="checkbox" style="margin-left: 5px" class="move-left" ng-model="ignoreDateLimitation">
+                </div>
             </td>
             <td id="nextVisit" class="col-md-2">
                 {{nextVisit}}
