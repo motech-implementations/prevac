@@ -1448,12 +1448,6 @@
         };
     });
 
-    controllers.controller('PrevacCapacityInfoCtrl', function ($scope) {
-        $scope.$parent.selectedFilter.startDate = undefined;
-        $scope.$parent.selectedFilter.endDate = undefined;
-        $scope.$parent.selectedFilter = $scope.filters[0];
-    });
-
     controllers.controller('PrevacReportsCtrl', function ($scope, $http, $timeout) {
         $scope.getLookups("../prevac/getLookupsForCapacityReport");
 

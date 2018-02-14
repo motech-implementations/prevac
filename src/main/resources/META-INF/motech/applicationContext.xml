@@ -29,7 +29,6 @@
         <property name="roleForAccess">
             <list>
                 <value>managePrevac</value>
-                <value>prevacCapacityInfoTab</value>
                 <value>prevacSubjectsTab</value>
                 <value>prevacScreeningBookingTab</value>
                 <value>prevacPrimeVaccinationBookingTab</value>

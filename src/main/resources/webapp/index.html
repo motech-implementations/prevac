@@ -3,14 +3,13 @@
         <ul class="breadcrumb" role="navigation">
             <li><a role="menu" href=".">{{msg('server.home')}}</a></li>
             <li><a role="menu" href="#/prevac/">{{msg('prevac')}}</a></li>
-            <li ng-show="active('#/prevac/capacityInfo')" ng-class="active('#/prevac/capacityInfo')">{{msg('prevac.capacityInfo')}}</li>
+            <li ng-show="active('#/prevac/reports')" ng-class="active('#/prevac/reports')">{{msg('prevac.reports')}}</li>
             <li ng-show="active('#/prevac/screening')" ng-class="active('#/prevac/screening')">{{msg('prevac.screening')}}</li>
             <li ng-show="active('#/prevac/primeVaccination')" ng-class="active('#/prevac/primeVaccination')">{{msg('prevac.primeVaccination')}}</li>
             <li ng-show="active('#/prevac/clinicVisitSchedule')" ng-class="active('#/prevac/clinicVisitSchedule')">{{msg('prevac.clinicVisitSchedule')}}</li>
             <li ng-show="active('#/prevac/reschedule')" ng-class="active('#/prevac/reschedule')">{{msg('prevac.reschedule')}}</li>
             <li ng-show="active('#/prevac/unscheduledVisit')" ng-class="active('#/prevac/unscheduledVisit')">{{msg('prevac.unscheduledVisit')}}</li>
             <li ng-show="active('#/mds/dataBrowser')" ng-class="active('#/mds/dataBrowser')">{{msg('prevac.' + selectedTab)}}</li>
-            <li ng-show="active('#/prevac/reports')" ng-class="active('#/prevac/reports')">{{msg('prevac.reports')}}</li>
             <li ng-show="active('#/prevac/settings')" ng-class="active('#/prevac/settings')">{{msg('prevac.settings.title')}}</li>
         </ul>
     </div>
