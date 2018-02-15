@@ -637,6 +637,27 @@
             });
         };
 
+      $scope.complete = function(id) {
+        $scope.updateInProgress = true;
+
+        motechConfirm("prevac.screening.confirm.complete", "prevac.confirm", function(confirmed) {
+          if (confirmed) {
+            $http.post('../prevac/screenings/complete/', id)
+            .success(function(data) {
+              $("#screenings").trigger('reloadGrid');
+              $scope.updateInProgress = false;
+            })
+            .error(function(response) {
+              motechAlert('prevac.screening.updateError', 'prevac.error', response);
+              $scope.updateInProgress = false;
+            });
+          } else {
+            $scope.updateInProgress = false;
+            $scope.$apply();
+          }
+        });
+      };
+
         $scope.activate = function(id) {
             $scope.updateInProgress = true;
 

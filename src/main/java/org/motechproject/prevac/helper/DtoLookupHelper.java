@@ -1,5 +1,11 @@
 package org.motechproject.prevac.helper;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -11,13 +17,6 @@ import org.motechproject.prevac.domain.Screening;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.web.domain.GridSettings;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public final class DtoLookupHelper {
 
@@ -45,11 +44,12 @@ public final class DtoLookupHelper {
                 settings.setFields("{}");
             }
 
-            if (StringUtils.isBlank(settings.getLookup())) {
+            String lookup = settings.getLookup();
+            if (StringUtils.isBlank(lookup)) {
                 settings.setLookup("Find By Date");
             } else {
                 fieldsMap = getFields(settings.getFields());
-                settings.setLookup(settings.getLookup() + " And Date");
+                settings.setLookup(lookup + " And Date");
             }
 
             Map<String, String> rangeMap = getDateRangeFromFilter(settings);

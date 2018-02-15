@@ -83,6 +83,16 @@ public class ScreeningServiceImpl implements ScreeningService {
     }
 
     @Override
+    public void completeScreening(Long id) {
+        Screening screening = screeningDataService.findById(id);
+
+        if (screening != null) {
+            screening.setStatus(ScreeningStatus.COMPLETED);
+            screeningDataService.update(screening);
+        }
+    }
+
+    @Override
     public void activateScreening(Long id, Boolean ignoreLimitation) {
         Screening screening = screeningDataService.findById(id);
 

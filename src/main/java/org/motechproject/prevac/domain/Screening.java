@@ -6,6 +6,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.date.model.Time;
 import org.motechproject.mds.annotations.Entity;
+import org.motechproject.mds.annotations.EnumDisplayName;
 import org.motechproject.mds.annotations.Field;
 import org.motechproject.mds.annotations.NonEditable;
 import org.motechproject.prevac.domain.enums.ScreeningStatus;
@@ -53,6 +54,7 @@ public class Screening {
 
     @Field
     @JsonSerialize(using = CustomScreeningStatusSerializer.class)
+    @EnumDisplayName(enumField = "value")
     @Getter
     @Setter
     private ScreeningStatus status;

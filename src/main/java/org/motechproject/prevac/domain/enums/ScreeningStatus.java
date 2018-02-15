@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum ScreeningStatus {
     ACTIVE("Active"),
-    CANCELED("Canceled");
+    CANCELED("Canceled"),
+    COMPLETED("Completed");
 
     @Getter
     private String value;
