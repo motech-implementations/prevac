@@ -306,7 +306,7 @@
                                                     " type='button' class='btn btn-primary compileBtn' ng-disabled='updateInProgress'>" +
                                                     scope.msg('prevac.screening.btn.activate') + "</button>" +
                                                 "<button ng-click='complete(\"" + rowObject.id + "\")'" +
-                                                    " type='button' class='btn btn-success compileBtn' ng-disabled='updateInProgress' disabled>" +
+                                                    " type='button' class='btn btn-success compileBtn' disabled>" +
                                                     scope.msg('prevac.screening.btn.complete') + "</button>" +
                                             "</div>";
                                  }
