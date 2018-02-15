@@ -1,5 +1,6 @@
 package org.motechproject.prevac.repository;
 
+import java.util.List;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.api.Range;
 import org.motechproject.mds.annotations.Lookup;
@@ -8,8 +9,6 @@ import org.motechproject.mds.service.MotechDataService;
 import org.motechproject.mds.util.Constants;
 import org.motechproject.prevac.domain.Screening;
 import org.motechproject.prevac.domain.enums.ScreeningStatus;
-
-import java.util.List;
 
 public interface ScreeningDataService extends MotechDataService<Screening> {
 
@@ -79,4 +78,12 @@ public interface ScreeningDataService extends MotechDataService<Screening> {
     List<Screening> findByContactNumberAndDate(
             @LookupField(name = "date") Range<LocalDate> date,
             @LookupField(name = "volunteer.contactNumber", customOperator = Constants.Operators.MATCHES_CASE_INSENSITIVE) String volunteerContactNumber);
+
+    @Lookup
+    List<Screening> findByStatus(@LookupField(name = "status") ScreeningStatus status);
+
+    @Lookup
+    List<Screening> findByStatusAndDate(
+        @LookupField(name = "status") ScreeningStatus status,
+        @LookupField(name = "date") Range<LocalDate> date);
 }

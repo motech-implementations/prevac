@@ -125,7 +125,7 @@ public final class PrevacConstants {
             "Find By Participant Id", "Find By Participant Name"));
 
     public static final List<String> AVAILABLE_LOOKUPS_FOR_SCREENINGS = new ArrayList<>(Arrays.asList(
-            "Find By Clinic Location", "Find By Name", "Find By Booking Id", "Find By Contact Number"));
+            "Find By Clinic Location", "Find By Name", "Find By Booking Id", "Find By Contact Number", "Find By Status"));
 
     public static final List<String> AVAILABLE_LOOKUPS_FOR_VISIT_RESCHEDULE = new ArrayList<>(Arrays.asList(
             "Find By Visit Planned Date",
