@@ -32,4 +32,9 @@ public class Volunteer {
     @Getter
     @Setter
     private String contactNumber;
+
+    @Field
+    @Getter
+    @Setter
+    private String additionalContact;
 }

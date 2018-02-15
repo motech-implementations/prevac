@@ -66,6 +66,7 @@ public final class PrevacConstants {
             put("Booking Id", "volunteer.id");
             put("Name", "volunteer.name");
             put("Contact Number", "volunteer.contactNumber");
+            put("Additional Contact Number", "volunteer.additionalContact");
             put("Clinic Location", "clinic.location");
             put("Screening Date", "date");
             put("Screening Time", "startTime");
