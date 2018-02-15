@@ -35,8 +35,6 @@
     <osgi:service ref="prevacLifecycleListener"
                   interface="org.motechproject.prevac.listener.PrevacLifecycleListener"/>
 
-    <osgi:service ref="capacityInfoService" interface="org.motechproject.prevac.service.CapacityInfoService" />
-
     <osgi:service ref="clinicService" interface="org.motechproject.prevac.service.ClinicService" />
 
     <osgi:service ref="configService" interface="org.motechproject.prevac.service.ConfigService" />

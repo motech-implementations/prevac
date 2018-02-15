@@ -9,7 +9,6 @@
     "roleName": "PREVAC Administrator",
     "permissionNames": [
       "managePrevac",
-      "prevacCapacityInfoTab",
       "prevacSubjectsTab",
       "prevacScreeningBookingTab",
       "prevacPrimeVaccinationBookingTab",
