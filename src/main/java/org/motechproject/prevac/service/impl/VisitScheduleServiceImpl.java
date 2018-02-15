@@ -75,7 +75,8 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
         Map<String, String> plannedDates = new HashMap<>();
         Subject subject = subjectDataService.findBySubjectId(subjectId);
 
-        for (Visit visit : calculatePlannedDates(subject, primeVaccinationDate, ignoreLimits)) {
+        validateDate(primeVaccinationDate, subject, ignoreLimits);
+        for (Visit visit : calculatePlannedDates(subject, primeVaccinationDate)) {
             if (!VisitType.SCREENING.equals(visit.getType()) && !VisitType.PRIME_VACCINATION_DAY.equals(visit.getType())
                     && visit.getDate() == null) {
                 plannedDates.put(visit.getType().getDisplayValue(), visit.getDateProjected().toString(PrevacConstants.SIMPLE_DATE_FORMAT));
@@ -89,17 +90,14 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
     public void savePlannedVisitDates(String subjectId, LocalDate primeVaccinationDate, boolean ignoreLimits) {
         Subject subject = subjectDataService.findBySubjectId(subjectId);
 
-        calculatePlannedDates(subject, primeVaccinationDate, ignoreLimits);
+        validateDate(primeVaccinationDate, subject, ignoreLimits);
+        calculatePlannedDates(subject, primeVaccinationDate);
         subject.setPrimerVaccinationDate(primeVaccinationDate);
 
         subjectDataService.update(subject);
     }
 
-    private List<Visit> calculatePlannedDates(Subject subject, LocalDate primeVaccinationDate, boolean ignoreLimits) {
-        if (primeVaccinationDate == null) {
-            throw new VisitScheduleException("Cannot calculate Planned Dates, because Prime Vaccination Date is empty");
-        }
-
+    private List<Visit> calculatePlannedDates(Subject subject, LocalDate primeVaccinationDate) {
         Map<VisitType, VisitScheduleOffset> offsetMap = visitScheduleOffsetService.getAllAsMap();
 
         if (offsetMap == null || offsetMap.isEmpty()) {
@@ -116,7 +114,6 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
                     "Screening or Prime Vaccination Day Visit", subject.getSubjectId()));
         }
 
-        validateDate(primeVaccinationDate, subject, ignoreLimits);
         primeVacVisit.setDate(primeVaccinationDate);
 
         VisitScheduleOffset boostVacOffset = offsetMap.get(VisitType.BOOST_VACCINATION_DAY);
@@ -175,6 +172,10 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
     }
 
     private void validateDate(LocalDate primeVacDate, Subject subject, boolean ignoreLimits) {
+        if (primeVacDate == null) {
+            throw new VisitScheduleException("Cannot calculate Planned Dates, because Prime Vaccination Date is empty");
+        }
+
         if (!ignoreLimits) {
             Map<String, LocalDate> visitDates = getScreeningAndPrimeVacDates(subject);
 
