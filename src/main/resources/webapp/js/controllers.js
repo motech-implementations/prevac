@@ -1148,23 +1148,22 @@
                     var date;
                     date = $scope.parseDate($scope.primeVac.date);
                     date.setHours(23,59,59,0);
+                    var now = new Date();
+                    now.setHours(0, 0, 0, 0);
+
                     if (date < $scope.earliestDateToReturn) {
-                        confMessage = "prevac.schedule.confirm.shouldSaveBeforePlannedDate";
-                        motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
-                            if (confirmed) {
-                                var now = new Date();
-                                now.setHours(0, 0, 0, 0);
-                                if (date < now) {
-                                    confMessage = "prevac.schedule.confirm.shouldSavePastDates";
-                                    motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
-                                        if (confirmed) {
-                                            $scope.saveVisits();
-                                        }
-                                    });
-                                } else {
-                                    $scope.saveVisits();
-                                }
-                            }
+                      confMessage = "prevac.schedule.confirm.shouldSaveBeforePlannedDate";
+                      motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
+                        if (confirmed) {
+                          $scope.saveVisits();
+                        }
+                      });
+                    } else if (date < now) {
+                      confMessage = "prevac.schedule.confirm.shouldSavePastDates";
+                      motechConfirm(confMessage, "prevac.confirm", function(confirmed) {
+                        if (confirmed) {
+                          $scope.saveVisits();
+                        }
                       });
                     } else {
                         $scope.saveVisits();

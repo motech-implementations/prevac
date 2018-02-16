@@ -1,5 +1,8 @@
 package org.motechproject.prevac.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.joda.time.LocalDate;
 import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Subject;
@@ -13,10 +16,6 @@ import org.motechproject.prevac.service.VisitScheduleOffsetService;
 import org.motechproject.prevac.service.VisitScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service("visitScheduleService")
 public class VisitScheduleServiceImpl implements VisitScheduleService {
@@ -48,14 +47,12 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
             }
 
             Map<String, LocalDate> visitDates = getScreeningAndPrimeVacDates(subject);
-            if (!visitDates.isEmpty()) {
-                if (subject.getFemaleChildBearingAge() == null || !subject.getFemaleChildBearingAge()) {
-                    earliestDate = visitDates.get(PRIME_VAC_DATE_KEY);
-                } else {
-                    earliestDate = visitDates.get(PRIME_VAC_DATE_KEY).plusDays(PrevacConstants.EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE);
-                }
-                latestDate = visitDates.get(SCREENING_DATE_KEY).plusDays(PrevacConstants.LATEST_DATE);
-            }
+            LocalDate primeVacPlannedDate = visitDates.get(PRIME_VAC_DATE_KEY);
+            LocalDate screeningDate = visitDates.get(SCREENING_DATE_KEY);
+
+            earliestDate = getEarliestDate(screeningDate, primeVacPlannedDate, subject);
+            latestDate = screeningDate.plusDays(PrevacConstants.LATEST_DATE);
+
         }
 
         Map<String, String> dates = new HashMap<>();
@@ -95,6 +92,16 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
         subject.setPrimerVaccinationDate(primeVaccinationDate);
 
         subjectDataService.update(subject);
+    }
+
+    private LocalDate getEarliestDate(LocalDate screeningDate, LocalDate primeVacPlannedDate, Subject subject) {
+        if (primeVacPlannedDate != null) {
+            return primeVacPlannedDate;
+        }
+        if (subject.getFemaleChildBearingAge() == null || !subject.getFemaleChildBearingAge()) {
+            return screeningDate;
+        }
+        return screeningDate.plusDays(PrevacConstants.EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE);
     }
 
     private List<Visit> calculatePlannedDates(Subject subject, LocalDate primeVaccinationDate) {
@@ -179,18 +186,10 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
         if (!ignoreLimits) {
             Map<String, LocalDate> visitDates = getScreeningAndPrimeVacDates(subject);
 
-            if (!visitDates.containsKey(SCREENING_DATE_KEY)) {
-                throw new VisitScheduleException("Couldn't calculate Planned Dates, because Participant didn't participate in screening visit");
-            }
+            LocalDate screeningDate = visitDates.get(SCREENING_DATE_KEY);
 
-            LocalDate earliestDate;
-            LocalDate latestDate = visitDates.get(SCREENING_DATE_KEY).plusDays(PrevacConstants.LATEST_DATE);
-
-            if (subject.getFemaleChildBearingAge() == null || !subject.getFemaleChildBearingAge()) {
-                earliestDate = visitDates.get(PRIME_VAC_DATE_KEY);
-            } else {
-                earliestDate = visitDates.get(PRIME_VAC_DATE_KEY).plusDays(PrevacConstants.EARLIEST_DATE_IF_FEMALE_CHILD_BEARING_AGE);
-            }
+            LocalDate earliestDate = getEarliestDate(screeningDate, primeVacDate, subject);
+            LocalDate latestDate = screeningDate.plusDays(PrevacConstants.LATEST_DATE);
 
             if (primeVacDate.isBefore(earliestDate) || primeVacDate.isAfter(latestDate)) {
                 throw new VisitScheduleException(String.format("The Prime Vaccination date should be between %s and %s but is %s",
@@ -211,14 +210,6 @@ public class VisitScheduleServiceImpl implements VisitScheduleService {
             }
         }
 
-        if (datesMap.isEmpty()) {
-            throw new VisitScheduleException(String.format("Couldn't save Planned Dates, because Participant with Id:" +
-                "%s didn't participate in screening visit and doesn't have Prime Vaccination visit planned.", subject.getSubjectId()));
-        }
-        if (!datesMap.containsKey(PRIME_VAC_DATE_KEY)) {
-            throw new VisitScheduleException(String.format("Couldn't save Planned Dates, because Participant with Id:" +
-                    "%s doesn't have Prime Vaccination Visit planned yet.", subject.getSubjectId()));
-        }
         if (!datesMap.containsKey(SCREENING_DATE_KEY)) {
             throw new VisitScheduleException(String.format("Couldn't save Planned Dates, because Participant with Id:" +
                 "%s didn't participate in screening visit.", subject.getSubjectId()));

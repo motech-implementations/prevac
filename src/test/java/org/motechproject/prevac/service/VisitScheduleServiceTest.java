@@ -52,8 +52,8 @@ public class VisitScheduleServiceTest {
         initMocks(this);
     }
 
-    @Test(expected = VisitScheduleException.class)
-    public void shouldThrowExceptionBecasuePrimeVacDateIsEmpty() {
+    @Test
+    public void shouldSetScreeningDateAsEarliestDate() {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
 
@@ -62,7 +62,9 @@ public class VisitScheduleServiceTest {
 
         when(subjectDataService.findBySubjectId(subjectId)).thenReturn(subject);
 
-        visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
+        Map<String, String> resultMap = visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
+
+        checkMap(resultMap, "", "2017-04-15", "2017-05-13");
     }
 
     @Test
@@ -94,7 +96,7 @@ public class VisitScheduleServiceTest {
 
         Map<String, String> resultMap = visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
 
-        checkMap(resultMap, "2017-04-17", "2017-05-01", "2017-05-13");
+        checkMap(resultMap, "2017-04-17", "2017-04-17", "2017-05-13");
     }
 
     @Test(expected = VisitScheduleException.class)
