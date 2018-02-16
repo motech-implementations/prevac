@@ -36,6 +36,10 @@
                         <input id="contactNumberInput" type="text" class="form-control" numbers-only ng-model="form.dto.contactNumber">
                         <span class="input-group-addon validator" ng-class="{'alert-danger': form.dto.contactNumber === '', 'alert-success': form.dto.contactNumber}"><i class="fa fa-fw fa-check"></i></span>
                     </div>
+                    <div class="prevac input-group">
+                        <span class="left input-group-addon">{{msg('prevac.screening.additionalContact')}}</span>
+                        <input id="additionalContactInput" type="text" class="form-control" numbers-only ng-model="form.dto.additionalContact">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="btn-group" role="group" aria-label="...">

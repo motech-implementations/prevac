@@ -117,6 +117,7 @@ public class ScreeningServiceImpl implements ScreeningService {
         }
         volunteer.setName(dto.getName());
         volunteer.setContactNumber(dto.getContactNumber());
+        volunteer.setAdditionalContact(dto.getAdditionalContact());
         return volunteerDataService.createOrUpdate(volunteer);
     }
 

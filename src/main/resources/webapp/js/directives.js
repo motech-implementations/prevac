@@ -271,10 +271,12 @@
                     url: "../prevac/screenings",
                     datatype: "json",
                     mtype: "GET",
+                    shrinkToFit: false,
                     colNames: [
                         scope.msg("prevac.screening.bookingId"),
                         scope.msg("prevac.screening.name"),
-                        scope.msg("prevac.screening.contactNumber"),
+                        scope.msg("prevac.screening.contactNumberShort"),
+                        scope.msg("prevac.screening.additionalContactShort"),
                         scope.msg("prevac.location"),
                         scope.msg("prevac.screening.date"),
                         scope.msg("prevac.screening.time"),
@@ -284,30 +286,34 @@
                         { name: "volunteer.id", width: 90 },
                         { name: "volunteer.name" },
                         { name: "volunteer.contactNumber", width: 120 },
+                        { name: "volunteer.additionalContact", width: 120 },
                         { name: "clinic.location", width: 120 },
                         { name: "date", width: 120 },
                         { name: "startTime", width: 120 },
                         { name: "status", width: 80 },
                         { name: "print", align: "center", sortable: false, width: 40 },
-                        { name: "changeStatus", align: "center", sortable: false,
+                        { name: "changeStatus", align: "center", sortable: false, width: 160,
                              formatter: function(cellValue, options, rowObject) {
                                  if (rowObject.status === 'Active') {
                                      return "<div class=\"btn-group\">" +
                                                 "<button ng-click='cancel(\"" + rowObject.id + "\")'" +
+                                                    " data-toggle=\"tooltip\" title=\"" + scope.msg('prevac.screening.btn.cancel') + "\"" +
                                                     " type='button' class='btn btn-danger compileBtn' ng-disabled='updateInProgress'>" +
                                                     scope.msg('prevac.screening.btn.cancel') + "</button>" +
-                                                "<button ng-click='complete(\"" + rowObject.id + "\")'" +
-                                                    " type='button' class='btn btn-success compileBtn' ng-disabled='updateInProgress'>" +
-                                                    scope.msg('prevac.screening.btn.complete') + "</button>" +
+                                                "<button ng-click='complete(\"" + rowObject.id + "\")' " +
+                                                    " data-toggle=\"tooltip\" title=\"" + scope.msg('prevac.screening.btn.complete') + "\"" +
+                                                    " type='button' class='btn btn-success compileBtn' ng-disabled='updateInProgress'd>"
+                                                    + "<span class=\"glyphicon glyphicon-ok\"></button>" +
                                             "</div>";
                                  } else if (rowObject.status === 'Canceled' || rowObject.status === 'Completed') {
                                      return "<div class=\"btn-group\">" +
                                                 "<button ng-click='activate(\"" + rowObject.id + "\")'" +
+                                                    " data-toggle=\"tooltip\" title=\"" + scope.msg('prevac.screening.btn.activate') + "\"" +
                                                     " type='button' class='btn btn-primary compileBtn' ng-disabled='updateInProgress'>" +
                                                     scope.msg('prevac.screening.btn.activate') + "</button>" +
-                                                "<button ng-click='complete(\"" + rowObject.id + "\")'" +
-                                                    " type='button' class='btn btn-success compileBtn' disabled>" +
-                                                    scope.msg('prevac.screening.btn.complete') + "</button>" +
+                                                "<button ng-click='complete(\"" + rowObject.id + "\")' "+
+                                                    " type='button' class='btn btn-success compileBtn' disabled>"
+                                                    + "<span class=\"glyphicon glyphicon-ok\"></button>" +
                                             "</div>";
                                  }
                                  return '';
@@ -351,7 +357,7 @@
                     },
                     onCellSelect: function (id, iCol, cellContent, e) {
                         var rowData = elem.getRowData(id);
-                        if (iCol !== 7 && iCol !== 8 && rowData.status !== "Completed") {
+                        if (iCol !== 8 && iCol !== 9 && rowData.status !== "Completed") {
                             scope.editScreening(id);
                         }
                     }
