@@ -9,7 +9,7 @@ public interface VisitScheduleService {
 
     Map<String, String> getPrimeVaccinationDateAndDateRange(String subjectId);
 
-    Map<String, String> calculatePlannedVisitDates(String subjectId, LocalDate primeVaccinationDate);
+    Map<String, String> calculatePlannedVisitDates(String subjectId, LocalDate primeVaccinationDate, boolean ignoreLimits);
 
-    void savePlannedVisitDates(String subjectId, LocalDate primeVaccinationDate);
+    void savePlannedVisitDates(String subjectId, LocalDate primeVaccinationDate, boolean ignoreLimits);
 }

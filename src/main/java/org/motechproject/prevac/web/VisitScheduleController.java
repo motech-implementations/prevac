@@ -52,10 +52,16 @@ public class VisitScheduleController {
         return visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
     }
 
-    @RequestMapping(value = "/getPlannedDates/{subjectId}/{plannedDate}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getPlannedDates/{subjectId}/{plannedDate}/{ignoreLimits}", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, String> getPlannedDates(@PathVariable String subjectId, @PathVariable String plannedDate) {
+    public Map<String, String> getPlannedDates(@PathVariable String subjectId,
+        @PathVariable String plannedDate, @PathVariable String ignoreLimits) {
         LocalDate date = null;
+
+        Boolean ignoreDateLimitations = false;
+        if (StringUtils.isNotBlank(ignoreLimits)) {
+            ignoreDateLimitations = Boolean.valueOf(ignoreLimits);
+        }
 
         if (StringUtils.isBlank(subjectId)) {
             return new HashMap<>();
@@ -65,12 +71,12 @@ public class VisitScheduleController {
             date = LocalDate.parse(plannedDate, DateTimeFormat.forPattern(PrevacConstants.SIMPLE_DATE_FORMAT));
         }
 
-        return visitScheduleService.calculatePlannedVisitDates(subjectId, date);
+        return visitScheduleService.calculatePlannedVisitDates(subjectId, date, ignoreDateLimitations);
     }
 
-    @RequestMapping(value = "/savePlannedDates/{subjectId}/{plannedDate}", method = RequestMethod.GET)
+    @RequestMapping(value = "/savePlannedDates/{subjectId}/{plannedDate}/{ignoreLimits}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> savePlannedDates(@PathVariable String subjectId, @PathVariable String plannedDate) {
+    public ResponseEntity<String> savePlannedDates(@PathVariable String subjectId, @PathVariable String plannedDate, @PathVariable String ignoreLimits) {
         LocalDate date;
 
         if (StringUtils.isBlank(subjectId)) {
@@ -83,7 +89,12 @@ public class VisitScheduleController {
             return new ResponseEntity<>("Cannot save Planned Dates, because Prime Vaccination Date is empty", HttpStatus.BAD_REQUEST);
         }
 
-        visitScheduleService.savePlannedVisitDates(subjectId, date);
+        Boolean ignoreDateLimitations = false;
+        if (StringUtils.isNotBlank(ignoreLimits)) {
+            ignoreDateLimitations = Boolean.valueOf(ignoreLimits);
+        }
+
+        visitScheduleService.savePlannedVisitDates(subjectId, date, ignoreDateLimitations);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -53,7 +53,7 @@ public class VisitScheduleServiceTest {
     }
 
     @Test
-    public void shouldGetPrimeVaccinationDateAndDateRangeNoPrimeVac() {
+    public void shouldSetScreeningDateAsEarliestDate() {
         String subjectId = "subjectId";
         LocalDate screeningDate = new LocalDate(2017, 4, 15);
 
@@ -80,7 +80,7 @@ public class VisitScheduleServiceTest {
 
         Map<String, String> resultMap = visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
 
-        checkMap(resultMap, "2017-04-17", "2017-04-15", "2017-05-13");
+        checkMap(resultMap, "2017-04-17", "2017-04-17", "2017-05-13");
     }
 
     @Test
@@ -96,7 +96,7 @@ public class VisitScheduleServiceTest {
 
         Map<String, String> resultMap = visitScheduleService.getPrimeVaccinationDateAndDateRange(subjectId);
 
-        checkMap(resultMap, "2017-04-17", "2017-04-29", "2017-05-13");
+        checkMap(resultMap, "2017-04-17", "2017-04-17", "2017-05-13");
     }
 
     @Test(expected = VisitScheduleException.class)
@@ -131,7 +131,7 @@ public class VisitScheduleServiceTest {
         when(configService.getConfig()).thenReturn(config);
         when(config.getBoosterRelatedVisits()).thenReturn(boosterRelated);
 
-        Map<String, String> resultMap = visitScheduleService.calculatePlannedVisitDates(subjectId, primeVacDate);
+        Map<String, String> resultMap = visitScheduleService.calculatePlannedVisitDates(subjectId, primeVacDate, false);
 
         checkCalculatedVisits(createVisitScheduleOffsetMap(), resultMap, primeVacDate);
     }
@@ -147,7 +147,7 @@ public class VisitScheduleServiceTest {
 
         when(subjectDataService.findBySubjectId(subjectId)).thenReturn(subject);
 
-        visitScheduleService.calculatePlannedVisitDates(subjectId, primeVacDate);
+        visitScheduleService.calculatePlannedVisitDates(subjectId, primeVacDate, false);
     }
 
     @Test(expected = VisitScheduleException.class)
@@ -162,7 +162,7 @@ public class VisitScheduleServiceTest {
         when(subjectDataService.findBySubjectId(subjectId)).thenReturn(subject);
         when(visitScheduleOffsetService.getAllAsMap()).thenReturn(null);
 
-        visitScheduleService.calculatePlannedVisitDates(subjectId, primeVacDate);
+        visitScheduleService.calculatePlannedVisitDates(subjectId, primeVacDate, false);
 
     }
 
@@ -177,7 +177,7 @@ public class VisitScheduleServiceTest {
         when(subjectDataService.findBySubjectId(subjectId)).thenReturn(subject);
         when(visitScheduleOffsetService.getAllAsMap()).thenReturn(visitTypeVisitScheduleOffsetMap);
 
-        visitScheduleService.calculatePlannedVisitDates(subjectId, null);
+        visitScheduleService.calculatePlannedVisitDates(subjectId, null, false);
     }
 
     @Test
@@ -198,7 +198,7 @@ public class VisitScheduleServiceTest {
         when(configService.getConfig()).thenReturn(config);
         when(config.getBoosterRelatedVisits()).thenReturn(boosterRelated);
 
-        visitScheduleService.savePlannedVisitDates(subjectId, primeVacDate);
+        visitScheduleService.savePlannedVisitDates(subjectId, primeVacDate, false);
 
         ArgumentCaptor<Subject> subjectArgumentCaptor = ArgumentCaptor.forClass(Subject.class);
         verify(subjectDataService).update(subjectArgumentCaptor.capture());
