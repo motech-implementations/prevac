@@ -17,7 +17,8 @@ public interface ScreeningMapper {
             @Mapping(target = "volunteerId", source = "volunteer.id"),
             @Mapping(target = "clinicId", source = "clinic.id"),
             @Mapping(target = "name", source = "volunteer.name"),
-            @Mapping(target = "contactNumber", source = "volunteer.contactNumber")
+            @Mapping(target = "contactNumber", source = "volunteer.contactNumber"),
+            @Mapping(target = "additionalContact", source = "volunteer.additionalContact")
     })
     ScreeningDto toDto(Screening screening);
 }
