@@ -573,6 +573,7 @@
                     url: "../prevac/primeVaccinationSchedule",
                     datatype: "json",
                     mtype: "GET",
+                    shrinkToFit: false,
                     colNames: [
                         scope.msg("prevac.location"),
                         scope.msg("prevac.primeVaccination.participantId"),
@@ -599,18 +600,22 @@
                         },
                         {
                             name: "femaleChildBearingAge",
-                            index: 'subject.femaleChildBearingAge'
+                            index: 'subject.femaleChildBearingAge',
+                            width: 180
                         },
                         {
                             name: "actualScreeningDate",
-                            sortable: false
+                            sortable: false,
+                            width: 180
                         },
                         {
                             name: "date",
-                            index: 'dateProjected'
+                            index: 'dateProjected',
+                            width: 180
                         },
                         {
-                            name: "startTime"
+                            name: "startTime",
+                            width: 180
                         },
                         {
                             name: "print",
