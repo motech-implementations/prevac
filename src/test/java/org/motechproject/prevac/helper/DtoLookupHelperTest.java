@@ -56,7 +56,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForScreeningAndUnscheduled(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MIN);
         String returnedMaxDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MAX);
 
@@ -77,7 +77,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForScreeningAndUnscheduled(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MIN);
         String returnedMaxDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MAX);
         String paramValue = (String) returnedFields.get(PARAM_KEY);
@@ -98,7 +98,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForPrimeVaccinationSchedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         assertPrimeVacLookup(NOT_BLANK_REGEX, DEFAULT_PRIME_VAC_LOOKUP, returnedFields, returnedSettings.getLookup(), 4);
     }
 
@@ -113,7 +113,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForPrimeVaccinationSchedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         assertPrimeVacLookup(SUBJECT_NAME_VAL, FIND_BY_PARTICIPANT_NAME_LOOKUP, returnedFields, returnedSettings.getLookup(), 4);
     }
 
@@ -128,7 +128,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForPrimeVaccinationSchedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String paramValue = (String) returnedFields.get(PARAM_KEY);
         assertPrimeVacLookup(NOT_BLANK_REGEX, LOOKUP + SPECIAL_PRIME_VAC_LOOKUP_PARAMS, returnedFields, returnedSettings.getLookup(), 5);
         assertEquals(paramValue, PARAM_VALUE);
@@ -143,7 +143,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
         String returnedMaxDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MAX);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
@@ -168,7 +168,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
         String returnedMaxDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MAX);
         String returnedVisitType = (String) returnedFields.get(TYPE);
@@ -191,7 +191,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
         String returnedMaxDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MAX);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
@@ -213,7 +213,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MIN);
         String returnedMaxDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MAX);
         String returnedVisitType = (String) returnedFields.get(TYPE);
@@ -236,7 +236,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MIN);
         String returnedMaxDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MAX);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
@@ -256,7 +256,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String subjectId = (String) returnedFields.get(SUBJECT_ID_FIELD);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
 
@@ -274,7 +274,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String participantName = (String) returnedFields.get(SUBJECT_NAME_FIELD);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
 
@@ -292,7 +292,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String participantName = (String) returnedFields.get(CLINIC_LOCATION_FIELD);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
 
@@ -313,7 +313,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String subjectId = (String) returnedFields.get(SUBJECT_ID_FIELD);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
@@ -338,7 +338,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String participantName = (String) returnedFields.get(SUBJECT_NAME_FIELD);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
@@ -363,7 +363,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String participantName = (String) returnedFields.get(CLINIC_LOCATION_FIELD);
         List<String> returnedVisitTypes = (List<String>) (returnedFields.get(TYPE));
         String returnedMinDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
@@ -388,7 +388,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinActualDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MIN);
         String returnedMaxActualDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MAX);
         String returnedMinPlannedDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
@@ -417,7 +417,7 @@ public class DtoLookupHelperTest {
 
         GridSettings returnedSettings = DtoLookupHelper.changeLookupForVisitReschedule(settings);
 
-        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() {});
+        Map<String, Object> returnedFields = objectMapper.readValue(returnedSettings.getFields(), new TypeReference<HashMap>() { });
         String returnedMinActualDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MIN);
         String returnedMaxActualDate = (String) ((LinkedHashMap) returnedFields.get(ACTUAL_DATE)).get(MAX);
         String returnedMinPlannedDate = (String) ((LinkedHashMap) returnedFields.get(PLANNED_DATE)).get(MIN);
