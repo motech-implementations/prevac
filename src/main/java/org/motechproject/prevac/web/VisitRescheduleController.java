@@ -72,7 +72,7 @@ public class VisitRescheduleController {
         List<String> lookupList = PrevacConstants.AVAILABLE_LOOKUPS_FOR_VISIT_RESCHEDULE;
         for (LookupDto lookupDto : availableLookups) {
             if (lookupList.contains(lookupDto.getLookupName())) {
-                ret.add(lookupDto);
+                ret.add(DtoLookupHelper.changeVisitTypeLookupOptionsOrder(lookupDto));
             }
         }
         return ret;

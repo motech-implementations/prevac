@@ -1,22 +1,28 @@
 package org.motechproject.prevac.helper;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.joda.time.LocalDate;
 import org.motechproject.commons.api.Range;
+import org.motechproject.mds.dto.LookupDto;
+import org.motechproject.mds.dto.LookupFieldDto;
+import org.motechproject.mds.dto.SettingDto;
 import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.DateFilter;
 import org.motechproject.prevac.domain.Screening;
 import org.motechproject.prevac.domain.Visit;
 import org.motechproject.prevac.domain.enums.VisitType;
 import org.motechproject.prevac.web.domain.GridSettings;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class DtoLookupHelper {
 
@@ -148,6 +154,27 @@ public final class DtoLookupHelper {
         return settings;
     }
     //CHECKSTYLE:ON: checkstyle:cyclomaticcomplexity
+
+    public static LookupDto changeVisitTypeLookupOptionsOrder(LookupDto lookupDto) {
+        if (lookupDto.getLookupFields() != null) {
+            for (LookupFieldDto lookupFieldDto: lookupDto.getLookupFields()) {
+                if (Visit.VISIT_TYPE_DISPLAY_NAME.equals(lookupFieldDto.getDisplayName())
+                        || Visit.VISIT_TYPE_DISPLAY_NAME.equals(lookupFieldDto.getRelatedFieldDisplayName())) {
+                    for (SettingDto settingDto : lookupFieldDto.getSettings()) {
+                        if ("mds.form.label.values".equals(settingDto.getName())) {
+                            List<String> visitTypes = new ArrayList<>();
+                            for (VisitType visitType: VisitType.values()) {
+                                visitTypes.add(visitType.toString() + ": " + visitType.getDisplayValue());
+                            }
+                            settingDto.setValue(visitTypes);
+                        }
+                    }
+                }
+            }
+        }
+
+        return lookupDto;
+    }
 
     private static Map<String, String> getDateRangeFromFilter(GridSettings settings) {
         DateFilter dateFilter = settings.getDateFilter();
