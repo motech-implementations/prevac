@@ -31,7 +31,7 @@ public final class PrevacConstants {
         }
     };
 
-    public static final String ZETES_UPDATE_EVENT = "zetes_update";
+    public static final String ZETES_UPDATE_EVENT = "prevac_zetes_update";
 
     public static final String ZETES_URL = "zetes_url";
     public static final String ZETES_USERNAME = "zetes_username";

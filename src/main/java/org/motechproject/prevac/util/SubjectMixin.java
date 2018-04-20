@@ -22,12 +22,32 @@ abstract class SubjectMixin {
     @Getter
     @Setter
     @JsonView(Views.Zetes.class)
+    private String siteName;
+
+    @Getter
+    @Setter
+    @JsonView(Views.Zetes.class)
+    private String siteId;
+
+    @Getter
+    @Setter
+    @JsonView(Views.Zetes.class)
+    private String community;
+
+    @Getter
+    @Setter
+    @JsonView(Views.Zetes.class)
     private String name;
 
     @Getter
     @Setter
     @JsonView(Views.Zetes.class)
-    private String phoneNumber;
+    private Integer age;
+
+    @Getter
+    @Setter
+    @JsonView(Views.Zetes.class)
+    private String gender;
 
     @Getter
     @Setter
@@ -37,22 +57,17 @@ abstract class SubjectMixin {
     @Getter
     @Setter
     @JsonView(Views.Zetes.class)
-    private String district;
+    private String phoneNumber;
 
     @Getter
     @Setter
     @JsonView(Views.Zetes.class)
-    private String chiefdom;
+    private String guardianName;
 
     @Getter
     @Setter
     @JsonView(Views.Zetes.class)
-    private String section;
-
-    @Getter
-    @Setter
-    @JsonView(Views.Zetes.class)
-    private String community;
+    private String guardianType;
 
     @JsonProperty("language")
     @JsonView(Views.Zetes.class)
