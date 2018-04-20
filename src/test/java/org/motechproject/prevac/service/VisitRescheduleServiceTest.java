@@ -109,7 +109,7 @@ public class VisitRescheduleServiceTest {
 
         Config config = new Config();
 
-        List<String> boosterRelatedVisits = new ArrayList<>(Collections.singletonList("Boost Vaccination First Follow-up Visit"));
+        List<String> boosterRelatedVisits = new ArrayList<>(Collections.singletonList("D63 Boost Vaccination First Follow-up Visit"));
         config.setBoosterRelatedVisits(boosterRelatedVisits);
 
         when(configService.getConfig()).thenReturn(config);
