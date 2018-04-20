@@ -27,6 +27,8 @@ public class Visit {
     public static final String SUBJECT_PRIME_VACCINATION_DATE_PROPERTY_NAME = "subject.primerVaccinationDate";
     public static final String SUBJECT_NAME_PROPERTY_NAME = "subject.name";
 
+    public static final String VISIT_TYPE_DISPLAY_NAME = "Visit Type";
+
     @Field
     @Getter
     @Setter
@@ -55,7 +57,7 @@ public class Visit {
 
     @JsonSerialize(using = CustomVisitTypeSerializer.class)
     @JsonDeserialize(using = CustomVisitTypeDeserializer.class)
-    @Field(displayName = "Visit Type", required = true)
+    @Field(displayName = VISIT_TYPE_DISPLAY_NAME, required = true)
     @EnumDisplayName(enumField = "displayValue")
     @Getter
     @Setter

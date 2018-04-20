@@ -17,6 +17,7 @@ import org.motechproject.mds.util.Constants;
 import org.motechproject.prevac.constants.PrevacConstants;
 import org.motechproject.prevac.domain.Subject;
 import org.motechproject.prevac.exception.PrevacLookupException;
+import org.motechproject.prevac.helper.DtoLookupHelper;
 import org.motechproject.prevac.service.LookupService;
 import org.motechproject.prevac.service.impl.SubjectCsvImportCustomizer;
 import org.motechproject.prevac.util.QueryParamsBuilder;
@@ -152,7 +153,7 @@ public class InstanceController {
 
         for (LookupDto lookupDto : availableLookups) {
             if (SUBJECT_AVAILABLE_LOOKUPS.contains(lookupDto.getLookupName())) {
-                ret.add(lookupDto);
+                ret.add(DtoLookupHelper.changeVisitTypeLookupOptionsOrder(lookupDto));
             }
         }
         return ret;
