@@ -78,8 +78,7 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
             return new PrimeVaccinationScheduleDto(updateVisitWithDto(primeVisit, screeningVisit, dto));
         } else {
             List<Visit> visits = subject.getVisits();
-            visits.add(visitDataService.create(createScreeningVisitFromDto(dto, subject, clinic)));
-            primeVisit = visitDataService.create(createPrimeVacVisitFromDto(dto, subject, clinic));
+            primeVisit = createAndCheckIfAlreadyExists(visits, dto, subject, clinic);
             visits.add(primeVisit);
             return new PrimeVaccinationScheduleDto(primeVisit);
         }
@@ -98,6 +97,28 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         }
 
         return primeVacDtos;
+    }
+
+  /**
+   * This method creates Screening Visit and Prime Vaccination Visit if participant doesn't have
+   * visits created yet. We need to make sure if no visit already exist to avoid data duplications.
+   * @param visits this list may be empty but some visits may exists - for example if two requests were
+   * called at the same time, one could create visits that are not in this list.
+   * @param dto contains data provided in UI
+   * @param subject - participant for whom visits are created
+   * @param clinic in which those visits are created
+   * @return created Prime Vaccination Visit
+   */
+    private synchronized Visit createAndCheckIfAlreadyExists(List<Visit> visits, PrimeVaccinationScheduleDto dto,
+                                                            Subject subject, Clinic clinic) {
+        List<Visit> visitList = visitDataService.findByParticipantId(subject.getSubjectId());
+        if (!visitList.isEmpty()) {
+            throw new IllegalArgumentException(
+                String.format("Visit for participant with id %s already exists.", subject.getSubjectId()));
+        }
+
+        visits.add(visitDataService.create(createScreeningVisitFromDto(dto, subject, clinic)));
+        return visitDataService.create(createPrimeVacVisitFromDto(dto, subject, clinic));
     }
 
     private Visit createScreeningVisitFromDto(PrimeVaccinationScheduleDto dto, Subject subject, Clinic clinic) {
