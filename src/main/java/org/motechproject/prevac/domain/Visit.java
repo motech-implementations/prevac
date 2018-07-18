@@ -34,22 +34,26 @@ public class Visit {
     @Setter
     private Long id;
 
+    @NonEditable
     @Field
     @Getter
     @Setter
     private Time startTime;
 
+    @NonEditable
     @Field
     @Getter
     @Setter
     private Time endTime;
 
+    @NonEditable
     @Field
     @Getter
     @Setter
     private Clinic clinic;
 
     @JsonSerialize(using = CustomSubjectSerializer.class)
+    @NonEditable
     @Field(required = true, displayName = "Participant")
     @Getter
     @Setter
@@ -57,6 +61,7 @@ public class Visit {
 
     @JsonSerialize(using = CustomVisitTypeSerializer.class)
     @JsonDeserialize(using = CustomVisitTypeDeserializer.class)
+    @NonEditable
     @Field(displayName = VISIT_TYPE_DISPLAY_NAME, required = true)
     @EnumDisplayName(enumField = "displayValue")
     @Getter
@@ -65,6 +70,7 @@ public class Visit {
 
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeserializer.class)
+    @NonEditable
     @Field(displayName = "Actual Visit Date")
     @Getter
     @Setter
@@ -72,6 +78,7 @@ public class Visit {
 
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeserializer.class)
+    @NonEditable
     @Field(displayName = "Planned Visit Date")
     @Getter
     @Setter
@@ -83,6 +90,7 @@ public class Visit {
     @Setter
     private String owner;
 
+    @NonEditable
     @Field
     @Getter
     @Setter
