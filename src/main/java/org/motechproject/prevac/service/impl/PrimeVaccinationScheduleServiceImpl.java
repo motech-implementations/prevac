@@ -211,11 +211,11 @@ public class PrimeVaccinationScheduleServiceImpl implements PrimeVaccinationSche
         if (dto.getDate() == null) {
             throw new IllegalArgumentException("Prime Vaccination Planned Date cannot be empty");
         }
-        if (dto.getDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("The date can not be in past");
-        }
 
         if (!dto.getIgnoreDateLimitation()) {
+            if (dto.getDate().isBefore(LocalDate.now())) {
+                throw new IllegalArgumentException("The date can not be in past");
+            }
 
             LocalDate actualScreeningDate = dto.getActualScreeningDate();
 

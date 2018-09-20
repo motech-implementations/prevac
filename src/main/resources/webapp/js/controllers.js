@@ -968,7 +968,7 @@
 
                 range.max = $scope.parseDate(forDate, 28);
             } else {
-                range.min = new Date();
+                range.min = null;
                 range.max = null;
             }
 
@@ -977,10 +977,13 @@
 
         $scope.calculateRange = function(forDate, femaleChildBearingAge, ignoreDateLimitation) {
             var range = $scope.calculateRangeForGrid(forDate, femaleChildBearingAge, ignoreDateLimitation);
-            var today = new Date();
 
-            if (today > range.min) {
+            if (ignoreDateLimitation === undefined || ignoreDateLimitation === '' || ignoreDateLimitation === null || ignoreDateLimitation === false) {
+              var today = new Date();
+
+              if (today > range.min) {
                 range.min = today;
+              }
             }
 
             return range;
@@ -1127,9 +1130,7 @@
                 $scope.dateRange.min = $scope.earliestDateToReturn;
                 $scope.dateRange.max = $scope.latestDateToReturn;
             } else {
-                var currentDate = new Date();
-                currentDate.setHours(0, 0, 0, 0);
-                $scope.dateRange.min = currentDate;
+                $scope.dateRange.min = null;
                 $scope.dateRange.max = null;
             }
             $('#todayBtn').trigger('change');
@@ -1156,7 +1157,7 @@
               motechAlert('prevac.schedule.plannedDates.calculate.error', 'prevac.schedule.error', response);
             });
           }
-        }
+        };
 
         $scope.save = function() {
             var confMessage = "prevac.schedule.confirm.shouldSaveDates";
@@ -1277,7 +1278,7 @@
             var currentDate = new Date();
             currentDate.setHours(0, 0, 0, 0);
             if ($scope.dateRange !== undefined && $scope.dateRange !== null) {
-                return currentDate < $scope.dateRange.min || ($scope.dateRange.max != null && currentDate > $scope.dateRange.max);
+                return currentDate < $scope.dateRange.min || ($scope.dateRange.max !== null && currentDate > $scope.dateRange.max);
             }
             return true;
         }
